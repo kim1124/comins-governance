@@ -2,18 +2,17 @@
 
 ## Scope
 
-- This repository owns Comins brand, shared operating contracts, module templates, and release/security policy.
-- Do not add product source code, package build output, or npm release artifacts here.
-- Do not modify a Comins module repository from this repository unless the user explicitly requests the cross-repository change.
+- Own Comins brand, shared contracts, module templates, and release/security policy; do not add product source, artifacts, or cross-repository changes without an explicit request.
 
-## Change Rules
+## Policy
 
-- Keep policies short, testable, and independent of one module's framework or internal architecture.
-- Put module-specific API, performance, test, and implementation rules in the module repository.
+- Use `gpt-5.6-sol` with `xhigh` reasoning as the default for all Comins work.
+- For vulnerability investigation, runtime memory leaks, retention, out-of-memory failures, or security work, use `gpt-5.6-sol` with at least `xhigh`.
+- For instruction planning, Plan mode, or authoring or updating an implementation plan, use `gpt-5.6-sol` with at least `max`.
+- Keep common rules short, testable, framework-neutral, and separate from module-specific API, performance, test, and implementation rules.
 - Treat a new public policy, a license change, a security contact change, or a release-policy change as a maintainer decision requiring explicit approval.
 - Preserve historical reports as evidence; do not present them as current policy.
 
-## Validation
+## Verify
 
-- For Markdown changes, run `git diff --check` and verify referenced local files exist.
-- Before publishing a governance update, verify that the contract version and module template are consistent.
+- For Markdown changes, run `git diff --check`, verify local references, and keep the contract version and module template consistent before publication.

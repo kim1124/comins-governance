@@ -1,19 +1,21 @@
-# Comins Contract v1.0
+# Comins Contract v1.1
 
-## Repository Ownership
+## Scope and Change Control
 
-- Every Comins module is an independent Git repository, npm package, CI pipeline, and release unit.
-- Do not use another repository's workspace commands, source synchronization, dependency linking, or release process unless the maintainer explicitly requests it.
+- Every module is an independent Git repository, npm package, CI pipeline, and release unit; do not use another repository's workspace, source synchronization, dependency linking, or release process without a maintainer request.
+- Make a rule common only when it affects at least two modules or security, licensing, release, or consumer privacy. Record it in `CHANGELOG.md` and adopt behavior-changing revisions through separate reviewed module changes.
 - Treat historical KMSF references as migration evidence, not active operational dependencies.
+- Require an explicit maintainer request for remote writes and escalate unresolved product, API, data, security, migration, release, or destructive-operation decisions.
 
-## Public Package Rules
+## Package and Consumer Rules
 
-- Preserve documented public APIs and types unless the change is explicitly versioned and documented.
-- Apply Semantic Versioning to public package releases.
-- Keep framework integrations such as React and React DOM as peer dependencies when the module is consumed by an application.
-- Document supported runtime, browser, framework, and peer dependency ranges in the module repository.
+- Preserve documented public APIs and types, applying Semantic Versioning to public releases.
+- Keep framework integrations such as React and React DOM as peer dependencies, and document supported runtime, browser, framework, peer dependency, SSR, and client-only behavior.
+- Declare package exports, types, CSS entry points, and intentional CSS side effects; set a supported runtime in `engines` when the package has one.
+- Do not declare mutable dist-tags such as `latest`, `next`, or `canary` as dependencies. Commit a lockfile and use the package manager's immutable installation mode in CI.
 - Publish the module's MIT `LICENSE` with a current Comins copyright notice.
-- Record bundled or copied third-party components and their required notices in the module repository.
+- Record bundled or copied third-party components, assets, and required notices in the module repository.
+- Do not access the DOM at module evaluation time without a documented client-only boundary, or make network requests, load remote assets, collect telemetry, or report errors without consumer opt-in.
 
 ## Consumer Neutrality
 
@@ -24,14 +26,7 @@
 
 ## Quality Gates
 
-- Each module must define its local baseline verification command and run the relevant focused checks for a changed behavior.
-- Browser-visible interaction requires browser verification in the affected module.
-- Accessibility, keyboard interaction, and error states are part of the public behavior contract.
-- Meaningful code, documentation, configuration, or test changes must record executed validation and residual risks in the module's established report location.
-- A public module must enable GitHub private vulnerability reporting and maintain a repository-local `SECURITY.md` that points reporters to that channel.
-
-## Change Boundaries
-
-- Keep changes scoped to the requested module and behavior.
-- Do not publish, tag, create a release, or push a remote branch without an explicit maintainer request.
-- Escalate unresolved product, public API, data, security, migration, release, or destructive-operation decisions before implementation.
+- Define a local baseline verification command, run focused checks for changed behavior, and use browser verification for browser-visible interaction.
+- Accessibility, keyboard interaction, and error states are public behavior.
+- Record executed validation and residual risks for behavior, public API, configuration, security, release, or test-contract changes; do not require a worklog for inspection-only or editorial changes.
+- Before first public release, enable GitHub private vulnerability reporting, a repository-local `SECURITY.md`, and available dependency and secret-scanning alerts.
