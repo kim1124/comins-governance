@@ -12,6 +12,8 @@
 - Apply Semantic Versioning to public package releases.
 - Keep framework integrations such as React and React DOM as peer dependencies when the module is consumed by an application.
 - Document supported runtime, browser, framework, and peer dependency ranges in the module repository.
+- Publish the module's MIT `LICENSE` with a current Comins copyright notice.
+- Record bundled or copied third-party components and their required notices in the module repository.
 
 ## Consumer Neutrality
 
@@ -26,6 +28,7 @@
 - Browser-visible interaction requires browser verification in the affected module.
 - Accessibility, keyboard interaction, and error states are part of the public behavior contract.
 - Meaningful code, documentation, configuration, or test changes must record executed validation and residual risks in the module's established report location.
+- A public module must enable GitHub private vulnerability reporting and maintain a repository-local `SECURITY.md` that points reporters to that channel.
 
 ## Change Boundaries
 

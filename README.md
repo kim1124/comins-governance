@@ -21,4 +21,4 @@ Comins modules remain independent Git repositories and independent npm release u
 
 ## Publication Status
 
-This repository is prepared for public publication. Its GitHub remote, license, security contact, and repository settings must be configured by the maintainer before it is treated as an externally supported governance source.
+This repository is published under the MIT License. Each public module must enable GitHub private vulnerability reporting before it is treated as externally supported. Trusted npm publishing is configured per module before its first public release.

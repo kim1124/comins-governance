@@ -17,8 +17,9 @@ Before a public module release, the module repository must record:
 ## Publication Controls
 
 - A maintainer must explicitly approve publishing.
-- Prefer GitHub Actions trusted publishing with OIDC over long-lived npm publishing tokens.
-- Require maintainer 2FA and restrict token-based publishing after trusted publishing is verified.
+- Use GitHub Actions trusted publishing with OIDC rather than long-lived npm publishing tokens.
+- For a module's first public release, CI may stage the package but a maintainer must approve final publication with npm 2FA.
+- After trusted publishing is verified, require maintainer 2FA and restrict token-based publishing.
 - Publish provenance for eligible public packages.
 - Keep package release credentials, workflow permissions, and release histories isolated per module.
 
