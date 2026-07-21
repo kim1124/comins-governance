@@ -83,6 +83,35 @@ test('accepts approved GitHub Actions and Dependabot service identities', () => 
   }
 });
 
+test('accepts GitHub service committer on a Dependabot commit', () => {
+  const cwd = createRepository();
+  const base = commit(cwd, 'base');
+  configureIdentity(
+    cwd,
+    'dependabot[bot]',
+    email('49699333+dependabot[bot]', 'users.noreply.github.com'),
+  );
+  writeFileSync(join(cwd, 'change.txt'), 'dependency update\n', { flag: 'a' });
+  git(cwd, 'add', 'change.txt');
+  const committed = spawnSync('git', ['commit', '--quiet', '-m', 'dependency update'], {
+    cwd,
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      GIT_COMMITTER_NAME: 'GitHub',
+      GIT_COMMITTER_EMAIL: email('noreply', 'github.com'),
+    },
+  });
+  assert.equal(committed.status, 0, committed.stderr);
+  const head = git(cwd, 'rev-parse', 'HEAD');
+
+  const result = run(cwd, base, head);
+
+  assert.equal(result.status, 0);
+  assert.equal(result.stdout, '');
+  assert.equal(result.stderr, '');
+});
+
 test('stores only allowlisted noreply email literals in the checker source', () => {
   const source = read('scripts/check-public-identities.mjs');
   const literals = source.match(/[a-z0-9._+%[\]-]+@[a-z0-9.-]+\.[a-z]{2,}/gi) ?? [];
