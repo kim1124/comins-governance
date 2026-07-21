@@ -19,7 +19,7 @@
 
 - Adopt Comins Contract v1.2 and the governance `SENSITIVE_DATA_STANDARD.md`.
 - Never track personal names, personal email addresses, local account paths, credentials, tokens, secrets, or value-derived fingerprints.
-- Use only an approved public handle, GitHub noreply identity, service identity, explicit placeholder, or repository-relative path; run the required local Gitleaks hook, security CI, and exact package-artifact gate.
+- Use only an approved public handle, GitHub noreply identity, service identity, explicit placeholder, or repository-relative path; run the required local Gitleaks hook and security CI, and when a package boundary exists run the exact package-artifact gate.
 - Redact detector output, fail closed when a required scanner is unavailable, and handle legacy remediation through a separate audit.
 
 ## Verification

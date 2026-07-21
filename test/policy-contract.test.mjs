@@ -56,6 +56,12 @@ test("adopts the concise Contract v1.2 sensitive-data policy", () => {
   assert.equal(existsSync(join(root, "package.json")), false);
 });
 
+test("requires the package artifact gate only after a package boundary exists", () => {
+  const sensitiveData = section(moduleAgents, "## Sensitive Data");
+  assert.match(sensitiveData, /when a package boundary exists/i);
+  assert.match(sensitiveData, /exact package-artifact gate/i);
+});
+
 test("enumerates the only allowed public and synthetic values", () => {
   const allowed = section(standard, "## Allowed");
   const contractSensitiveData = section(contract, "## Sensitive Data");
