@@ -1,4 +1,4 @@
-# Comins Contract v1.1
+# Comins Contract v1.2
 
 ## Scope and Change Control
 
@@ -23,6 +23,13 @@
 - Namespace public CSS classes and custom properties by module.
 - Make visual tokens opt-in and avoid requiring a Comins design system.
 - Keep third-party engines behind a module-owned adapter boundary.
+
+## Sensitive Data
+
+- Never track personal names, personal email addresses, local account paths, credentials, tokens, secrets, or value-derived fingerprints in source, fixtures, allowlists, reports, plans, or release artifacts.
+- Permit only maintainer-approved public role identities and synthetic detector values assembled at test runtime.
+- Require the local Gitleaks hook, required security CI, and exact packed-artifact inspection defined by `SENSITIVE_DATA_STANDARD.md`; fail closed when a required gate is unavailable.
+- Redact detector output, expose only constant failure messages, and handle legacy history or provider remediation as a separate audit.
 
 ## Quality Gates
 

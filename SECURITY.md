@@ -20,4 +20,5 @@ Do not disclose unpatched vulnerabilities in public issues, pull requests, discu
 For a credible vulnerability, credential exposure, malicious dependency signal, or suspected package compromise:
 
 - Stop the affected release or publication workflow and preserve the reproduction, package version, commit SHA, and relevant logs.
+- Treat a credential/PII incident as private: stop the affected release, rotate exposed credentials, retain only redacted evidence, and remediate without public disclosure of the value.
 - Classify impact before remediation and require maintainer review for the fix, release decision, and disclosure.

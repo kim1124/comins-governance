@@ -15,6 +15,13 @@
 - Namespace CSS and custom properties, avoid global resets, and keep external engines behind module-owned adapters.
 - Do not publish, tag, create a GitHub Release, or push a remote branch without an explicit maintainer command.
 
+## Sensitive Data
+
+- Adopt Comins Contract v1.2 and the governance `SENSITIVE_DATA_STANDARD.md`.
+- Never track personal names, personal email addresses, local account paths, credentials, tokens, secrets, or value-derived fingerprints.
+- Use only approved public role identities; run the required local Gitleaks hook, security CI, and exact package-artifact gate.
+- Redact detector output, fail closed when a required scanner is unavailable, and handle legacy remediation through a separate audit.
+
 ## Verification
 
 - Define and run the baseline verification command for meaningful changes, plus focused browser verification for interaction, layout, rendering, or keyboard behavior.

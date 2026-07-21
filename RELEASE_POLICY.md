@@ -5,8 +5,9 @@ This repository does not publish npm packages. Each Comins module owns its own v
 ## Required Release Evidence
 
 - Target version, Semantic Versioning rationale, release and migration notes, residual risks, and unsupported cases.
-- Exact verification commands and results, including `npm pack --dry-run --json`.
-- A consumer installation or smoke check for the packed artifact.
+- Confirm the intended package boundary in `package.json#files`.
+- Create exactly one package artifact with `npm pack --json --ignore-scripts`, extract it into a disposable directory, scan that extracted directory with Gitleaks, and inspect the same artifact's contents.
+- Record only constant, redacted security-gate results and run the consumer installation or smoke check against that exact artifact.
 
 ## Publication Controls
 
@@ -14,6 +15,7 @@ This repository does not publish npm packages. Each Comins module owns its own v
 - Immediately after the bootstrap publication, register the exact GitHub repository, workflow filename, and `npm` environment as the package's trusted publisher.
 - Allow only `npm stage publish` for the trusted publisher, disallow token publishing, and require a maintainer to approve or reject each staged version with npm 2FA.
 - Use automatic provenance from GitHub Actions trusted publishing for eligible public packages.
+- Keep privacy-safe publisher metadata and use only maintainer-approved public role identities.
 - Keep package release credentials, workflow permissions, and release histories isolated per module.
 
 ## Emergency Releases

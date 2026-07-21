@@ -13,10 +13,18 @@
 - Add focused unit and build verification, plus a browser path for interaction, layout, keyboard, or rendering behavior.
 - Namespace public CSS classes and custom properties; document exported CSS and intentional side effects.
 
+## Before First Commit
+
+- Install and run the required local hook for Gitleaks; fail closed if the scanner or hook is unavailable.
+
+## Before First Pull Request
+
+- Make Gitleaks required security CI and expose only constant, redacted failure output.
+
 ## Before First Public Release
 
 - Add the MIT `LICENSE`, applicable third-party notices, PVR, a repository-local `SECURITY.md`, and available dependency and secret-scanning alerts.
 - Add release notes or a changelog with known limitations and migration expectations.
-- Verify package contents with `npm pack --dry-run --json`, the full gate, and a consumer installation check.
+- Confirm `package.json#files`, create exactly one artifact with `npm pack --json --ignore-scripts`, extract that exact artifact, scan the extracted directory with Gitleaks, inspect its contents, and use it for the consumer installation check.
 - Confirm maintainer 2FA, then bootstrap a brand-new package interactively without an automation token.
 - After the package exists, register the exact GitHub repository, workflow filename, and `npm` environment as its trusted publisher; allow only `npm stage publish`, disallow token publishing, and require maintainer 2FA approval.

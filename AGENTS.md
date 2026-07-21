@@ -13,6 +13,13 @@
 - Treat a new public policy, a license change, a security contact change, or a release-policy change as a maintainer decision requiring explicit approval.
 - Preserve historical reports as evidence; do not present them as current policy.
 
+## Sensitive Data
+
+- Adopt Comins Contract v1.2 and the governance `SENSITIVE_DATA_STANDARD.md`.
+- Never track personal names, personal email addresses, local account paths, credentials, tokens, secrets, or value-derived fingerprints.
+- Use only approved public role identities; run the required local Gitleaks hook, security CI, and exact package-artifact gate.
+- Redact detector output, fail closed when a required scanner is unavailable, and handle legacy remediation through a separate audit.
+
 ## Verify
 
 - For Markdown changes, run `git diff --check`, verify local references, and keep the contract version and module template consistent before publication.

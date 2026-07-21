@@ -1,5 +1,10 @@
 # Governance Changelog
 
+## v1.2 - 2026-07-21
+
+- Adopted the concise sensitive-data standard with local hook, required security CI, redacted output, and exact packed-artifact gates.
+- Contract behavior changes require separate reviewed module adoption; this governance revision does not modify module repositories automatically.
+
 ## v1.1 - 2026-07-15
 
 - Added common-rule admission, adoption, dependency determinism, package boundary, SSR, privacy, and repository-security baselines.
