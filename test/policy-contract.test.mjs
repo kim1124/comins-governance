@@ -56,6 +56,43 @@ test("adopts the concise Contract v1.2 sensitive-data policy", () => {
   assert.equal(existsSync(join(root, "package.json")), false);
 });
 
+test("enumerates the only allowed public and synthetic values", () => {
+  const allowed = section(standard, "## Allowed");
+  const contractSensitiveData = section(contract, "## Sensitive Data");
+  const moduleSensitiveData = section(moduleAgents, "## Sensitive Data");
+  const allowedTerms = [
+    "public handle",
+    "GitHub noreply identity",
+    "service identity",
+    "explicit placeholder",
+    "repository-relative path",
+  ];
+
+  for (const term of allowedTerms) {
+    const pattern = new RegExp(term, "i");
+    assert.match(allowed, pattern);
+    assert.match(contractSensitiveData, pattern);
+    assert.match(moduleSensitiveData, pattern);
+  }
+  assert.match(allowed, /synthetic detector fixture values only at test runtime/i);
+});
+
+test("forbids unsafe suppression, output, parsers, and history baselines", () => {
+  const prohibited = section(standard, "## Prohibited");
+  const safeOutput = section(standard, "## Safe Output");
+  const residualRisks = section(standard, "## Residual Risks");
+
+  assert.match(prohibited, /Do not use `.gitleaksignore` or inline `gitleaks:allow` suppressions/i);
+  assert.match(
+    prohibited,
+    /Do not implement[^.\n]*Git objects[^.\n]*revisions[^.\n]*annotated tags[^.\n]*tar[^.\n]*PAX[^.\n]*checksums[^.\n]*provider tokens[^.\n]*binary formats/i,
+  );
+  assert.match(safeOutput, /Capture and discard Gitleaks stdout and stderr/i);
+  assert.match(safeOutput, /constant, value-free failure message/i);
+  assert.match(safeOutput, /without author, email, match, fingerprint, or sensitive path values/i);
+  assert.match(residualRisks, /does not add an enforcement-history baseline/i);
+});
+
 test("requires sensitive-data gates at module lifecycle boundaries", () => {
   const beforeCommit = section(checklist, "## Before First Commit");
   const beforePr = section(checklist, "## Before First Pull Request");
@@ -67,6 +104,10 @@ test("requires sensitive-data gates at module lifecycle boundaries", () => {
   assert.match(beforePr, /Gitleaks/i);
   assert.match(beforeRelease, /exactly one/i);
   assert.match(beforeRelease, /npm pack --json --ignore-scripts/);
+  assert.match(
+    beforeRelease,
+    /Compare the package file list returned by `npm pack --json --ignore-scripts` with the `package\.json#files` allow-list/i,
+  );
   assert.match(beforeRelease, /extract/i);
   assert.match(beforeRelease, /Gitleaks/i);
 });
@@ -74,6 +115,10 @@ test("requires sensitive-data gates at module lifecycle boundaries", () => {
 test("keeps release, incident, and adoption policy aligned", () => {
   assert.match(release, /package\.json#files/);
   assert.match(release, /npm pack --json --ignore-scripts/);
+  assert.match(
+    release,
+    /Compare the package file list returned by `npm pack --json --ignore-scripts` with the `package\.json#files` allow-list/i,
+  );
   assert.match(release, /exactly one/i);
   assert.match(release, /extract/i);
   assert.match(release, /Gitleaks/i);

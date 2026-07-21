@@ -25,6 +25,7 @@
 
 - Add the MIT `LICENSE`, applicable third-party notices, PVR, a repository-local `SECURITY.md`, and available dependency and secret-scanning alerts.
 - Add release notes or a changelog with known limitations and migration expectations.
-- Confirm `package.json#files`, create exactly one artifact with `npm pack --json --ignore-scripts`, extract that exact artifact, scan the extracted directory with Gitleaks, inspect its contents, and use it for the consumer installation check.
+- Create exactly one artifact with `npm pack --json --ignore-scripts`. Compare the package file list returned by `npm pack --json --ignore-scripts` with the `package.json#files` allow-list.
+- Extract that exact artifact, scan the extracted directory with Gitleaks, inspect its contents, and use it for the consumer installation check.
 - Confirm maintainer 2FA, then bootstrap a brand-new package interactively without an automation token.
 - After the package exists, register the exact GitHub repository, workflow filename, and `npm` environment as its trusted publisher; allow only `npm stage publish`, disallow token publishing, and require maintainer 2FA approval.

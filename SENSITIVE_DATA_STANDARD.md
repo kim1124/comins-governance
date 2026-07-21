@@ -9,28 +9,29 @@
 
 - Never store personal names, personal email addresses, local account paths, credentials, API keys, access tokens, secrets, or value-derived fingerprints.
 - Never expose detector author, email, match, fingerprint, or sensitive path values in user-visible output.
-- Do not use `.gitleaksignore` or `gitleaks:allow` suppressions.
+- Do not use `.gitleaksignore` or inline `gitleaks:allow` suppressions.
+- Do not implement custom parsers for Git objects, revisions, annotated tags, tar or PAX headers, checksums, provider tokens, or binary formats.
 
 ## Allowed
 
-- Use only maintainer-approved public role identities for public metadata.
-- Assemble synthetic detector values only at test runtime and do not retain the assembled values.
+- Allow only these non-sensitive values: public handle, GitHub noreply identity, service identity, explicit placeholder, and repository-relative path.
+- Assemble synthetic detector fixture values only at test runtime and do not retain the assembled values.
 
 ## Required Gates
 
 - Before the first commit, install and run the repository's local Gitleaks hook.
 - Before the first pull request, make Gitleaks security CI a required check.
-- Before the first public release, verify `package.json#files`, create exactly one artifact with `npm pack --json --ignore-scripts`, extract that artifact, and scan the extracted directory with Gitleaks.
+- Before the first public release, create exactly one artifact with `npm pack --json --ignore-scripts`, compare its returned package file list with the `package.json#files` allow-list, extract that artifact, and scan the extracted directory with Gitleaks.
 - Fail closed when a required scanner or gate is unavailable.
 
 ## Safe Output
 
 - Capture and discard Gitleaks stdout and stderr.
-- Redact retained evidence and expose only constant pass or failure messages without author, email, match, fingerprint, or sensitive path values.
+- Redact retained evidence and expose only a constant, value-free failure message without author, email, match, fingerprint, or sensitive path values.
 
 ## Exceptions
 
-- A maintainer may approve a public role identity, but may not exempt a prohibited private value or bypass a required gate.
+- A maintainer may approve an allowed public identity, but may not exempt a prohibited private value or bypass a required gate.
 - Record policy exceptions without recording the sensitive value.
 
 ## Incident Response

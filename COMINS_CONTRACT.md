@@ -27,7 +27,7 @@
 ## Sensitive Data
 
 - Never track personal names, personal email addresses, local account paths, credentials, tokens, secrets, or value-derived fingerprints in source, fixtures, allowlists, reports, plans, or release artifacts.
-- Permit only maintainer-approved public role identities and synthetic detector values assembled at test runtime.
+- Permit only an approved public handle, GitHub noreply identity, service identity, explicit placeholder, repository-relative path, or synthetic detector fixture value assembled at test runtime.
 - Require the local Gitleaks hook, required security CI, and exact packed-artifact inspection defined by `SENSITIVE_DATA_STANDARD.md`; fail closed when a required gate is unavailable.
 - Redact detector output, expose only constant failure messages, and handle legacy history or provider remediation as a separate audit.
 
