@@ -14,6 +14,38 @@ Comins modules remain independent Git repositories and independent npm release u
 - `RELEASE_POLICY.md`: package release and provenance requirements.
 - `templates/module/AGENTS.md`: baseline agent guidance for a new module repository.
 
+## Governance And Module Flow
+
+```mermaid
+flowchart TD
+    A["Comins Governance<br/>Shared policy source of truth"] --> B["BRAND.md<br/>Brand and naming"]
+    A --> C["COMINS_CONTRACT.md<br/>Shared operating contract"]
+    A --> D["SENSITIVE_DATA_STANDARD.md<br/>Security and sensitive data"]
+    A --> E["RELEASE_POLICY.md<br/>Release and npm policy"]
+    A --> F["MODULE_CHECKLIST.md<br/>New-module baseline"]
+
+    C --> R["Versioned policy adoption<br/>Currently Contract v1.2"]
+    D --> R
+    E --> R
+
+    R --> T["Comins Table<br/>Independent Git, npm, and CI"]
+    R --> G["Comins Grid Layout<br/>Independent Git, npm, and CI"]
+    R --> S["Comins Sortable<br/>Independent Git and CI"]
+
+    T --> H["Local Git hooks<br/>Pre-commit sensitive-data gate"]
+    G --> H
+    S --> H
+
+    H --> I["Pull request CI<br/>Gitleaks, identity, and project verification"]
+    I --> J["Package artifact gate<br/>Package modules only: inspect the exact archive"]
+    I --> K["Independent module lifecycle"]
+    J --> K
+```
+
+Shared policy changes are reviewed in this repository first and then adopted by
+each affected module through its own pull request. The governance repository is
+not a runtime dependency and does not synchronize module source or releases.
+
 ## Operating Model
 
 1. Make module-specific product changes in the affected module repository.
