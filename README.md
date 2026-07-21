@@ -13,6 +13,7 @@ Comins modules remain independent Git repositories and independent npm release u
 - `SECURITY.md`: security reporting and response prerequisites.
 - `RELEASE_POLICY.md`: package release and provenance requirements.
 - `templates/module/AGENTS.md`: baseline agent guidance for a new module repository.
+- `.agents/skills/comins-reference`: initializes or refreshes the shared portion of a module's guidance.
 
 ## Governance And Module Flow
 
@@ -51,3 +52,17 @@ not a runtime dependency and does not synchronize module source or releases.
 1. Make module-specific product changes in the affected module repository.
 2. Make cross-module policy changes here, then update each affected module in a separate reviewed change.
 3. Keep package publication, versioning, CI, and npm credentials isolated per module.
+
+## Comins Reference Skill
+
+Invoke `$comins-reference` from a new or existing independent Comins repository.
+The skill initializes a missing root `AGENTS.md` from the Governance template or
+updates only its marker-delimited common block. Repository-specific guidance
+outside that block remains owned and reviewed by the module.
+
+On another workstation, run this once from the cloned Governance root:
+
+```sh
+mkdir -p "$HOME/.agents/skills"
+ln -s "$PWD/.agents/skills/comins-reference" "$HOME/.agents/skills/comins-reference"
+```

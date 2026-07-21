@@ -27,6 +27,23 @@ const security = readPolicy("SECURITY.md");
 const release = readPolicy("RELEASE_POLICY.md");
 const moduleAgents = readPolicy("templates/module/AGENTS.md");
 const changelog = readPolicy("CHANGELOG.md");
+const readme = readPolicy("README.md");
+
+test("documents the Comins reference skill without changing the Contract version", () => {
+  assert.match(readme, /\.agents\/skills\/comins-reference/);
+  assert.match(readme, /\$comins-reference/);
+  assert.match(changelog, /^## Unreleased$/m);
+  assert.match(changelog, /comins-reference/);
+  assert.match(contract, /^# Comins Contract v1\.2$/m);
+});
+
+test("delimits one canonical comins-reference managed block", () => {
+  const start = "<!-- comins-reference:managed-start contract=v1.2 -->";
+  const end = "<!-- comins-reference:managed-end -->";
+  assert.equal(moduleAgents.split(start).length - 1, 1);
+  assert.equal(moduleAgents.split(end).length - 1, 1);
+  assert.ok(moduleAgents.indexOf(start) < moduleAgents.indexOf(end));
+});
 
 test("adopts the concise Contract v1.2 sensitive-data policy", () => {
   assert.match(contract, /^# Comins Contract v1\.2$/m);

@@ -1,3 +1,4 @@
+<!-- comins-reference:managed-start contract=v1.2 -->
 # Comins Module AGENTS.md
 
 ## Scope
@@ -30,3 +31,4 @@
 ## Reporting
 
 - For behavior, public API, configuration, security, release, or test-contract changes, update the report with changed files, commands, results, and residual risks; do not create one for inspection-only work without a maintainer request.
+<!-- comins-reference:managed-end -->

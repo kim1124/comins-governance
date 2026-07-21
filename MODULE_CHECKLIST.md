@@ -8,7 +8,7 @@
 
 ## Repository Baseline
 
-- Create an independent Git repository with a root `AGENTS.md` based on `templates/module/AGENTS.md` and a README with installation, a minimal example, supported versions, and release status.
+- Create an independent Git repository, run `$comins-reference` to initialize its root `AGENTS.md`, and add a README with installation, a minimal example, supported versions, and release status.
 - Commit the package-manager lockfile and use its immutable install mode in CI.
 - Add focused unit and build verification, plus a browser path for interaction, layout, keyboard, or rendering behavior.
 - Namespace public CSS classes and custom properties; document exported CSS and intentional side effects.
