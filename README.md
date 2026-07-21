@@ -59,3 +59,10 @@ Invoke `$comins-reference` from a new or existing independent Comins repository.
 The skill initializes a missing root `AGENTS.md` from the Governance template or
 updates only its marker-delimited common block. Repository-specific guidance
 outside that block remains owned and reviewed by the module.
+
+On another workstation, run this once from the cloned Governance root:
+
+```sh
+mkdir -p "$HOME/.agents/skills"
+ln -s "$PWD/.agents/skills/comins-reference" "$HOME/.agents/skills/comins-reference"
+```

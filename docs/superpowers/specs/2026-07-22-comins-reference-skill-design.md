@@ -58,4 +58,3 @@ rules before deterministic updates are allowed.
   refusal, and target-root validation with disposable Git repositories.
 - Validate the skill metadata with `quick_validate.py`.
 - Run Governance policy tests and `git diff --check`.
-

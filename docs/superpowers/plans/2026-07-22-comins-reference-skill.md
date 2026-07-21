@@ -27,10 +27,10 @@
 **Interfaces:**
 - Produces: `<!-- comins-reference:managed-start contract=v1.2 -->` and `<!-- comins-reference:managed-end -->` around the canonical module template.
 
-- [ ] Add a failing policy test requiring exactly one ordered marker pair.
-- [ ] Run `node --test test/policy-contract.test.mjs` and confirm the marker assertion fails.
-- [ ] Add the marker pair without changing the existing common guidance text.
-- [ ] Re-run the focused policy test and confirm it passes.
+- [x] Add a failing policy test requiring exactly one ordered marker pair.
+- [x] Run `node --test test/policy-contract.test.mjs` and confirm the marker assertion fails.
+- [x] Add the marker pair without changing the existing common guidance text.
+- [x] Re-run the focused policy test and confirm it passes.
 
 ### Task 2: Test the synchronization contract
 
@@ -42,10 +42,10 @@
 - Consumes: `node sync-guidance.mjs <init|update> --target <git-root>`.
 - Produces: constant `comins-reference: initialized`, `comins-reference: updated`, or `comins-reference: failed` output.
 
-- [ ] Write tests using disposable Git repositories for initialization, overwrite refusal, marked update preservation, unmarked update refusal, and non-root refusal.
-- [ ] Run `node --test test/comins-reference-sync.test.mjs` and confirm failure because the helper is absent.
-- [ ] Implement argument validation, real Governance source discovery, target-root validation, canonical-block extraction, initialization, and marked replacement.
-- [ ] Re-run the focused tests and confirm all cases pass.
+- [x] Write tests using disposable Git repositories for initialization, overwrite refusal, marked update preservation, unmarked update refusal, and non-root refusal.
+- [x] Run `node --test test/comins-reference-sync.test.mjs` and confirm failure because the helper is absent.
+- [x] Implement argument validation, real Governance source discovery, target-root validation, canonical-block extraction, initialization, and marked replacement.
+- [x] Re-run the focused tests and confirm all cases pass.
 
 ### Task 3: Author and validate the skill
 
@@ -58,12 +58,12 @@
 - Consumes: Governance `COMINS_CONTRACT.md`, `CHANGELOG.md`, `templates/module/AGENTS.md`, and the synchronization helper.
 - Produces: explicit initialization, update, and one-time legacy-migration workflows.
 
-- [ ] Capture no-skill baseline responses for initialization and legacy update scenarios.
-- [ ] Initialize the skill with the official `init_skill.py` and generated interface metadata.
-- [ ] Write a failing structure/behavior test for the final skill contract.
-- [ ] Replace the generated placeholders with the concise skill workflow and common-mistake boundaries.
-- [ ] Run `quick_validate.py` and the focused skill test.
-- [ ] Re-run the same application scenarios with the skill and confirm the shared/module boundary is followed.
+- [x] Capture no-skill baseline responses for initialization and legacy update scenarios.
+- [x] Initialize the skill with the official `init_skill.py` and generated interface metadata.
+- [x] Write a failing structure/behavior test for the final skill contract.
+- [x] Replace the generated placeholders with the concise skill workflow and common-mistake boundaries.
+- [x] Run `quick_validate.py` and the focused skill test.
+- [x] Re-run the same application scenarios with the skill and confirm the shared/module boundary is followed.
 
 ### Task 4: Expose and verify the skill
 
@@ -73,8 +73,7 @@
 **Interfaces:**
 - Produces: one user-scope skill source usable from all independent Comins repositories.
 
-- [ ] Create the user skills directory when absent and add the symlink without replacing a non-symlink path.
-- [ ] Resolve the symlink from each current module repository and verify it points to the Governance source.
-- [ ] Run `node --test test/*.test.mjs`, `quick_validate.py`, and `git diff --check`.
-- [ ] Review `git status -sb` and report local-only branch state and residual risks.
-
+- [x] Create the user skills directory when absent and add the symlink without replacing a non-symlink path.
+- [x] Resolve the symlink from each current module repository and verify it points to the Governance source.
+- [x] Run `node --test test/*.test.mjs`, `quick_validate.py`, and `git diff --check`.
+- [x] Review `git status -sb` and report local-only branch state and residual risks.
