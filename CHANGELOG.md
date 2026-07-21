@@ -1,5 +1,10 @@
 # Governance Changelog
 
+## Unreleased
+
+- Added the `comins-reference` skill and a marker-delimited module guidance template for reviewed initialization and deterministic common-guidance updates.
+- Kept Comins Contract v1.2 unchanged; module-specific guidance and independent review remain required.
+
 ## v1.2 - 2026-07-21
 
 - Adopted the concise sensitive-data standard with local hook, required security CI, redacted output, and exact packed-artifact gates.

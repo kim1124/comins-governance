@@ -1,0 +1,4 @@
+interface:
+  display_name: "Comins-reference"
+  short_description: "Create and refresh shared Comins guidance"
+  default_prompt: "Use $comins-reference to initialize or refresh this Comins project guidance from governance."
