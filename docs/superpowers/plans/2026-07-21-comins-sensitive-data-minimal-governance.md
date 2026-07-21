@@ -134,7 +134,7 @@ The checker must:
 - call Git only with `execFileSync` argument arrays;
 - accept only 40- or 64-character lowercase hexadecimal SHAs for range mode;
 - require `base` to be an ancestor of `head`;
-- obtain four NUL-delimited fields per commit with `%aN%x00%aE%x00%cN%x00%cE%x00`;
+- obtain four raw, mailmap-independent NUL-delimited fields per commit with `%an%x00%ae%x00%cn%x00%ce%x00`;
 - allow GitHub noreply handles when the name matches the encoded public handle, plus GitHub Actions and Dependabot service identities;
 - never print Git output or caught error details;
 - contain no file-content, Git-object, tag, archive, or secret-pattern scanning.
