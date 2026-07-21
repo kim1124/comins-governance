@@ -168,6 +168,7 @@ test('pins the minimal Gitleaks rule contract without global suppressions', () =
   }
   assert.doesNotMatch(config, /^\[\[allowlists\]\]$/m);
   assert.doesNotMatch(config, /commits\s*=|\.gitleaksignore|gitleaks:allow/);
+  assert.match(config, /Approved npm package version coordinates/);
 });
 
 test('keeps the local hook pinned, staged, redacted, and value-free', () => {
