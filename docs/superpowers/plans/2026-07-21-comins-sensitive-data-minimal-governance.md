@@ -175,7 +175,7 @@ node scripts/check-public-identities.mjs
 git diff --check
 ```
 
-Then download the pinned Linux or Darwin asset for the current platform, verify its documented checksum, and run the config against the working directory and `HEAD~1..HEAD` with all raw output captured to a temporary file.
+Then download the pinned Linux or Darwin asset for the current platform, verify its documented checksum, and run the config against the recorded Task 2 `BASE..HEAD` commit range with all raw output captured to a temporary file. Governance has no package artifact, so it does not run directory mode; module plans use directory mode only for an extracted npm artifact.
 
 Expected: tests and identity check pass; Gitleaks exits `0`; temporary raw output is deleted.
 
@@ -208,7 +208,7 @@ git diff --check
 git status --short
 ```
 
-Run the pinned Gitleaks `dir` and `git` scans through the same capture-and-discard boundary used by CI.
+Run the pinned Gitleaks `git` scan for the recorded Governance implementation range through the same capture-and-discard boundary used by CI. Do not scan the preserved superseded plans with directory mode before the final cross-repository cleanup.
 
 Expected: all checks pass, no raw finding output is retained, and the worktree is clean before the report commit.
 
