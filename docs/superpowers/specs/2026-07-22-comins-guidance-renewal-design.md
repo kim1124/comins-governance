@@ -3,7 +3,7 @@
 ## Goal
 
 Renew the active Codex guidance for independent Comins repositories and create
-one repeatable `refresh-comins-guidance` skill for future model or guidance
+one repeatable `comins-updatemd` skill for future model or guidance
 changes. The renewal must reduce unnecessary context and execution work without
 weakening product, security, or release controls.
 
@@ -37,7 +37,7 @@ weakening product, security, or release controls.
 - Historical long-running Comins sessions accumulated many model turns, tool
   calls, skill reads, full browser gates, and retries. Those workflow effects
   must be measured separately from model reasoning effort.
-- The current shared template places model selection in `AGENTS.md`. Codex
+- The pre-renewal shared template places model selection in `AGENTS.md`. Codex
   configuration is the durable surface for model and reasoning defaults.
 - `grid-layout` has a broad instruction to read several live documents before
   work, while closer `AGENTS.md` files are already discovered automatically.
@@ -51,25 +51,25 @@ weakening product, security, or release controls.
 
 - Renew Governance and managed module instruction content.
 - Introduce Comins project configuration templates with `xhigh` default effort.
-- Create and validate the `refresh-comins-guidance` skill.
+- Create and validate the `comins-updatemd` skill.
 - Extend `comins-reference` only as needed to distribute the approved managed
   guidance and project configuration safely.
 - Define a reproducible evaluation method that separates instruction, reasoning,
   tool, and validation costs.
-- Record module-specific follow-up findings without modifying module repositories
-  from the Governance change.
+- Apply the approved managed guidance and project configuration to `data-table`,
+  `grid-layout`, and `sortable` as separate repository changes.
+- Remove confirmed module-local instruction duplication and blind pre-reads while
+  preserving product, API, performance, and browser-specific constraints.
 
 ### Out of scope
 
 - Changing global user Codex configuration.
 - Automatically selecting the newest model or changing a model without
   maintainer approval.
-- Modifying, committing, pushing, or publishing an independent module from the
-  Governance renewal.
+- Committing, pushing, publishing, or changing remote state in any repository.
 - Rewriting historical reports, completed plans, or migration evidence.
 - Running paid or long-running A/B model evaluations without explicit approval.
-- Fixing the `data-table` artifact flow or the `grid-layout` documentation route
-  in the Governance repository.
+- Fixing the `data-table` or `grid-layout` exact-artifact release flow.
 - Adding a Governance runtime package, `package.json`, or third-party dependency.
 
 ## Guidance Architecture
@@ -154,17 +154,17 @@ Retries must follow a classified failure: product behavior, test contract, or
 execution environment. An unchanged broad gate must not be repeated without new
 evidence or a changed state.
 
-## `refresh-comins-guidance` Skill
+## `comins-updatemd` Skill
 
 ### Ownership and boundary
 
 The skill source lives at
-`.agents/skills/refresh-comins-guidance/` in Governance and is exposed through a
+`.agents/skills/comins-updatemd/` in Governance and is exposed through a
 user-scope symlink in the same manner as `comins-reference`.
 
-`refresh-comins-guidance` audits and renews Governance-owned guidance.
+`comins-updatemd` audits and renews Governance-owned guidance.
 `comins-reference` distributes an already approved Governance revision to one
-independent module. The refresh skill must not invoke cross-repository writes as
+independent module. The renewal skill must not invoke cross-repository writes as
 part of a Governance change.
 
 ### Trigger examples
@@ -180,7 +180,7 @@ part of a Governance change.
 ### Skill contents
 
 ```text
-.agents/skills/refresh-comins-guidance/
+.agents/skills/comins-updatemd/
 ├── SKILL.md
 ├── agents/
 │   └── openai.yaml
@@ -201,8 +201,13 @@ one-level references.
 `inventory-instructions.mjs` accepts one or more explicit Git repository roots.
 It emits logical repository names and repository-relative paths only. It
 classifies automatic guidance, conditional references, configuration, skills,
-historical documents, duplicated clauses, conflicting rules, broad pre-read
-instructions, and verification leakage. It never modifies a repository.
+and historical documents, then flags deterministic model-prose, broad pre-read,
+mandatory-process-chain, and broad-verification candidates. The skill applies
+the audit rubric to duplication, conflict, scope leakage, and stale routing; the
+script does not claim semantic conflict detection. It also reports bytes by
+surface plus repository-local root and maximum discovered Codex guidance-chain
+bytes; those measurements are evidence rather than quality thresholds. It never
+modifies a repository.
 
 `summarize-codex-telemetry.mjs` accepts explicit rollout JSONL paths and emits
 aggregate model, reasoning, duration, turn, tool-call, wait, delegation, and
@@ -211,15 +216,16 @@ credentials, personal paths, or detector values. Unknown schemas produce an
 `unavailable` classification and a constant diagnostic rather than a raw dump.
 
 Both scripts support human-readable output and stable JSON for tests. Neither
-script fetches a remote, starts a model run, or writes outside an explicitly
-provided output path.
+script fetches a remote, starts a model run, or writes files.
 
 ### Workflow
 
 1. Confirm the Governance Git root, current branch, dirty state, and requested
    research-versus-edit scope.
-2. Fetch the current Codex manual and current-model prompting guidance from
-   official OpenAI sources. Record model, URL, and retrieval date.
+2. For a new-model or freshness request, fetch the current Codex manual and
+   current-model prompting guidance from official OpenAI sources and record the
+   model, URL, and retrieval date. For a local-only audit, use verified local
+   sources and state that official guidance was not refreshed.
 3. Inventory Governance and explicitly named independent module repositories in
    read-only mode.
 4. Summarize explicitly selected local telemetry when available; otherwise mark
@@ -242,6 +248,8 @@ provided output path.
   repositories that were verified; do not create or guess a replacement path.
 - If a managed marker is missing, duplicated, or malformed, refuse deterministic
   replacement and require a reviewed migration.
+- If a managed surface or its `.codex` directory is a symlink, refuse the write
+  instead of following a path outside the repository.
 - If a relevant Governance-owned file has unrelated local edits, stop before
   modifying it and report the overlap.
 - If telemetry is incomplete, distinguish unmeasured data from a zero result.
@@ -283,10 +291,11 @@ reported separately and are not presented as equivalent to billable waste.
 
 - Modify `AGENTS.md` to remove model prose and tighten conditional policy routes.
 - Add `.codex/config.toml` with the approved `xhigh` defaults.
-- Modify `templates/module/AGENTS.md` to reduce duplicated policy and remove
+- Replace the self-discovering `templates/module/AGENTS.md` with
+  `templates/module/AGENTS.template.md`, reduce duplicated policy, and remove
   model prose.
 - Add `templates/module/.codex/config.toml` as the canonical module model config.
-- Create `.agents/skills/refresh-comins-guidance/` with the defined resources.
+- Create `.agents/skills/comins-updatemd/` with the defined resources.
 - Extend `.agents/skills/comins-reference/` to initialize and update both managed
   guidance surfaces safely.
 - Add deterministic unit and contract tests for the new scripts, skill metadata,
@@ -295,9 +304,12 @@ reported separately and are not presented as equivalent to billable waste.
 - Update the applicable dated Governance report only after meaningful
   implementation and verification are complete.
 
-Independent module adoption is a separate implementation plan. It must begin
-from current remote evidence and preserve every repository-owned rule outside
-the managed boundaries.
+Independent module adoption remains a separate change boundary even when it is
+performed in the same approved work session. It must begin from each local Git
+state, preserve every repository-owned rule outside the managed boundaries, and
+run repository-specific instruction checks. A stale tracking reference is
+reported but does not block a scoped local documentation/configuration change;
+remote mutation still requires separate approval.
 
 ## Validation
 
@@ -307,17 +319,20 @@ the managed boundaries.
 - Parse the tracked project configuration with the installed Codex CLI in a
   trusted test context.
 - Run `git diff --check` and verify all local Markdown references.
-- Forward-test the refresh skill with a clean-context, read-only audit scenario
-  after receiving approval for the additional model usage.
-- Do not run independent module product gates for a Governance-only change.
+- Forward-test the renewal skill with a clean-context, read-only audit scenario.
+- For module Markdown/configuration-only adoption, run managed-block equality,
+  config parsing, relevant instruction/security-document checks, and
+  `git diff --check`; do not run unrelated product or browser gates.
 
 ## Success Criteria
 
 - Trusted Comins repositories use Sol `xhigh` by default without model prose in
   `AGENTS.md`.
 - `max` and `ultra` remain intentional opt-in choices with distinct use cases.
-- Common policy has one source and module-specific rules remain untouched.
-- The refresh skill produces a source-backed, value-redacted audit and never
+- Common policy has one source and module-specific rules remain owned by their
+  repositories; only confirmed duplicate or over-broad process rules are
+  streamlined during explicitly approved module adoption.
+- `comins-updatemd` produces a source-backed, value-redacted audit and never
   changes modules automatically.
 - The evaluation can distinguish instruction, reasoning, tool-loop, and
   validation costs instead of attributing all latency to token count.
@@ -333,3 +348,6 @@ the managed boundaries.
 - OpenAI Skills guidance: `https://learn.chatgpt.com/docs/build-skills`
 - Agent Skills specification: `https://agentskills.io/specification`
 - AGENTS.md project guidance: `https://agents.md/`
+
+The companion development-flow visualization is
+[`2026-07-22-comins-development-flow-renewal.png`](./2026-07-22-comins-development-flow-renewal.png).

@@ -7,27 +7,29 @@ description: Use when initializing guidance for a new independent Comins module 
 
 ## Overview
 
-Use `comins-governance` as the only common-policy source. Create or replace the
-marker-delimited shared block deterministically, then keep repository-specific
-API, implementation, performance, and verification guidance outside that block.
+Use `comins-governance` as the only common-policy source. Synchronize the
+marker-delimited root guidance and project configuration only after both
+surfaces pass preflight. Keep repository-specific API, implementation,
+performance, and verification guidance outside the managed blocks.
 
 ## Select the operation
 
 | Target state | Operation |
 |---|---|
-| Root `AGENTS.md` is absent | Initialize |
-| One `comins-reference` managed block exists | Update |
-| `AGENTS.md` exists without markers | Reviewed legacy migration |
+| Root `AGENTS.md` and `.codex/config.toml` are absent | Initialize |
+| One guidance block exists; config is absent or managed | Update |
+| Either existing surface lacks valid markers | Reviewed migration |
 
 Resolve `<skill-root>` as the directory containing this `SKILL.md`. Confirm the
 target is the independent module Git root. Read the live Governance
-`COMINS_CONTRACT.md`, `CHANGELOG.md`, and `templates/module/AGENTS.md`; do not
-copy policy text into the skill.
+`COMINS_CONTRACT.md`, `CHANGELOG.md`, `templates/module/AGENTS.template.md`, and
+`templates/module/.codex/config.toml`; do not copy policy text into the skill.
 
 ## Initialize
 
-1. Inspect the target's `package.json`, README, CI, tests, and nested
-   `AGENTS.md` files. Derive module guidance only from existing evidence.
+1. Inspect only existing sources needed to verify the module purpose, public API
+   boundaries, directory ownership, and actual validation commands. Derive
+   module guidance only from that evidence.
 2. Run:
 
    ```bash
@@ -37,27 +39,30 @@ copy policy text into the skill.
 3. Append a `## Module Guidance` section for verified module purpose, public API
    boundaries, directory ownership, and actual validation commands. Do not edit
    the managed block.
+4. Report that project model settings apply only when Codex has repository trust;
+   file presence alone does not prove the effective runtime configuration.
 
 ## Update
 
 1. Review the Contract version and relevant `CHANGELOG.md` entries.
-2. If one managed block exists, run:
+2. If the guidance block is valid and the config is absent or managed, run:
 
    ```bash
    node <skill-root>/scripts/sync-guidance.mjs update --target <repo-root>
    ```
 
-3. Review the diff. Preserve all module-specific guidance outside the managed
-   block and adapt project behavior only when the changed Contract requires it.
-4. For an unmarked file, require a reviewed one-time migration: insert the
-   canonical managed block, remove only confirmed duplicate common clauses, and
-   preserve every module-specific rule. Never let the helper overwrite it first.
+3. Review both diffs. Preserve all module-specific guidance and repository-owned
+   config outside the managed blocks byte-for-byte.
+4. For an unmarked or malformed surface, require a reviewed one-time migration.
+   Refuse symlinked managed surfaces. Never let the helper partially update the
+   other surface first.
 
 ## Verify and report
 
 - Run `git diff --check` and the target's applicable instruction/security tests.
-- Run the target's baseline verification only when the guidance change affects
-  its behavior, configuration, security, release, or test contract.
+- Parse `.codex/config.toml` and report the repository trust boundary.
+- Run the target's baseline only when the change also affects product behavior,
+  runtime configuration, security, release, or a test contract. Guidance/model config alone uses instruction and config checks.
 - Report changed files, adopted Contract version, executed checks, and residual
   risks.
 - Do not push, merge, publish, delete branches, or change provider settings
@@ -70,3 +75,5 @@ copy policy text into the skill.
   target repository.
 - Do not place module-specific commands inside the managed block.
 - Do not treat a Contract version string alone as proof that guidance is current.
+- Do not replace an unmarked project config or claim that tracked config is active
+  without repository trust.

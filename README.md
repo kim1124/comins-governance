@@ -12,8 +12,11 @@ Comins modules remain independent Git repositories and independent npm release u
 - `MODULE_CHECKLIST.md`: readiness checklist for a new module.
 - `SECURITY.md`: security reporting and response prerequisites.
 - `RELEASE_POLICY.md`: package release and provenance requirements.
-- `templates/module/AGENTS.md`: baseline agent guidance for a new module repository.
-- `.agents/skills/comins-reference`: initializes or refreshes the shared portion of a module's guidance.
+- `.codex/config.toml`: trusted-repository model and reasoning defaults.
+- `templates/module/AGENTS.template.md`: non-discovered baseline guidance for a module repository.
+- `templates/module/.codex/config.toml`: canonical module project configuration.
+- `.agents/skills/comins-reference`: initializes or refreshes a module's managed guidance and configuration.
+- `.agents/skills/comins-updatemd`: audits and renews the effective Comins instruction system.
 
 ## Governance And Module Flow
 
@@ -43,6 +46,9 @@ flowchart TD
     J --> K
 ```
 
+The companion [development-flow visualization](docs/superpowers/specs/2026-07-22-comins-development-flow-renewal.png)
+shows how task risk selects research, planning, test, and verification depth.
+
 Shared policy changes are reviewed in this repository first and then adopted by
 each affected module through its own pull request. The governance repository is
 not a runtime dependency and does not synchronize module source or releases.
@@ -53,16 +59,40 @@ not a runtime dependency and does not synchronize module source or releases.
 2. Make cross-module policy changes here, then update each affected module in a separate reviewed change.
 3. Keep package publication, versioning, CI, and npm credentials isolated per module.
 
+## Development Workflow
+
+| Change class | Default route |
+|---|---|
+| Inspection or research | Inspect relevant evidence and report; do not edit or run product gates |
+| Documentation, guidance, or configuration | Make the scoped change and run reference, instruction, parse, and diff checks |
+| Clear local behavior | Reproduce or define acceptance, add a valuable focused regression test, implement, then run the baseline once |
+| Complex or high risk | Research material unknowns, close decisions, use a design or plan when needed, test incrementally, then run the applicable broad gate once |
+| Security, release, external, or destructive | Follow canonical policy and obtain the operation-specific approval |
+
+Research, design, planning, TDD, review, and broad verification are selected by
+risk; they are not one mandatory sequence for every change.
+
 ## Comins Reference Skill
 
 Invoke `$comins-reference` from a new or existing independent Comins repository.
-The skill initializes a missing root `AGENTS.md` from the Governance template or
-updates only its marker-delimited common block. Repository-specific guidance
-outside that block remains owned and reviewed by the module.
+The skill initializes or updates the marker-delimited root `AGENTS.md` and
+`.codex/config.toml` surfaces together. Repository-specific content outside the
+managed blocks remains owned and reviewed by the module. Project settings apply
+only when Codex trusts the repository.
+
+## Comins Update MD Skill
+
+Invoke `$comins-updatemd` when a model or official guide changes, common rules
+drift, or instruction latency and token cost need review. It inventories active
+guidance and can summarize explicitly selected local rollout telemetry without
+emitting prompts, tool arguments, personal paths, or raw records. It renews
+Governance only; approved module adoption remains a separate
+`$comins-reference` operation.
 
 On another workstation, run this once from the cloned Governance root:
 
 ```sh
 mkdir -p "$HOME/.agents/skills"
 ln -s "$PWD/.agents/skills/comins-reference" "$HOME/.agents/skills/comins-reference"
+ln -s "$PWD/.agents/skills/comins-updatemd" "$HOME/.agents/skills/comins-updatemd"
 ```

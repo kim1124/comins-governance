@@ -2,8 +2,11 @@
 
 ## Unreleased
 
-- Added the `comins-reference` skill and a marker-delimited module guidance template for reviewed initialization and deterministic common-guidance updates.
-- Kept Comins Contract v1.2 unchanged; module-specific guidance and independent review remain required.
+- Renewed common guidance with risk-based research, planning, TDD, and verification routes; moved the Sol `xhigh` defaults from prose into managed project configuration.
+- Added the `comins-updatemd` skill with value-redacted instruction inventory and optional aggregate telemetry helpers.
+- Extended `comins-reference` to preflight and synchronize marker-delimited `AGENTS.md` and `.codex/config.toml` surfaces while preserving module-owned content.
+- Renamed the module guidance source to non-discovered `templates/module/AGENTS.template.md` and adopted the revision in the three current modules as independent local changes.
+- Kept Comins Contract v1.2 unchanged; product APIs, security/release behavior, and remote state remain unchanged.
 
 ## v1.2 - 2026-07-21
 
