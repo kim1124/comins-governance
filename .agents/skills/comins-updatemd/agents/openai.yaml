@@ -1,0 +1,4 @@
+interface:
+  display_name: "Comins Update MD"
+  short_description: "Audit and renew Comins guidance safely"
+  default_prompt: "Use $comins-updatemd to audit Comins guidance and refresh official sources only when freshness is requested."

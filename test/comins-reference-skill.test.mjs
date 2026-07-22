@@ -23,18 +23,23 @@ test("routes initialization and marked updates through the deterministic helper"
   assert.match(skill, /scripts\/sync-guidance\.mjs update --target/);
   assert.match(skill, /COMINS_CONTRACT\.md/);
   assert.match(skill, /CHANGELOG\.md/);
-  assert.match(skill, /templates\/module\/AGENTS\.md/);
+  assert.match(skill, /templates\/module\/AGENTS\.template\.md/);
+  assert.match(skill, /templates\/module\/\.codex\/config\.toml/);
+  assert.match(skill, /repository trust/i);
   assert.match(skill, /preserve[^\n]*module-specific guidance/i);
+  assert.match(skill, /only existing sources needed/i);
+  assert.match(skill, /guidance\/model config alone/i);
 });
 
 test("fails closed for legacy guidance and protects external operations", () => {
   assert.match(skill, /unmarked[^\n]*reviewed[^\n]*migration/i);
+  assert.match(skill, /Refuse symlinked managed surfaces/i);
   assert.match(skill, /Do not[^\n]*push[^\n]*merge[^\n]*publish/i);
   assert.match(skill, /explicit maintainer request/i);
 });
 
 test("exposes the requested user-facing skill metadata", () => {
   assert.match(openaiYaml, /display_name: "Comins-reference"/);
-  assert.match(openaiYaml, /short_description: "Create and refresh shared Comins guidance"/);
+  assert.match(openaiYaml, /short_description: "Sync Comins guidance and project config"/);
   assert.match(openaiYaml, /default_prompt: "Use \$comins-reference /);
 });
