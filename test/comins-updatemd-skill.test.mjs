@@ -30,6 +30,13 @@ test("audits effective guidance and keeps module adoption separate", () => {
   assert.match(skill, /external, destructive, costly, or scope-expanding/i);
 });
 
+test("routes external skill conflicts through supported activation settings", () => {
+  assert.match(skill, /never edit its cache or bundled source/i);
+  assert.match(skill, /supported skill or plugin enable\/disable configuration/i);
+  assert.match(skill, /explicit scope for personal config/i);
+  assert.match(skill, /owner, conflict, and residual activation/i);
+});
+
 test("routes detailed criteria to one-level references", () => {
   assert.match(skill, /references\/audit-rubric\.md/);
   assert.match(skill, /references\/eval-matrix\.md/);

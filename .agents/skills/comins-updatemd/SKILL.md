@@ -41,7 +41,10 @@ validation costs before changing guidance.
    `references/audit-rubric.md` for classification criteria.
 6. Propose or apply the smallest Governance-owned correction. Route research,
    design, planning, TDD, review, and broad verification by task risk rather than
-   making them one mandatory chain.
+   making them one mandatory chain. If an activated skill is plugin, system, or
+   repository-owned, never edit its cache or bundled source. With
+   explicit scope for personal config, use supported skill or plugin enable/disable configuration;
+   otherwise report the owner, conflict, and residual activation.
 7. Stop for approval only when changing model policy, public security or release behavior,
    cross-repository scope, evaluation cost, or an external, destructive, costly, or scope-expanding action.
 8. After an approved edit, run focused tests, all Governance instruction tests,
