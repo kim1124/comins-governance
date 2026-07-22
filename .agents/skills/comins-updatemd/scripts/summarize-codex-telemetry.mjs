@@ -53,6 +53,14 @@ function maxNumber(current, value) {
     : current;
 }
 
+const tokenMetrics = [
+  ["input", "input_tokens", "tokens-input-unavailable"],
+  ["cachedInput", "cached_input_tokens", "tokens-cached-input-unavailable"],
+  ["output", "output_tokens", "tokens-output-unavailable"],
+  ["reasoning", "reasoning_output_tokens", "tokens-reasoning-unavailable"],
+  ["total", "total_tokens", "tokens-total-unavailable"],
+];
+
 function emptySummary(inputCount) {
   return {
     version: 1,
@@ -78,10 +86,13 @@ function emptySummary(inputCount) {
 function aggregate(inputs) {
   const summary = emptySummary(inputs.length);
   let unavailable = false;
+  let durationUnavailable = false;
+  const unavailableTokenMetrics = new Set();
 
   for (const input of inputs) {
     let inputRecognized = false;
     let inputDuration = 0;
+    let inputDurationMeasured = false;
     const inputTokens = {
       input: 0,
       cachedInput: 0,
@@ -89,6 +100,9 @@ function aggregate(inputs) {
       reasoning: 0,
       total: 0,
     };
+    const inputTokenMeasured = Object.fromEntries(
+      tokenMetrics.map(([key]) => [key, false]),
+    );
     const lines = readFileSync(input, "utf8").split(/\r?\n/).filter(Boolean);
     for (const line of lines) {
       const record = JSON.parse(line);
@@ -120,25 +134,25 @@ function aggregate(inputs) {
         const usage = record.payload?.info?.total_token_usage;
         if (typeof duration === "number" && Number.isFinite(duration)) {
           inputRecognized = true;
+          inputDurationMeasured = true;
           inputDuration = Math.max(inputDuration, duration);
         }
         if (usage && typeof usage === "object") {
-          inputRecognized = true;
-          inputTokens.input = maxNumber(inputTokens.input, usage.input_tokens);
-          inputTokens.cachedInput = maxNumber(
-            inputTokens.cachedInput,
-            usage.cached_input_tokens,
-          );
-          inputTokens.output = maxNumber(inputTokens.output, usage.output_tokens);
-          inputTokens.reasoning = maxNumber(
-            inputTokens.reasoning,
-            usage.reasoning_output_tokens,
-          );
-          inputTokens.total = maxNumber(inputTokens.total, usage.total_tokens);
+          for (const [key, source] of tokenMetrics) {
+            const value = usage[source];
+            if (typeof value !== "number" || !Number.isFinite(value)) continue;
+            inputRecognized = true;
+            inputTokenMeasured[key] = true;
+            inputTokens[key] = maxNumber(inputTokens[key], value);
+          }
         }
       }
     }
     if (!inputRecognized) unavailable = true;
+    if (!inputDurationMeasured) durationUnavailable = true;
+    for (const [key] of tokenMetrics) {
+      if (!inputTokenMeasured[key]) unavailableTokenMetrics.add(key);
+    }
     summary.durationMs = addNumber(summary.durationMs, inputDuration);
     for (const key of Object.keys(inputTokens)) {
       summary.tokens[key] = addNumber(summary.tokens[key], inputTokens[key]);
@@ -152,6 +166,21 @@ function aggregate(inputs) {
       inputs: inputs.length,
       diagnostics: ["telemetry-schema-unavailable"],
     };
+  }
+
+  const diagnostics = [];
+  if (durationUnavailable) {
+    summary.durationMs = null;
+    diagnostics.push("duration-ms-unavailable");
+  }
+  for (const [key, , diagnostic] of tokenMetrics) {
+    if (!unavailableTokenMetrics.has(key)) continue;
+    summary.tokens[key] = null;
+    diagnostics.push(diagnostic);
+  }
+  if (diagnostics.length > 0) {
+    summary.status = "partial";
+    summary.diagnostics = diagnostics;
   }
 
   return summary;
@@ -170,21 +199,22 @@ function formatHuman(summary) {
   if (summary.status === "unavailable") {
     return "comins-updatemd telemetry: unavailable\n";
   }
+  const formatMetric = (value) => (value === null ? "unmeasured" : value);
   return [
-    "comins-updatemd telemetry: available",
+    `comins-updatemd telemetry: ${summary.status}`,
     `inputs: ${summary.inputs}`,
     `turns: ${summary.turns}`,
     `tool-calls: ${summary.toolCalls}`,
     `waits: ${summary.waits}`,
     `delegations: ${summary.delegations}`,
-    `duration-ms: ${summary.durationMs}`,
+    `duration-ms: ${formatMetric(summary.durationMs)}`,
     `models: ${formatCounts(summary.models)}`,
     `reasoning-efforts: ${formatCounts(summary.reasoningEfforts)}`,
-    `tokens-input: ${summary.tokens.input}`,
-    `tokens-cached-input: ${summary.tokens.cachedInput}`,
-    `tokens-output: ${summary.tokens.output}`,
-    `tokens-reasoning: ${summary.tokens.reasoning}`,
-    `tokens-total: ${summary.tokens.total}`,
+    `tokens-input: ${formatMetric(summary.tokens.input)}`,
+    `tokens-cached-input: ${formatMetric(summary.tokens.cachedInput)}`,
+    `tokens-output: ${formatMetric(summary.tokens.output)}`,
+    `tokens-reasoning: ${formatMetric(summary.tokens.reasoning)}`,
+    `tokens-total: ${formatMetric(summary.tokens.total)}`,
     "",
   ].join("\n");
 }

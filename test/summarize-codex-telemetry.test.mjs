@@ -94,6 +94,119 @@ test("marks unknown schemas unavailable without dumping source values", () => {
   assert.doesNotMatch(result.stdout, /private-content|rollout\.jsonl/);
 });
 
+test("marks recognized structure without measured telemetry as partial", () => {
+  const path = fixture([
+    { type: "turn_context", payload: { model: "gpt-5.6-sol", reasoning_effort: "xhigh" } },
+  ]);
+  const result = run(path, "--json");
+
+  assert.equal(result.status, 0, result.stderr);
+  const output = JSON.parse(result.stdout);
+  assert.equal(output.status, "partial");
+  assert.equal(output.durationMs, null);
+  assert.deepEqual(output.tokens, {
+    input: null,
+    cachedInput: null,
+    output: null,
+    reasoning: null,
+    total: null,
+  });
+  assert.deepEqual(output.diagnostics, [
+    "duration-ms-unavailable",
+    "tokens-input-unavailable",
+    "tokens-cached-input-unavailable",
+    "tokens-output-unavailable",
+    "tokens-reasoning-unavailable",
+    "tokens-total-unavailable",
+  ]);
+});
+
+test("preserves measured telemetry while marking missing usage fields partial", () => {
+  const path = fixture([
+    { type: "turn_context", payload: { model: "gpt-5.6-sol", reasoning_effort: "xhigh" } },
+    {
+      type: "event_msg",
+      payload: {
+        duration_ms: 1200,
+        info: {
+          total_token_usage: {
+            input_tokens: 100,
+            total_tokens: 100,
+          },
+        },
+      },
+    },
+  ]);
+  const result = run(path, "--json");
+
+  assert.equal(result.status, 0, result.stderr);
+  const output = JSON.parse(result.stdout);
+  assert.equal(output.status, "partial");
+  assert.equal(output.durationMs, 1200);
+  assert.deepEqual(output.tokens, {
+    input: 100,
+    cachedInput: null,
+    output: null,
+    reasoning: null,
+    total: 100,
+  });
+  assert.deepEqual(output.diagnostics, [
+    "tokens-cached-input-unavailable",
+    "tokens-output-unavailable",
+    "tokens-reasoning-unavailable",
+  ]);
+});
+
+test("marks an aggregate metric partial when any recognized input omits it", () => {
+  const complete = fixture([
+    {
+      type: "event_msg",
+      payload: {
+        duration_ms: 1200,
+        info: {
+          total_token_usage: {
+            input_tokens: 100,
+            cached_input_tokens: 20,
+            output_tokens: 10,
+            reasoning_output_tokens: 5,
+            total_tokens: 115,
+          },
+        },
+      },
+    },
+  ]);
+  const missingCachedInput = fixture([
+    {
+      type: "event_msg",
+      payload: {
+        duration_ms: 800,
+        info: {
+          total_token_usage: {
+            input_tokens: 50,
+            output_tokens: 5,
+            reasoning_output_tokens: 2,
+            total_tokens: 57,
+          },
+        },
+      },
+    },
+  ]);
+  const result = run(complete, "--json", "--input", missingCachedInput);
+
+  assert.equal(result.status, 0, result.stderr);
+  const output = JSON.parse(result.stdout);
+  assert.equal(output.status, "partial");
+  assert.equal(output.durationMs, 2000);
+  assert.deepEqual(output.tokens, {
+    input: 150,
+    cachedInput: null,
+    output: 15,
+    reasoning: 7,
+    total: 172,
+  });
+  assert.deepEqual(output.diagnostics, ["tokens-cached-input-unavailable"]);
+});
+
 test("marks multiple inputs unavailable when any input schema is unrecognized", () => {
   const recognized = fixture([
     { type: "turn_context", payload: { model: "gpt-5.6-sol", reasoning_effort: "xhigh" } },
@@ -126,7 +239,7 @@ test("redacts unrecognized model and reasoning labels", () => {
 
   assert.equal(result.status, 0, result.stderr);
   const output = JSON.parse(result.stdout);
-  assert.equal(output.status, "available");
+  assert.equal(output.status, "partial");
   assert.deepEqual(output.models, {});
   assert.deepEqual(output.reasoningEfforts, {});
   assert.doesNotMatch(result.stdout, /private-content/);
@@ -156,7 +269,8 @@ test("human output includes safe model, reasoning, and token totals only", () =>
   const result = run(path);
 
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /^comins-updatemd telemetry: available$/m);
+  assert.match(result.stdout, /^comins-updatemd telemetry: partial$/m);
+  assert.match(result.stdout, /^duration-ms: unmeasured$/m);
   assert.match(result.stdout, /^models: gpt-5\.6-sol=1$/m);
   assert.match(result.stdout, /^reasoning-efforts: xhigh=1$/m);
   assert.match(result.stdout, /^tokens-input: 100$/m);
