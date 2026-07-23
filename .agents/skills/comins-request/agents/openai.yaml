@@ -1,0 +1,4 @@
+interface:
+  display_name: "Comins Request"
+  short_description: "Create a structured Comins work request"
+  default_prompt: "Use $comins-request to print the copyable Comins work request template."
