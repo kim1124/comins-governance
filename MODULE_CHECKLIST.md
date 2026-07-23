@@ -9,6 +9,8 @@
 ## Repository Baseline
 
 - Create an independent Git repository, run `$comins-reference` to initialize its root `AGENTS.md`, and add a README with installation, a minimal example, supported versions, and release status.
+- Add the concise public bug and feature Issue Forms. Keep reporter facts separate from maintainer-owned implementation scope, completion gates, and work authority.
+- For Codex issue analysis, configure the repository Actions secret `OPENAI_API_KEY`, create the `codex:analyze` label, and retain the read-only workflow permission boundary.
 - Commit the package-manager lockfile and use its immutable install mode in CI.
 - Add focused unit and build verification, plus a browser path for interaction, layout, keyboard, or rendering behavior.
 - Namespace public CSS classes and custom properties; document exported CSS and intentional side effects.

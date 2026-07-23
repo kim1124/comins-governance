@@ -15,6 +15,10 @@ Comins modules remain independent Git repositories and independent npm release u
 - `.codex/config.toml`: trusted-repository model and reasoning defaults.
 - `templates/module/AGENTS.template.md`: non-discovered baseline guidance for a module repository.
 - `templates/module/.codex/config.toml`: canonical module project configuration.
+- `templates/module/.github/ISSUE_TEMPLATE`: concise public bug and feature request forms.
+- `templates/module/.github/codex`: read-only Codex issue-analysis prompt and output schema.
+- `templates/module/.github/workflows/codex-issue-analysis.yml`: maintainer-gated issue analysis and GitHub comment delivery.
+- `.agents/skills/comins-request`: prints the copyable Comins work-request template.
 - `.agents/skills/comins-reference`: initializes or refreshes a module's managed guidance and configuration.
 - `.agents/skills/comins-updatemd`: audits and renews the effective Comins instruction system.
 
@@ -72,6 +76,29 @@ not a runtime dependency and does not synchronize module source or releases.
 Research, design, planning, TDD, review, and broad verification are selected by
 risk; they are not one mandatory sequence for every change.
 
+## Comins Request Skill
+
+Invoke `$comins-request` to print the concise request form for investigation,
+feature, modification, deletion, maintenance, or remote-operation work. Fill the
+form and send it as a separate request; invoking the skill does not start work.
+
+## Public Issue Intake
+
+Public reporters provide observable behavior, reproduction, environment, use
+case, and expected outcome through the concise module Issue Forms. They do not
+define implementation scope, completion gates, or work authority. Codex may
+analyze the untrusted report with the strict read-only schema under
+`templates/module/.github/codex`; a maintainer reviews that analysis before
+creating an internal `$comins-request` brief or authorizing implementation.
+
+Issues opened, edited, or reopened by an owner, organization member, or
+collaborator are analyzed automatically. An external reporter's issue requires a
+maintainer to apply the `codex:analyze` label. The workflow requires the
+repository Actions secret `OPENAI_API_KEY`, runs Codex with the `:read-only`
+permission profile, and creates or updates one structured analysis comment.
+The comment is advisory and never authorizes implementation, push, release, or
+deployment.
+
 ## Comins Reference Skill
 
 Invoke `$comins-reference` from a new or existing independent Comins repository.
@@ -93,6 +120,7 @@ On another workstation, run this once from the cloned Governance root:
 
 ```sh
 mkdir -p "$HOME/.agents/skills"
+ln -s "$PWD/.agents/skills/comins-request" "$HOME/.agents/skills/comins-request"
 ln -s "$PWD/.agents/skills/comins-reference" "$HOME/.agents/skills/comins-reference"
 ln -s "$PWD/.agents/skills/comins-updatemd" "$HOME/.agents/skills/comins-updatemd"
 ```
