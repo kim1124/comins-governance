@@ -187,3 +187,43 @@ test("keeps release, incident, and adoption policy aligned", () => {
   assert.match(changelog, /^## v1\.2 /m);
   assert.match(changelog, /separate reviewed module adoption/i);
 });
+
+test("requires post-publication release closure evidence", () => {
+  const states = section(release, "## Release States");
+  const closure = section(release, "## Post-Publication Closure");
+  const afterRelease = section(checklist, "## After Every Public Release");
+  const moduleReporting = section(moduleAgents, "## Reporting");
+
+  for (const state of ["candidate", "staged", "published", "closed"]) {
+    assert.match(states, new RegExp(`\\*\\*${state}:\\*\\*`, "i"));
+  }
+  assert.match(states, /Only closed is complete/i);
+
+  for (const term of [
+    "exact version",
+    "dist-tag",
+    "integrity",
+    "provenance",
+    "public consumer",
+    "source merge",
+    "local",
+    "remote",
+    "residual risks",
+  ]) {
+    assert.match(closure, new RegExp(term, "i"));
+  }
+  assert.match(closure, /published[^.\n]*not closed/i);
+  assert.match(closure, /append/i);
+  assert.match(closure, /branches and worktrees/i);
+  assert.match(closure, /separate maintainer approval/i);
+
+  assert.match(afterRelease, /exact version/i);
+  assert.match(afterRelease, /dist-tag/i);
+  assert.match(afterRelease, /public consumer/i);
+  assert.match(afterRelease, /reconcile/i);
+
+  assert.match(moduleReporting, /post-publication closure/i);
+  assert.match(moduleReporting, /branches and worktrees/i);
+  assert.match(changelog, /post-publication closure/i);
+  assert.match(contract, /^# Comins Contract v1\.2$/m);
+});

@@ -29,3 +29,9 @@
 - Extract that exact artifact, scan the extracted directory with Gitleaks, inspect its contents, and use it for the consumer installation check.
 - Confirm maintainer 2FA, then bootstrap a brand-new package interactively without an automation token.
 - After the package exists, register the exact GitHub repository, workflow filename, and `npm` environment as its trusted publisher; allow only `npm stage publish`, disallow token publishing, and require maintainer 2FA approval.
+
+## After Every Public Release
+
+- Verify the exact version and intended dist-tag on the public registry, including the public artifact's integrity, expected registry signature, and provenance.
+- Install the exact public version or tarball in an isolated consumer and run the public consumer smoke check.
+- Append post-publication closure evidence, reconcile the local default branch with the remote default branch, and report remaining release branches and worktrees without deleting them unless separately approved.

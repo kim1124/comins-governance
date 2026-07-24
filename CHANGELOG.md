@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added `candidate`, `staged`, `published`, and `closed` release states with mandatory post-publication closure evidence for the exact registry version and dist-tag, artifact integrity and provenance, public consumer smoke, source merge, release reporting, and local/remote ref reconciliation; kept Contract v1.2 unchanged.
 - Renewed common guidance with risk-based research, planning, TDD, and verification routes; moved the Sol `xhigh` defaults from prose into managed project configuration.
 - Added the `comins-updatemd` skill with value-redacted instruction inventory and optional aggregate telemetry helpers.
 - Extended `comins-reference` to preflight and synchronize marker-delimited `AGENTS.md` and `.codex/config.toml` surfaces while preserving module-owned content.
