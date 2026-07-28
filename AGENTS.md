@@ -2,28 +2,25 @@
 
 ## Scope and Authority
 
-- Own the Comins brand, shared contracts, module templates, and release and security policy. Do not add product source or package artifacts here.
-- Treat `COMINS_CONTRACT.md`, `SENSITIVE_DATA_STANDARD.md`, and `RELEASE_POLICY.md` as the canonical policy sources. Keep module API, performance, browser, and implementation rules in the independent module.
-- Modify an independent module only when the request explicitly includes that repository. Keep each repository's diff and verification boundary separate.
-- Require maintainer approval for new public policy, license or security-contact changes, release-policy changes, external writes, destructive operations, cost, or a material scope expansion.
+- Own the brand and templates; treat `COMINS_CONTRACT.md`, `SENSITIVE_DATA_STANDARD.md`, and `RELEASE_POLICY.md` as canonical. Keep product and module-specific rules in each independent module.
+- Modify only explicitly requested repositories and keep their diffs and checks separate. Maintainer approval is required for public policy, license/security contacts, release policy, external writes, destructive operations, cost, or material scope expansion.
 
 ## Work Routing
 
-- For inspection or research, read the relevant active sources and report evidence. Do not create work reports or run product gates by default.
-- For documentation, guidance, configuration, or deterministic scripts, make the requested local change and run only the matching reference, contract, script, and parse checks.
-- Use a written design or implementation plan only for material ambiguity, cross-boundary behavior, high-risk work, or changes that need a durable multi-step handoff.
-- Keep common guidance short, testable, and framework-neutral. Audit the effective global, project, path-local, skill, tool, and validation chain before attributing latency to file size or reasoning effort.
+- For inspection or research, report relevant active evidence without edits, work reports, or product gates.
+- For documentation, guidance, configuration, or deterministic scripts, edit directly and run only matching reference, contract, script, or parse checks.
+- Use a design or plan only for material ambiguity, cross-boundary/high-risk behavior, or durable multi-step handoff.
+- Keep common guidance short, testable, and framework-neutral; use `comins-updatemd` for instruction-cost, tool-surface, or model-guidance audits.
 - Preserve reports and completed plans as historical evidence; never treat them as active runtime policy.
 
 ## Sensitive Data
 
-- Adopt Comins Contract v1.2 and the governance `SENSITIVE_DATA_STANDARD.md`.
-- Never track personal names, personal email addresses, local account paths, credentials, tokens, secrets, or value-derived fingerprints.
-- Use only an approved public handle, GitHub noreply identity, service identity, explicit placeholder, or repository-relative path; run the required local Gitleaks hook and security CI, and when a package boundary exists run the exact package-artifact gate.
-- Redact detector output, fail closed when a required scanner is unavailable, and handle legacy remediation through a separate audit.
+- Adopt Comins Contract v1.2 and the governance `SENSITIVE_DATA_STANDARD.md`. Never track personal names, personal email addresses, local account paths, credentials, tokens, secrets, or value-derived fingerprints.
+- Use only an approved public handle, GitHub noreply identity, service identity, explicit placeholder, or repository-relative path; run required Gitleaks/security CI and, when a package boundary exists, the exact package-artifact gate.
+- Redact detector output, fail closed when unavailable, and audit legacy exposure separately.
 
 ## Verify
 
-- For Markdown or configuration changes, run `git diff --check`, verify local references, parse tracked configuration, and run the applicable instruction tests.
-- For skill or deterministic-script changes, run focused tests, all Governance tests, and the official skill validator.
+- For Markdown/configuration, run `git diff --check`, reference and parse checks, and applicable instruction tests.
+- For skill/script changes, run focused checks and the official skill validator; run all Governance tests only when their contract changes.
 - Do not run independent module product gates for a Governance-only change.

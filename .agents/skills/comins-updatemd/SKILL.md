@@ -1,68 +1,54 @@
 ---
 name: comins-updatemd
-description: Use when a Codex model or official guidance changes, Comins instruction latency or token cost grows, shared AGENTS.md rules drift, or a periodic Comins guidance audit is requested.
+description: Use when a Codex model or official guidance changes, Comins instruction latency or token cost grows, AGENTS.md rules drift, or a guidance audit is requested.
 ---
 
 # Comins Update MD
 
 ## Overview
 
-Audit the effective Comins instruction system and renew only Governance-owned
-sources. Separate direct context, process-chain, reasoning, tool-loop, and
-validation costs before changing guidance.
+Reduce measured duplication, conflict, unconditional work, or stale routing in
+Governance-owned guidance.
 
-## Select the scope
+## Route
 
-| Request | Source rule |
-|---|---|
-| New model or current guidance | Refresh official OpenAI sources |
-| Local-only audit of duplication or drift | Use verified local sources; mark external guidance not refreshed |
-| Governance edit already approved | Implement the smallest in-scope local change |
-| Module adoption | Stop and use `$comins-reference` from that module root |
+- Refresh official OpenAI sources only for model or current-guidance work.
+- For a local-only audit, use verified local sources and mark external guidance
+  unrefreshed.
+- For module adoption, do not modify independent modules here; use
+  `$comins-reference` from each approved module root.
 
 ## Workflow
 
-1. Confirm the Governance Git root, branch, dirty state, requested repositories,
-   and whether the request is research-only or authorizes edits. Safe in-scope
-   local edits and checks do not need another approval.
-2. For model or guidance freshness, use official OpenAI documentation and record
-   the model, direct URL, and retrieval date. If unavailable, retain current
-   policy and label the source stale. Do not substitute community opinion for an
-   official product fact.
-3. Run `scripts/inventory-instructions.mjs --repo <name>=<git-root>` for each
-   explicit repository. Add `--json` when stable machine output is needed.
-   Compare repository-local root and maximum discovered guidance-chain bytes as
-   evidence, not as a quality threshold.
-4. If the maintainer selects rollout JSONL files, run
-   `scripts/summarize-codex-telemetry.mjs --input <jsonl>`; otherwise report
-   telemetry as unmeasured, not zero.
-5. Audit the effective global, project, path-local, and activated skill chain,
-   plus relevant tool descriptions and validation loops. Read
-   `references/audit-rubric.md` for classification criteria.
-6. Propose or apply the smallest Governance-owned correction. Route research,
-   design, planning, TDD, review, and broad verification by task risk rather than
-   making them one mandatory chain. If an activated skill is plugin, system, or
-   repository-owned, never edit its cache or bundled source. With
-   explicit scope for personal config, use supported skill or plugin enable/disable configuration;
-   otherwise report the owner, conflict, and residual activation.
-7. Stop for approval only when changing model policy, public security or release behavior,
-   cross-repository scope, evaluation cost, or an external, destructive, costly, or scope-expanding action.
-8. After an approved edit, run focused tests, all Governance instruction tests,
-   skill validation, config parsing, reference checks, and `git diff --check`.
-9. Record the Governance revision and remaining module adoption. Stop; do not modify independent modules
-   as part of this skill. Apply `$comins-reference`
-   separately from each explicitly approved module repository.
+Resolve `<skill-root>` from this `SKILL.md`.
 
-## Evaluation
+1. Confirm Git roots, branches, dirty state, scope, and edit authority.
+2. For freshness work, record the official OpenAI model, URL, and date; otherwise
+   retain and mark the policy stale.
+3. Run
+   `node <skill-root>/scripts/inventory-instructions.mjs --repo <name>=<git-root>`
+   for each repository and read
+   `<skill-root>/references/audit-rubric.md`. Audit the effective global,
+   project, path-local, and activated skill chain plus relevant tools and gates.
+4. Apply the smallest correction. For an external skill, never edit its cache or
+   bundled source. Change supported skill or plugin enable/disable configuration
+   only with explicit scope for personal config; otherwise report the owner,
+   conflict, and residual activation.
+5. Select verification by touched surface: always check references and
+   `git diff --check`; run instruction tests for shared contracts, skill
+   validation when a skill changes, config parsing when configuration changes,
+   and script tests when scripts change. Run all Governance tests once only when
+   the instruction or test contract crosses surfaces.
+6. Record the Governance revision and remaining module adoption.
 
-Use `references/eval-matrix.md` for clean-context with/without comparisons.
-Keep model and reasoning fixed while measuring an instruction change; compare
-reasoning levels only in a separate variant.
+## Optional evaluation
 
-## Fail closed
+With approved evaluation cost, read `<skill-root>/references/eval-matrix.md`.
 
-- Do not guess repository paths, model names, telemetry values, or missing markers.
-- Do not emit prompts, tool arguments, user content, credentials, personal paths,
-  detector values, or raw telemetry records.
-- Do not fetch, push, merge, publish, alter provider settings, or rewrite history
-  unless the corresponding request explicitly authorizes that action.
+## Boundaries
+
+- Stop for approval for model policy, public security/release behavior,
+  cross-repository scope, evaluation cost, or any external, destructive, costly,
+  or scope-expanding action.
+- Never guess paths, models, telemetry, or markers; expose raw sensitive values;
+  or perform unauthorized external, provider, publication, or history changes.
