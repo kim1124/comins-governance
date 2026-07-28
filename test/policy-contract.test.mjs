@@ -45,6 +45,8 @@ test("delimits one canonical comins-reference managed block", () => {
   assert.equal(moduleAgents.split(start).length - 1, 1);
   assert.equal(moduleAgents.split(end).length - 1, 1);
   assert.ok(moduleAgents.indexOf(start) < moduleAgents.indexOf(end));
+  assert.match(moduleAgents, /https:\/\/github\.com\/kim1124\/comins-governance/);
+  assert.ok(moduleAgents.trim().split(/\s+/).length <= 330);
 });
 
 test("keeps model policy in the exact managed project configuration", () => {
@@ -74,7 +76,8 @@ test("routes development work by change risk instead of one mandatory chain", ()
     assert.match(moduleAgents, new RegExp(term, "i"));
   }
   assert.match(moduleAgents, /regression test first when it materially improves confidence/i);
-  assert.match(moduleAgents, /run the unchanged broad gate only once/i);
+  assert.match(moduleAgents, /run the applicable broad gate once/i);
+  assert.match(moduleAgents, /product, test-contract, or environment/i);
 });
 
 test("adopts the concise Contract v1.2 sensitive-data policy", () => {
@@ -223,7 +226,8 @@ test("requires post-publication release closure evidence", () => {
   assert.match(afterRelease, /reconcile/i);
 
   assert.match(moduleReporting, /post-publication closure/i);
-  assert.match(moduleReporting, /branches and worktrees/i);
+  assert.match(moduleReporting, /branches(?: and |\/)worktrees/i);
+  assert.match(moduleReporting, /For a public release only/i);
   assert.match(changelog, /post-publication closure/i);
   assert.match(contract, /^# Comins Contract v1\.2$/m);
 });

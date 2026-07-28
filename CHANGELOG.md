@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Reduced Comins Codex guidance and project-local tool overrides without changing Sol `xhigh` defaults, and made release reporting and guidance verification conditional on the affected workflow and surface.
 - Added `candidate`, `staged`, `published`, and `closed` release states with mandatory post-publication closure evidence for the exact registry version and dist-tag, artifact integrity and provenance, public consumer smoke, source merge, release reporting, and local/remote ref reconciliation; kept Contract v1.2 unchanged.
 - Renewed common guidance with risk-based research, planning, TDD, and verification routes; moved the Sol `xhigh` defaults from prose into managed project configuration.
 - Added the `comins-updatemd` skill with value-redacted instruction inventory and optional aggregate telemetry helpers.
