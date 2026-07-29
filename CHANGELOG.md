@@ -2,7 +2,9 @@
 
 ## Unreleased
 
-- No shared-policy changes after Contract v1.4.
+- Clarified the delivery-capable Comins npm service identity, value-free
+  pre-stage and exact-version checks, and the Grid Layout pilot without
+  recording provider values or bumping Contract v1.4.
 
 ## v1.4 - 2026-07-29
 

@@ -15,6 +15,8 @@
 ## Allowed
 
 - Outside the required legal-text boundary, allow only these non-sensitive values: public handle, GitHub noreply identity, service identity, explicit placeholder, and repository-relative path.
+- A delivery-capable Comins service identity is a purpose-scoped, non-personal address controlled by the maintainer and intentionally accepted for permanent public npm metadata.
+- A GitHub noreply identity remains valid for Git commit identity, but it is not a delivery-capable npm account verification or recovery address.
 - Assemble synthetic detector fixture values only at test runtime and do not retain the assembled values.
 - Preserve canonical-source third-party legal text only when legally required; keep required copyright, attribution, license, and `NOTICE` content verbatim, and omit personal contact details when a canonical project URL is sufficient.
 
