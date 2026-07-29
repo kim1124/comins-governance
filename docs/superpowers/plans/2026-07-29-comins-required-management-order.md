@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- The exact order is instructions and scope, Contract and authority, sensitive-data security, OSS licensing, module rules, implementation, verification, Git and PR, exact-artifact release, closure and reporting.
+- The exact order is repository and instructions, Contract, scope and authority, sensitive-data security, OSS licensing, module rules, implementation, verification, Git and PR, exact-artifact release, closure and reporting.
 - Every stage is evaluated in order; a stage is `N/A` only when its gate is not triggered.
 - A required unavailable, incomplete, or failed gate stops progression.
 - Keep the managed module block at or below 360 words by removing equivalent duplication instead of raising the cap.
@@ -31,7 +31,7 @@
 - Consumes: current Contract v1.3 documents and the canonical managed module template.
 - Produces: a regression contract that fails when a required stage is omitted, duplicated, or reordered.
 
-- [ ] **Step 1: Add the failing order test**
+- [x] **Step 1: Add the failing order test**
 
 Add an order helper and a focused test:
 
@@ -75,7 +75,7 @@ test("fixes one required Comins management order", () => {
 });
 ```
 
-- [ ] **Step 2: Verify RED**
+- [x] **Step 2: Verify RED**
 
 Run:
 
@@ -101,27 +101,27 @@ Expected: the new test fails because `## Required Management Order` and
 - Consumes: Task 1's failing order contract.
 - Produces: one detailed Contract sequence, concise automatic routing, and administrator guidance.
 
-- [ ] **Step 1: Add the detailed Contract sequence**
+- [x] **Step 1: Add the detailed Contract sequence**
 
 Add `## Required Management Order` after `Scope and Change Control`. Use the
 ten exact stages from the design and state that every stage is evaluated,
 `N/A` requires an unaffected surface, and a required failed or unavailable
 gate stops progression.
 
-- [ ] **Step 2: Add concise automatic routing**
+- [x] **Step 2: Add concise automatic routing**
 
 Add `## Required Order` between `Work Routing` and `Change Boundaries` in the
 module template. Add the equivalent concise rule to Governance `AGENTS.md`.
 Remove equivalent routing words elsewhere so the module template remains at
 or below 360 words.
 
-- [ ] **Step 3: Align operator guidance and history**
+- [x] **Step 3: Align operator guidance and history**
 
-Add the fixed sequence to `DEV_GUIDE.md`, replace the `Unreleased` changelog
-placeholder with the behavior change, and append the implementation and
-adoption boundary to `reports/2026-07-29.md`.
+Add the fixed sequence to `DEV_GUIDE.md`, record it under the v1.3 changelog
+entry, and append the implementation and adoption boundary to
+`reports/2026-07-29.md`.
 
-- [ ] **Step 4: Verify GREEN**
+- [x] **Step 4: Verify GREEN**
 
 Run:
 
@@ -140,7 +140,7 @@ Expected: all focused policy-contract tests pass.
 - Consumes: Tasks 1 and 2 plus the existing Contract v1.3 OSS policy work.
 - Produces: a merged Governance revision that independent modules can adopt.
 
-- [ ] **Step 1: Run the full local gates**
+- [x] **Step 1: Run the full local gates**
 
 Run:
 
@@ -152,7 +152,7 @@ git diff --check
 
 Expected: zero test failures, instruction `findings: 0`, and no diff error.
 
-- [ ] **Step 2: Verify scope and sensitive-data safety**
+- [x] **Step 2: Verify scope and sensitive-data safety**
 
 Review the complete staged diff, exclude the pre-existing
 `reports/2026-07-27.md`, and scan only intended changed files with the pinned
