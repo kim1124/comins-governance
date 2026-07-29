@@ -2,7 +2,23 @@
 
 ## Unreleased
 
-- No shared-policy changes after Contract v1.3.
+- No shared-policy changes after Contract v1.4.
+
+## v1.4 - 2026-07-29
+
+- Reduced the common management order to license, security, Comins common
+  rules, module rules, affected verification, Git and pull-request checks, and
+  release checks only when publishing.
+- Removed `DEV_GUIDE.md` from the active documentation surface. `README.md`
+  provides the manager-facing sequence without making a second policy owner.
+- Limited routine dependency license checks to package-manager metadata and
+  standard tooling. Detailed evidence and manual review now apply only to
+  ambiguous, restricted, copied, modified, generated, bundled, or distributed
+  material.
+- Clarified that Governance defines requirements while each independent module
+  owns checker commands, CI integration, tests, and implementation.
+- Kept module adoption as a separate reviewed change; this revision does not
+  modify independent module repositories.
 
 ## v1.3 - 2026-07-29
 
@@ -15,7 +31,8 @@
 - Added the `comins-updatemd` skill with value-redacted instruction inventory and optional aggregate telemetry helpers.
 - Extended `comins-reference` to preflight and synchronize marker-delimited `AGENTS.md` and `.codex/config.toml` surfaces while preserving module-owned content.
 - Before v1.3, renamed the module guidance source to non-discovered `templates/module/AGENTS.template.md` and adopted the then-current v1.2 revision in the three modules as independent local changes.
-- The current modules remain on the v1.2 managed guidance until separate v1.3 adoption.
+- At publication time, the modules remained on the v1.2 managed guidance until
+  separate v1.3 adoption.
 
 ## v1.2 - 2026-07-21
 
