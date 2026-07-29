@@ -2,12 +2,14 @@
 
 This repository is the source of truth for shared Comins brand guidance, operating contracts, and module templates.
 
-Comins modules remain independent Git repositories and independent npm release units. This repository does not contain a runtime package, shared module source code, or a release pipeline for product packages.
+Comins modules remain independent Git repositories and CI boundaries. When a module has a package boundary, it is also an independent package and release unit. This repository does not contain a runtime package, shared module source code, or a release pipeline for product packages.
 
 ## Contents
 
 - `BRAND.md`: public product identity and naming rules.
+- `DEV_GUIDE.md`: current end-to-end development and project management guide.
 - `COMINS_CONTRACT.md`: rules shared by every Comins module.
+- `OSS_LICENSE_POLICY.md`: fail-closed third-party dependency, code, asset, and artifact policy.
 - `CHANGELOG.md`: shared-policy revision history.
 - `MODULE_CHECKLIST.md`: readiness checklist for a new module.
 - `SECURITY.md`: security reporting and response prerequisites.
@@ -25,11 +27,13 @@ flowchart TD
     A["Comins Governance<br/>Shared policy source of truth"] --> B["BRAND.md<br/>Brand and naming"]
     A --> C["COMINS_CONTRACT.md<br/>Shared operating contract"]
     A --> D["SENSITIVE_DATA_STANDARD.md<br/>Security and sensitive data"]
+    A --> L["OSS_LICENSE_POLICY.md<br/>Open-source license evidence"]
     A --> E["RELEASE_POLICY.md<br/>Release and npm policy"]
     A --> F["MODULE_CHECKLIST.md<br/>New-module baseline"]
 
-    C --> R["Versioned policy adoption<br/>Currently Contract v1.2"]
+    C --> R["Versioned policy adoption<br/>Currently Contract v1.3"]
     D --> R
+    L --> R
     E --> R
 
     R --> T["Comins Table<br/>Independent Git, npm, and CI"]
@@ -57,7 +61,7 @@ not a runtime dependency and does not synchronize module source or releases.
 
 1. Make module-specific product changes in the affected module repository.
 2. Make cross-module policy changes here, then update each affected module in a separate reviewed change.
-3. Keep package publication, versioning, CI, and npm credentials isolated per module.
+3. Keep CI isolated per module and, when a package boundary exists, keep publication, versioning, and npm credentials isolated there.
 
 ## Development Workflow
 

@@ -1,6 +1,6 @@
 # Release Policy
 
-This repository does not publish npm packages. Each Comins module owns its own version, changelog, CI, package contents, and npm publication.
+This repository does not publish npm packages. Each Comins module owns its CI. When a package boundary exists, the module owns its own version, changelog, package contents, and npm publication. The remaining states and gates apply only to modules with a package boundary and a public package release.
 
 ## Release States
 
@@ -13,9 +13,10 @@ This repository does not publish npm packages. Each Comins module owns its own v
 ## Required Release Evidence
 
 - Target version, Semantic Versioning rationale, release and migration notes, residual risks, and unsupported cases.
+- Run the module license gate against the reviewed dependency, copied-code, asset, and bundle state; retain every required scoped approval.
 - Confirm the intended package boundary in `package.json#files`.
 - Create exactly one package artifact with `npm pack --json --ignore-scripts`. Compare the package file list returned by `npm pack --json --ignore-scripts` with the `package.json#files` allow-list.
-- Extract that exact artifact into a disposable directory, scan the extracted directory with Gitleaks, and inspect the same artifact's contents.
+- Extract that exact artifact into a disposable directory, scan the extracted directory with Gitleaks, and verify that its `LICENSE`, applicable `THIRD_PARTY_NOTICES.md`, required `THIRD_PARTY_LICENSES/` files, and bundled third-party boundary match the reviewed evidence.
 - Record only constant, redacted security-gate results and run the consumer installation or smoke check against that exact artifact.
 
 ## Publication Controls
@@ -26,6 +27,7 @@ This repository does not publish npm packages. Each Comins module owns its own v
 - Use automatic provenance from GitHub Actions trusted publishing for eligible public packages.
 - Keep privacy-safe publisher metadata and use only an approved public handle, GitHub noreply identity, or service identity.
 - Keep package release credentials, workflow permissions, and release histories isolated per module.
+- Fail closed before staging or publication when the license gate, required evidence, or scoped approval is unavailable or incomplete.
 
 ## Post-Publication Closure
 
@@ -42,4 +44,4 @@ This repository does not publish npm packages. Each Comins module owns its own v
 ## Emergency Releases
 
 - Security or package-integrity incidents may justify an expedited patch release, but still require reproducible evidence, focused verification, and maintainer approval.
-- Do not use an emergency release to bypass package ownership, provenance, or disclosure review.
+- Do not use an emergency release to bypass package ownership, license, provenance, or disclosure review.
