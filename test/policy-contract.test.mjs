@@ -200,6 +200,32 @@ test("retains the canonical sensitive-data boundary without duplicating mechanic
   assert.doesNotMatch(moduleAgents, /npm pack|Gitleaks|package\.json#files/i);
 });
 
+test("requires a delivery-capable npm service identity at release boundaries", () => {
+  const allowed = section(sensitiveData, "## Allowed");
+  const publication = section(release, "## Publication Controls");
+  const closure = section(release, "## Post-Publication Closure");
+  const beforeRelease = section(checklist, "## Before First Public Release");
+  const afterRelease = section(checklist, "## After Every Public Release");
+
+  assert.match(allowed, /delivery-capable Comins service identity/i);
+  assert.match(allowed, /permanent public npm metadata/i);
+  assert.match(allowed, /GitHub noreply[^.\n]*Git commit/i);
+  assert.match(allowed, /not[^.\n]*npm account[^.\n]*(?:verification|recovery)/i);
+
+  assert.match(publication, /current npm maintainer identity/i);
+  assert.match(publication, /immediately before[^.\n]*stage/i);
+  assert.match(publication, /constant[^.\n]*value-free/i);
+  assert.match(publication, /freeze[^.\n]*approval/i);
+
+  assert.match(closure, /exact published version[^.\n]*maintainer/i);
+  assert.match(closure, /publisher metadata/i);
+  assert.match(beforeRelease, /delivery-capable[^.\n]*service identity/i);
+  assert.match(afterRelease, /exact-version[^.\n]*identity/i);
+
+  assert.match(contract, /^# Comins Contract v1\.4$/m);
+  assert.doesNotMatch(moduleAgents, /COMINS_NPM_PUBLIC_(?:NAME|EMAIL)/);
+});
+
 test("conditions package and release gates on their actual lifecycle", () => {
   assert.match(
     contract,

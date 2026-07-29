@@ -26,6 +26,8 @@ This repository does not publish npm packages. Each Comins module owns its CI. W
 - Allow only `npm stage publish` for the trusted publisher, disallow token publishing, and require a maintainer to approve or reject each staged version with npm 2FA.
 - Use automatic provenance from GitHub Actions trusted publishing for eligible public packages.
 - Keep privacy-safe publisher metadata and use only an approved public handle, GitHub noreply identity, or service identity.
+- Run the module-owned current npm maintainer identity check immediately before `npm stage publish`; expose only a constant, value-free result and fail closed on unavailable or mismatched evidence.
+- Freeze npm account email, package ownership, and trusted-publisher configuration from the pre-stage identity check through maintainer approval and post-publication closure.
 - Keep package release credentials, workflow permissions, and release histories isolated per module.
 - Fail closed before staging or publication when the license gate, required evidence, or scoped approval is unavailable or incomplete.
 
@@ -33,6 +35,7 @@ This repository does not publish npm packages. Each Comins module owns its CI. W
 
 - A registry-visible version is published, not closed, until every closure check below passes and the module records the evidence.
 - Verify the exact version and intended dist-tag on the public registry.
+- Verify that the exact published version's maintainer identity and publisher metadata match the approved delivery-capable service identity using a constant, value-free result.
 - Verify the public artifact's integrity, expected registry signature, and provenance, and compare it with the staged or validated artifact when the release workflow exposes a digest or integrity value.
 - Install the exact public version or tarball in an isolated consumer and run the module's public consumer smoke check.
 - Confirm the protected source merge and applicable post-merge checks; record the source merge or commit and the release workflow run.

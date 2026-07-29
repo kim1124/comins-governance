@@ -27,6 +27,7 @@
 - Add the MIT `LICENSE`, applicable `THIRD_PARTY_NOTICES.md` and `THIRD_PARTY_LICENSES/` evidence, PVR, a repository-local `SECURITY.md`, and available dependency and secret-scanning alerts.
 - Add release notes or a changelog with known limitations and migration expectations.
 - Run the license gate against the reviewed dependency and asset state.
+- Confirm a verified delivery-capable Comins service identity and provider-managed expected-identity values without recording their values in the repository.
 - Create exactly one artifact with `npm pack --json --ignore-scripts`. Compare the package file list returned by `npm pack --json --ignore-scripts` with the `package.json#files` allow-list.
 - Extract that exact artifact, scan the extracted directory with Gitleaks, verify its license and notice evidence, inspect its contents, and use it for the consumer installation check.
 - Confirm maintainer 2FA, then bootstrap a brand-new package interactively without an automation token.
@@ -34,6 +35,7 @@
 
 ## After Every Public Release
 
+- Record the exact-version, value-free identity result for the published maintainer and publisher metadata.
 - Verify the exact version and intended dist-tag on the public registry, including the public artifact's integrity, expected registry signature, and provenance.
 - Install the exact public version or tarball in an isolated consumer and run the public consumer smoke check.
 - Append post-publication closure evidence, reconcile the local default branch with the remote default branch, and report remaining release branches and worktrees without deleting them unless separately approved.
