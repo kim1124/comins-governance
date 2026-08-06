@@ -1,4 +1,4 @@
-# Comins Contract v1.4
+# Comins Contract v1.5
 
 ## Scope and Change Control
 
@@ -29,6 +29,9 @@ applicable instructions. Then proceed in this order:
    checks required by the affected surface.
 6. **Git, pull request, and CI:** confirm diff hygiene, required checks, and
    protected-branch requirements.
+   Name each new Codex development branch `codex-<short-feature-name>`. For
+   additional work under the same representative feature, append `-2`, `-3`,
+   and so on. Existing and provider-managed branches are exempt.
 7. **Release, when applicable:** for an actual public package publication only,
    apply `RELEASE_POLICY.md` to the exact release artifact and closure.
 

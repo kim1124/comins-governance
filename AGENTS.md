@@ -17,9 +17,12 @@
 ## Required Order
 
 - Resolve the target independent Git root and applicable instructions first.
-- Follow Contract v1.4 in this order: license compliance; security and sensitive
+- Follow Contract v1.5 in this order: license compliance; security and sensitive
   data; Comins common rules; module rules; smallest change and affected checks;
   Git, pull request, and CI; release checks only when publishing.
+- Name new Codex development branches `codex-<short-feature-name>`; append `-2`,
+  `-3`, and so on for additional work under the same representative feature.
+  Existing and provider-managed branches are exempt.
 - Apply only triggered gates. A required failed or unavailable gate blocks the
   affected workflow; it does not trigger unrelated module or release checks.
 

@@ -2,7 +2,7 @@
 
 ## Purpose And Scope
 
-This policy is part of Comins Contract v1.4. It applies to a module after that
+This policy is part of Comins Contract v1.5. It applies to a module after that
 repository separately adopts the Contract revision.
 
 The check covers third-party packages, copied or modified code, generated

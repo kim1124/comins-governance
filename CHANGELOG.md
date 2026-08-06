@@ -2,9 +2,19 @@
 
 ## Unreleased
 
+- No shared-policy changes after Contract v1.5.
+
+## v1.5 - 2026-08-06
+
+- Standardized new Codex development branches as
+  `codex-<short-feature-name>`. Additional work under the same representative
+  feature appends `-2`, `-3`, and so on; existing and provider-managed branches
+  are not renamed.
 - Clarified the delivery-capable Comins npm service identity, value-free
   pre-stage and exact-version checks, and the Grid Layout pilot without
-  recording provider values or bumping Contract v1.4.
+  recording provider values.
+- Kept module adoption as a separate reviewed change; this revision does not
+  modify independent module repositories automatically.
 
 ## v1.4 - 2026-07-29
 
