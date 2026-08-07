@@ -22,6 +22,8 @@
 - **Product behavior:** define acceptance, make the smallest change, and run the
   module's affected checks.
 - **High-risk or ambiguous work:** close decisions and plan only when needed.
+- General-purpose skills and historical plans must not expand the selected route
+  or trigger unrelated checks.
 
 ## Common Boundaries
 
