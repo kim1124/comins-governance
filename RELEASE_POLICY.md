@@ -19,6 +19,12 @@ This repository does not publish npm packages. Each Comins module owns its CI. W
 - Extract that exact artifact into a disposable directory, scan the extracted directory with Gitleaks, and verify that its `LICENSE`, applicable `THIRD_PARTY_NOTICES.md`, required `THIRD_PARTY_LICENSES/` files, and bundled third-party boundary match the reviewed evidence.
 - Record only constant, redacted security-gate results and run the consumer installation or smoke check against that exact artifact.
 
+## Evidence Ownership And Reuse
+
+- Successful verification evidence may be reused only when the verified source tree and relevant workflow, configuration, and dependency state are unchanged.
+- A metadata-only change invalidates only the metadata and artifact evidence it can affect. Pull-request CI and publication workflows may intentionally rerun broader gates at distinct trust boundaries.
+- When a module publish workflow verifies, packages, and stages one artifact, the module release workflow is the canonical owner of the exact artifact. Do not create a separate local candidate artifact unless the workflow is absent, changed by the release, or the maintainer explicitly requests local diagnostic evidence; local diagnostics do not replace required workflow evidence.
+
 ## Publication Controls
 
 - A brand-new npm package cannot use staged publishing or register a trusted publisher before it exists on the registry. Bootstrap the first public version interactively with maintainer 2FA and no automation token.

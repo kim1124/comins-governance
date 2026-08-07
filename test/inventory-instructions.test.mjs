@@ -144,3 +144,50 @@ test("reports repository-local instruction bytes and the largest discovered Code
     nestedBytes,
   );
 });
+
+test("audits explicitly activated external skills without exposing their paths", () => {
+  const path = repository();
+  const externalSkillRoot = mkdtempSync(join(tmpdir(), "comins-external-skill-test-"));
+  temporaryRoots.push(externalSkillRoot);
+  const externalSkill = join(externalSkillRoot, "SKILL.md");
+  writeFileSync(
+    externalSkill,
+    [
+      "---",
+      "name: universal-process",
+      "description: Use for every task.",
+      "---",
+      "",
+      "If there is even a 1% chance this skill applies, it must run.",
+      "This applies to every project regardless of perceived simplicity.",
+      "If you have not run verification in this message, you cannot claim it passes.",
+      "",
+    ].join("\n"),
+  );
+
+  const result = run(
+    path,
+    "--json",
+    "--external-skill",
+    `universal-process=${externalSkill}`,
+  );
+
+  assert.equal(result.status, 0, result.stderr);
+  const output = JSON.parse(result.stdout);
+  assert.deepEqual(
+    output.activatedSkills.map(({ name }) => name),
+    ["universal-process"],
+  );
+  assert.ok(
+    output.activatedSkills[0].findings.some(({ type }) => type === "broad-skill-trigger"),
+  );
+  assert.ok(
+    output.activatedSkills[0].findings.some(
+      ({ type }) => type === "unconditional-process-gate",
+    ),
+  );
+  assert.ok(
+    output.activatedSkills[0].findings.some(({ type }) => type === "fresh-evidence-only"),
+  );
+  assert.doesNotMatch(result.stdout, new RegExp(externalSkillRoot));
+});

@@ -21,6 +21,7 @@ test("defines the exact Comins guidance renewal trigger", () => {
 
 test("audits effective guidance and keeps module adoption separate", () => {
   assert.match(skill, /<skill-root>\/scripts\/inventory-instructions\.mjs/);
+  assert.match(skill, /--external-skill/);
   assert.match(matrix, /<skill-root>\/scripts\/summarize-codex-telemetry\.mjs/);
   assert.match(skill, /global,\s+project,\s+path-local,\s+and activated skill/i);
   assert.match(skill, /official OpenAI/i);
