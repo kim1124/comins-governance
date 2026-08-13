@@ -1,4 +1,4 @@
-# Comins Contract v1.4
+# Comins Contract v1.5
 
 ## Scope and Change Control
 
@@ -29,6 +29,9 @@ applicable instructions. Then proceed in this order:
    checks required by the affected surface.
 6. **Git, pull request, and CI:** confirm diff hygiene, required checks, and
    protected-branch requirements.
+   Name each new Codex development branch `codex-<short-feature-name>`. For
+   additional work under the same representative feature, append `-2`, `-3`,
+   and so on. Existing and provider-managed branches are exempt.
 7. **Release, when applicable:** for an actual public package publication only,
    apply `RELEASE_POLICY.md` to the exact release artifact and closure.
 
@@ -36,7 +39,15 @@ Only a triggered stage requires execution. A required failed, incomplete, or
 unavailable gate blocks that workflow. It must not expand the task into
 unrelated module, browser, performance, or release work.
 General-purpose skills and historical plans do not reclassify work, authorize
-new stages, or invalidate otherwise reusable evidence.
+new stages, or invalidate otherwise reusable evidence. Subagents are opt-in:
+use them only when the
+maintainer explicitly requests delegation or an approved plan identifies
+independent parallel work. Never pass full conversation history; use a bounded
+task brief and exact evidence paths.
+
+Use one final review and one required broad gate after the last meaningful
+change by default. Re-review or rerun only the failed or affected scope, and
+reuse valid evidence when the verified source tree and surface are unchanged.
 
 ## Common Module Boundaries
 

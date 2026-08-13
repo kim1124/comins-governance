@@ -41,11 +41,11 @@ const changelog = readPolicy("CHANGELOG.md");
 const readme = readPolicy("README.md");
 
 test("keeps one current Contract and managed module block", () => {
-  const start = "<!-- comins-reference:managed-start contract=v1.4 -->";
+  const start = "<!-- comins-reference:managed-start contract=v1.5 -->";
   const end = "<!-- comins-reference:managed-end -->";
 
-  assert.match(contract, /^# Comins Contract v1\.4$/m);
-  assert.match(changelog, /^## v1\.4 - 2026-07-29$/m);
+  assert.match(contract, /^# Comins Contract v1\.5$/m);
+  assert.match(changelog, /^## v1\.5 - 2026-08-06$/m);
   assert.equal(moduleAgents.split(start).length - 1, 1);
   assert.equal(moduleAgents.split(end).length - 1, 1);
   assert.ok(moduleAgents.indexOf(start) < moduleAgents.indexOf(end));
@@ -105,10 +105,19 @@ test("defines the lean management order consistently", () => {
   ]);
   assert.match(contractOrder, /Only a triggered stage requires execution/i);
   assert.match(contractOrder, /must not expand the task into\s+unrelated module/i);
-  assert.match(
-    contractOrder,
-    /General-purpose skills and historical plans do not reclassify work/i,
-  );
+  assert.match(contractOrder, /General-purpose skills and historical plans do not reclassify work/i);
+  assert.match(contractOrder, /Subagents are opt-in/i);
+  assert.match(contractOrder, /Never pass full conversation history/i);
+  assert.match(contractOrder, /Use one final review and one required broad gate/i);
+  assert.match(contractOrder, /reuse valid evidence/i);
+  assert.match(moduleRouting, /must not expand the selected route/i);
+  assert.match(moduleRouting, /Subagents require explicit maintainer delegation/i);
+  assert.match(moduleRouting, /one final review and one required broad gate/i);
+  assert.match(contractOrder, /`codex-<short-feature-name>`/);
+  assert.match(contractOrder, /append `-2`, `-3`,\s+and so on/i);
+  assert.match(contractOrder, /Existing and provider-managed branches are exempt/i);
+  assert.match(moduleAgents, /`codex-<short-feature-name>`/);
+  assert.match(agents, /`codex-<short-feature-name>`/);
   assert.match(
     moduleRouting,
     /General-purpose skills and historical plans must not expand the selected route/i,
@@ -127,6 +136,7 @@ test("keeps the manager overview out of the active instruction surface", () => {
 
 test("limits routine license checks and scopes detailed evidence", () => {
   assert.ok(licensePolicy.split("\n").length <= 130);
+  assert.match(licensePolicy, /part of Comins Contract v1\.5/i);
   assert.match(
     licensePolicy,
     /applies to a module after that\s+repository separately adopts the Contract revision/i,
@@ -231,7 +241,7 @@ test("requires a delivery-capable npm service identity at release boundaries", (
   assert.match(beforeRelease, /delivery-capable[^.\n]*service identity/i);
   assert.match(afterRelease, /exact-version[^.\n]*identity/i);
 
-  assert.match(contract, /^# Comins Contract v1\.4$/m);
+  assert.match(contract, /^# Comins Contract v1\.5$/m);
   assert.doesNotMatch(moduleAgents, /COMINS_NPM_PUBLIC_(?:NAME|EMAIL)/);
 });
 

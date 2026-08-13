@@ -12,15 +12,19 @@
 - For documentation, guidance, configuration, or deterministic scripts, edit directly and run only matching reference, contract, script, or parse checks.
 - Use a design or plan only for material ambiguity, cross-boundary/high-risk behavior, or durable multi-step handoff.
 - General-purpose skills may refine mechanics within the selected route; they do not override direct or project instructions or trigger unrelated stages.
+- Subagents require explicit delegation or approved independent parallel work; never pass full history. Default to one final review and required broad gate per final change, then recheck affected failures only.
 - Keep common guidance short, testable, and framework-neutral.
 - Preserve reports and completed plans as historical evidence; never treat them as active runtime policy.
 
 ## Required Order
 
 - Resolve the target independent Git root and applicable instructions first.
-- Follow Contract v1.4 in this order: license compliance; security and sensitive
+- Follow Contract v1.5 in this order: license compliance; security and sensitive
   data; Comins common rules; module rules; smallest change and affected checks;
   Git, pull request, and CI; release checks only when publishing.
+- Name new Codex development branches `codex-<short-feature-name>`; append `-2`,
+  `-3`, and so on for additional work under the same representative feature.
+  Existing and provider-managed branches are exempt.
 - Apply only triggered gates. A required failed or unavailable gate blocks the
   affected workflow; it does not trigger unrelated module or release checks.
 
