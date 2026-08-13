@@ -118,6 +118,10 @@ test("defines the lean management order consistently", () => {
   assert.match(contractOrder, /Existing and provider-managed branches are exempt/i);
   assert.match(moduleAgents, /`codex-<short-feature-name>`/);
   assert.match(agents, /`codex-<short-feature-name>`/);
+  assert.match(
+    moduleRouting,
+    /General-purpose skills and historical plans must not expand the selected route/i,
+  );
   assert.match(agents, /Do not run independent module product gates for a Governance-only change/i);
 });
 
@@ -255,6 +259,19 @@ test("conditions package and release gates on their actual lifecycle", () => {
   assert.match(release, /exactly one package artifact/i);
   assert.match(release, /Gitleaks/i);
   assert.match(release, /privacy-safe publisher metadata/i);
+  assert.match(
+    release,
+    /Successful verification evidence may be reused only when the verified source tree/i,
+  );
+  assert.match(
+    release,
+    /A metadata-only change invalidates only the metadata and artifact evidence it can affect/i,
+  );
+  assert.match(
+    release,
+    /the module release workflow is the canonical owner of the exact artifact/i,
+  );
+  assert.match(release, /Do not create a separate local candidate artifact/i);
 });
 
 test("retains release closure and incident boundaries", () => {

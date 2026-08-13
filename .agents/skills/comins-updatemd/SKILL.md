@@ -27,7 +27,9 @@ Resolve `<skill-root>` from this `SKILL.md`.
    retain and mark the policy stale.
 3. Run
    `node <skill-root>/scripts/inventory-instructions.mjs --repo <name>=<git-root>`
-   for each repository and read
+   for each repository. Pass externally activated skills as
+   `--external-skill <logical-name>=<SKILL.md>`; never pass inactive installed
+   skills. Then read
    `<skill-root>/references/audit-rubric.md`. Audit the effective global,
    project, path-local, and activated skill chain plus relevant tools and gates.
 4. Apply the smallest correction. For an external skill, never edit its cache or

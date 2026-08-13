@@ -38,8 +38,9 @@ applicable instructions. Then proceed in this order:
 Only a triggered stage requires execution. A required failed, incomplete, or
 unavailable gate blocks that workflow. It must not expand the task into
 unrelated module, browser, performance, or release work.
-General-purpose skills and historical plans do not reclassify work or
-authorize additional stages. Subagents are opt-in: use them only when the
+General-purpose skills and historical plans do not reclassify work, authorize
+new stages, or invalidate otherwise reusable evidence. Subagents are opt-in:
+use them only when the
 maintainer explicitly requests delegation or an approved plan identifies
 independent parallel work. Never pass full conversation history; use a bounded
 task brief and exact evidence paths.

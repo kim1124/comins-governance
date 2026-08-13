@@ -13,6 +13,7 @@ function fail() {
 
 function parseArguments(argv) {
   const repositories = [];
+  const externalSkills = [];
   let json = false;
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -34,6 +35,19 @@ function parseArguments(argv) {
       repositories.push({ name, path });
       continue;
     }
+    if (argument === "--external-skill") {
+      const value = argv[index + 1];
+      index += 1;
+      const separator = value?.indexOf("=") ?? -1;
+      if (separator < 1) throw new Error("invalid external skill");
+      const name = value.slice(0, separator);
+      const path = value.slice(separator + 1);
+      if (!/^[a-zA-Z0-9][a-zA-Z0-9._:-]*$/.test(name) || path.length === 0) {
+        throw new Error("invalid external skill");
+      }
+      externalSkills.push({ name, path });
+      continue;
+    }
     throw new Error("invalid argument");
   }
 
@@ -41,7 +55,10 @@ function parseArguments(argv) {
   if (new Set(repositories.map(({ name }) => name)).size !== repositories.length) {
     throw new Error("duplicate repository");
   }
-  return { json, repositories };
+  if (new Set(externalSkills.map(({ name }) => name)).size !== externalSkills.length) {
+    throw new Error("duplicate external skill");
+  }
+  return { json, repositories, externalSkills };
 }
 
 function exactGitRoot(path) {
@@ -118,7 +135,38 @@ const FINDING_RULES = [
     test: (line) =>
       /\b(?:always|every|all)\b.*\b(?:verify:full|full (?:gate|suite|verification))\b/i.test(line),
   },
+  {
+    type: "broad-skill-trigger",
+    test: (line) =>
+      /\beven (?:a )?\d+% chance\b.*\bskill\b/i.test(line) ||
+      /\buse\b.*\b(?:every|all|any)\b.*\b(?:task|conversation|project)\b/i.test(line),
+  },
+  {
+    type: "unconditional-process-gate",
+    test: (line) =>
+      /\bapplies to (?:every|all) (?:project|task)\b.*\bregardless\b/i.test(line),
+  },
+  {
+    type: "fresh-evidence-only",
+    test: (line) =>
+      /\b(?:have not|haven't)\b.*\brun\b.*\bin this (?:message|turn)\b.*\b(?:cannot|must not)\b.*\bclaim\b/i.test(
+        line,
+      ),
+  },
 ];
+
+function findingsForContents(path, contents) {
+  const findings = [];
+  const lines = contents.split(/\r?\n/);
+  for (let index = 0; index < lines.length; index += 1) {
+    for (const rule of FINDING_RULES) {
+      if (rule.test(lines[index])) {
+        findings.push({ type: rule.type, path, line: index + 1 });
+      }
+    }
+  }
+  return findings;
+}
 
 function findingsFor(root, files) {
   const findings = [];
@@ -127,14 +175,7 @@ function findingsFor(root, files) {
     const absolutePath = resolve(root, file.path);
     if (lstatSync(absolutePath).isSymbolicLink()) continue;
     const contents = readFileSync(absolutePath, "utf8");
-    const lines = contents.split(/\r?\n/);
-    for (let index = 0; index < lines.length; index += 1) {
-      for (const rule of FINDING_RULES) {
-        if (rule.test(lines[index])) {
-          findings.push({ type: rule.type, path: file.path, line: index + 1 });
-        }
-      }
-    }
+    findings.push(...findingsForContents(file.path, contents));
   }
   return findings.sort(
     (left, right) =>
@@ -204,7 +245,18 @@ function inspectRepository({ name, path }) {
   return { name, files, metrics: metricsFor(files), findings: findingsFor(root, files) };
 }
 
-function humanOutput(repositories) {
+function inspectExternalSkill({ name, path }) {
+  const absolutePath = realpathSync(resolve(path));
+  if (!lstatSync(absolutePath).isFile()) throw new Error("external skill is not a file");
+  const contents = readFileSync(absolutePath, "utf8");
+  return {
+    name,
+    bytes: Buffer.byteLength(contents),
+    findings: findingsForContents(name, contents),
+  };
+}
+
+function humanOutput(repositories, activatedSkills) {
   const lines = [];
   const kinds = [
     "automatic-guidance",
@@ -229,16 +281,29 @@ function humanOutput(repositories) {
       lines.push(`${finding.type} ${finding.path}:${finding.line}`);
     }
   }
+  if (lines.length > 0) lines.push("");
+  lines.push(`activated-skills: ${activatedSkills.length}`);
+  for (const skill of activatedSkills) {
+    lines.push(`activated-skill ${skill.name}`);
+    lines.push(`activated-skill-bytes: ${skill.bytes}`);
+    lines.push(`activated-skill-findings: ${skill.findings.length}`);
+    for (const finding of skill.findings) {
+      lines.push(`${finding.type} ${finding.path}:${finding.line}`);
+    }
+  }
   return `${lines.join("\n")}\n`;
 }
 
 try {
   const options = parseArguments(process.argv.slice(2));
   const repositories = options.repositories.map(inspectRepository);
+  const activatedSkills = options.externalSkills.map(inspectExternalSkill);
   if (options.json) {
-    process.stdout.write(`${JSON.stringify({ version: 1, repositories }, null, 2)}\n`);
+    process.stdout.write(
+      `${JSON.stringify({ version: 1, repositories, activatedSkills }, null, 2)}\n`,
+    );
   } else {
-    process.stdout.write(humanOutput(repositories));
+    process.stdout.write(humanOutput(repositories, activatedSkills));
   }
 } catch {
   fail();
