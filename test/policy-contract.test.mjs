@@ -72,6 +72,7 @@ test("keeps model settings in managed configuration instead of prose", () => {
 test("defines the lean management order consistently", () => {
   const contractOrder = section(contract, "## Required Management Order");
   const moduleOrder = section(moduleAgents, "## Required Order");
+  const moduleRouting = section(moduleAgents, "## Work Routing");
   const readmeOrder = section(readme, "## Management Order");
 
   assert.match(contractOrder, /resolve the target independent Git root/i);
@@ -104,6 +105,14 @@ test("defines the lean management order consistently", () => {
   ]);
   assert.match(contractOrder, /Only a triggered stage requires execution/i);
   assert.match(contractOrder, /must not expand the task into\s+unrelated module/i);
+  assert.match(contractOrder, /General-purpose skills and historical plans do not reclassify work/i);
+  assert.match(contractOrder, /Subagents are opt-in/i);
+  assert.match(contractOrder, /Never pass full conversation history/i);
+  assert.match(contractOrder, /Use one final review and one required broad gate/i);
+  assert.match(contractOrder, /reuse valid evidence/i);
+  assert.match(moduleRouting, /must not expand the selected route/i);
+  assert.match(moduleRouting, /Subagents require explicit maintainer delegation/i);
+  assert.match(moduleRouting, /one final review and one required broad gate/i);
   assert.match(contractOrder, /`codex-<short-feature-name>`/);
   assert.match(contractOrder, /append `-2`, `-3`,\s+and so on/i);
   assert.match(contractOrder, /Existing and provider-managed branches are exempt/i);

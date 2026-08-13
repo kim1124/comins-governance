@@ -38,6 +38,15 @@ applicable instructions. Then proceed in this order:
 Only a triggered stage requires execution. A required failed, incomplete, or
 unavailable gate blocks that workflow. It must not expand the task into
 unrelated module, browser, performance, or release work.
+General-purpose skills and historical plans do not reclassify work or
+authorize additional stages. Subagents are opt-in: use them only when the
+maintainer explicitly requests delegation or an approved plan identifies
+independent parallel work. Never pass full conversation history; use a bounded
+task brief and exact evidence paths.
+
+Use one final review and one required broad gate after the last meaningful
+change by default. Re-review or rerun only the failed or affected scope, and
+reuse valid evidence when the verified source tree and surface are unchanged.
 
 ## Common Module Boundaries
 

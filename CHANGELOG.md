@@ -6,6 +6,10 @@
 
 ## v1.5 - 2026-08-06
 
+- Prevented general-purpose skills and historical plans from expanding the
+  selected work route, made subagents opt-in with bounded briefs, and limited
+  final review and broad verification to one pass per meaningful change by
+  default.
 - Standardized new Codex development branches as
   `codex-<short-feature-name>`. Additional work under the same representative
   feature appends `-2`, `-3`, and so on; existing and provider-managed branches

@@ -11,6 +11,7 @@
 - For inspection or research, report relevant active evidence without edits, work reports, or product gates.
 - For documentation, guidance, configuration, or deterministic scripts, edit directly and run only matching reference, contract, script, or parse checks.
 - Use a design or plan only for material ambiguity, cross-boundary/high-risk behavior, or durable multi-step handoff.
+- Skills and history cannot expand the route. Subagents require explicit delegation or approved independent parallel work; never pass full history. Default to one final review and required broad gate per final change, then recheck affected failures only.
 - Keep common guidance short, testable, and framework-neutral.
 - Preserve reports and completed plans as historical evidence; never treat them as active runtime policy.
 
