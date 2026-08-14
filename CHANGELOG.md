@@ -2,7 +2,19 @@
 
 ## Unreleased
 
-- No shared-policy changes after Contract v1.5.
+- No shared-policy changes after Contract v1.6.
+
+## v1.6 - 2026-08-14
+
+- Made final review and broad verification conditional on the selected work
+  route instead of a default requirement for every change.
+- Required same-commit evidence and successful checks to survive a CI retry,
+  with failure classification and failed-or-affected job or test reruns instead
+  of restarting research, planning, review, or unrelated verification.
+- Kept deterministic policy, type, and unit-test failures correction-only while
+  preserving module ownership of CI job and browser-test implementation.
+- Kept module adoption as separate reviewed changes; this revision does not
+  modify independent module repositories automatically.
 
 ## v1.5 - 2026-08-06
 
