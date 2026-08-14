@@ -22,7 +22,7 @@ package.
 ## Management Order
 
 Resolve the target independent Git root and applicable instructions first.
-Contract v1.5 then fixes this common order:
+Contract v1.6 then fixes this common order:
 
 1. Check license compliance.
 2. Check security vulnerabilities and sensitive data.

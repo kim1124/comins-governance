@@ -1,4 +1,4 @@
-# Comins Contract v1.5
+# Comins Contract v1.6
 
 ## Scope and Change Control
 
@@ -45,9 +45,13 @@ maintainer explicitly requests delegation or an approved plan identifies
 independent parallel work. Never pass full conversation history; use a bounded
 task brief and exact evidence paths.
 
-Use one final review and one required broad gate after the last meaningful
-change by default. Re-review or rerun only the failed or affected scope, and
-reuse valid evidence when the verified source tree and surface are unchanged.
+Run one final review or broad gate after the last meaningful change only when
+the selected work route requires it. On failure, preserve evidence for the
+verified commit and surface, classify the cause, and rerun only the failed or
+affected job or test. A same-commit retry does not restart research, planning,
+review, or already successful checks. Deterministic policy, type, and unit-test
+failures require correction rather than retry; a new commit reruns security and
+only the other gates affected by its diff.
 
 ## Common Module Boundaries
 
