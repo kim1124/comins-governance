@@ -7,15 +7,18 @@
 
 ## Prohibited
 
-- Never store personal names, personal email addresses, local account paths, credentials, API keys, access tokens, secrets, or value-derived fingerprints.
+- Never store personal names, personal email addresses, local account paths, credentials, API keys, access tokens, secrets, or value-derived fingerprints except the exact legal text permitted below.
 - Never expose detector author, email, match, fingerprint, or sensitive path values in user-visible output.
 - Do not use `.gitleaksignore` or inline `gitleaks:allow` suppressions.
 - Do not implement custom parsers for Git objects, revisions, annotated tags, tar or PAX headers, checksums, provider tokens, or binary formats.
 
 ## Allowed
 
-- Allow only these non-sensitive values: public handle, GitHub noreply identity, service identity, explicit placeholder, and repository-relative path.
+- Outside the required legal-text boundary, allow only these non-sensitive values: public handle, GitHub noreply identity, service identity, explicit placeholder, and repository-relative path.
+- A delivery-capable Comins service identity is a purpose-scoped, non-personal address controlled by the maintainer and intentionally accepted for permanent public npm metadata.
+- A GitHub noreply identity remains valid for Git commit identity, but it is not a delivery-capable npm account verification or recovery address.
 - Assemble synthetic detector fixture values only at test runtime and do not retain the assembled values.
+- Preserve canonical-source third-party legal text only when legally required; keep required copyright, attribution, license, and `NOTICE` content verbatim, and omit personal contact details when a canonical project URL is sufficient.
 
 ## Required Gates
 
@@ -31,7 +34,7 @@
 
 ## Exceptions
 
-- A maintainer may approve an allowed public identity, but may not exempt a prohibited private value or bypass a required gate.
+- A maintainer may approve an allowed public identity, but may not exempt a prohibited private value beyond the required legal-text boundary or bypass a required gate.
 - Record policy exceptions without recording the sensitive value.
 
 ## Incident Response

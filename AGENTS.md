@@ -2,28 +2,44 @@
 
 ## Scope and Authority
 
-- Own the Comins brand, shared contracts, module templates, and release and security policy. Do not add product source or package artifacts here.
-- Treat `COMINS_CONTRACT.md`, `SENSITIVE_DATA_STANDARD.md`, and `RELEASE_POLICY.md` as the canonical policy sources. Keep module API, performance, browser, and implementation rules in the independent module.
-- Modify an independent module only when the request explicitly includes that repository. Keep each repository's diff and verification boundary separate.
-- Require maintainer approval for new public policy, license or security-contact changes, release-policy changes, external writes, destructive operations, cost, or a material scope expansion.
+- Own the brand, common policy, and module template. Keep product behavior,
+  commands, tests, and enforcement implementations in each independent module.
+- Modify only explicitly requested repositories and keep their diffs and checks separate. Maintainer approval is required for public policy, license/security contacts, release policy, external writes, destructive operations, cost, or material scope expansion.
 
 ## Work Routing
 
-- For inspection or research, read the relevant active sources and report evidence. Do not create work reports or run product gates by default.
-- For documentation, guidance, configuration, or deterministic scripts, make the requested local change and run only the matching reference, contract, script, and parse checks.
-- Use a written design or implementation plan only for material ambiguity, cross-boundary behavior, high-risk work, or changes that need a durable multi-step handoff.
-- Keep common guidance short, testable, and framework-neutral. Audit the effective global, project, path-local, skill, tool, and validation chain before attributing latency to file size or reasoning effort.
+- For inspection or research, report relevant active evidence without edits, work reports, or product gates.
+- For documentation, guidance, configuration, or deterministic scripts, edit directly and run only matching reference, contract, script, or parse checks.
+- Use a design or plan only for material ambiguity, cross-boundary/high-risk behavior, or durable multi-step handoff.
+- General-purpose skills may refine mechanics within the selected route; they do not override direct or project instructions or trigger unrelated stages.
+- Subagents require explicit delegation or approved independent parallel work; never pass full history. Run final review or a broad gate only when the selected route requires it.
+- On failure, keep same-commit evidence and successful checks, classify the cause, and rerun only the failed or affected job or test. Do not restart research, planning, or review for a retry.
+- Keep common guidance short, testable, and framework-neutral.
 - Preserve reports and completed plans as historical evidence; never treat them as active runtime policy.
 
-## Sensitive Data
+## Required Order
 
-- Adopt Comins Contract v1.2 and the governance `SENSITIVE_DATA_STANDARD.md`.
-- Never track personal names, personal email addresses, local account paths, credentials, tokens, secrets, or value-derived fingerprints.
-- Use only an approved public handle, GitHub noreply identity, service identity, explicit placeholder, or repository-relative path; run the required local Gitleaks hook and security CI, and when a package boundary exists run the exact package-artifact gate.
-- Redact detector output, fail closed when a required scanner is unavailable, and handle legacy remediation through a separate audit.
+- Resolve the target independent Git root and applicable instructions first.
+- Follow Contract v1.6 in this order: license compliance; security and sensitive
+  data; Comins common rules; module rules; smallest change and affected checks;
+  Git, pull request, and CI; release checks only when publishing.
+- Name new Codex development branches `codex-<short-feature-name>`; append `-2`,
+  `-3`, and so on for additional work under the same representative feature.
+  Existing and provider-managed branches are exempt.
+- Apply only triggered gates. A required failed or unavailable gate blocks the
+  affected workflow; it does not trigger unrelated module or release checks.
+
+## Canonical Policies
+
+- `COMINS_CONTRACT.md` defines common order, scope, and approval boundaries.
+- `OSS_LICENSE_POLICY.md`, `SENSITIVE_DATA_STANDARD.md`, and
+  `RELEASE_POLICY.md` define conditional requirements. Each module owns the
+  tools and commands that implement them.
+- Adopt behavior-changing Contract revisions through separate reviewed module
+  changes. Governance changes do not modify independent modules automatically.
 
 ## Verify
 
-- For Markdown or configuration changes, run `git diff --check`, verify local references, parse tracked configuration, and run the applicable instruction tests.
-- For skill or deterministic-script changes, run focused tests, all Governance tests, and the official skill validator.
+- For Markdown/configuration, run `git diff --check`, reference and parse checks, and applicable instruction tests.
+- For skill/script changes, run focused checks and the official skill validator; run all Governance tests only when their contract changes.
 - Do not run independent module product gates for a Governance-only change.

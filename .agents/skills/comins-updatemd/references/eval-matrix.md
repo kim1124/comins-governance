@@ -27,6 +27,10 @@ Expand the sample only when results are unstable or change the decision.
 
 ## Measures
 
+For selected rollout JSONL, run
+`node <skill-root>/scripts/summarize-codex-telemetry.mjs --input <jsonl>`;
+otherwise telemetry is unmeasured.
+
 - Task success and required evidence.
 - Instruction and approval-boundary compliance.
 - Unintended or out-of-scope changes.

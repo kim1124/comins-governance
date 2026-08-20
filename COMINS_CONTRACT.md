@@ -1,39 +1,77 @@
-# Comins Contract v1.2
+# Comins Contract v1.6
 
 ## Scope and Change Control
 
-- Every module is an independent Git repository, npm package, CI pipeline, and release unit; do not use another repository's workspace, source synchronization, dependency linking, or release process without a maintainer request.
-- Make a rule common only when it affects at least two modules or security, licensing, release, or consumer privacy. Record it in `CHANGELOG.md` and adopt behavior-changing revisions through separate reviewed module changes.
-- Treat historical KMSF references as migration evidence, not active operational dependencies.
-- Require an explicit maintainer request for remote writes and escalate unresolved product, API, data, security, migration, release, or destructive-operation decisions.
+- Every module is an independent Git repository and CI boundary. Package and
+  release rules apply only when a package boundary and matching workflow exist.
+- Make a rule common only when it affects at least two modules or establishes a
+  universal security, licensing, release, privacy, or approval boundary.
+- Keep module APIs, commands, test suites, browser checks, performance targets,
+  and policy enforcement implementations in the affected module.
+- Require maintainer approval for remote writes, publishing, public-policy
+  exceptions, destructive operations, cost, and material scope expansion.
 
-## Package and Consumer Rules
+## Required Management Order
 
-- Preserve documented public APIs and types, applying Semantic Versioning to public releases.
-- Keep framework integrations such as React and React DOM as peer dependencies, and document supported runtime, browser, framework, peer dependency, SSR, and client-only behavior.
-- Declare package exports, types, CSS entry points, and intentional CSS side effects; set a supported runtime in `engines` when the package has one.
-- Do not declare mutable dist-tags such as `latest`, `next`, or `canary` as dependencies. Commit a lockfile and use the package manager's immutable installation mode in CI.
-- Publish the module's MIT `LICENSE` with a current Comins copyright notice.
-- Record bundled or copied third-party components, assets, and required notices in the module repository.
-- Do not access the DOM at module evaluation time without a documented client-only boundary, or make network requests, load remote assets, collect telemetry, or report errors without consumer opt-in.
+Before the numbered checks, resolve the target independent Git root and its
+applicable instructions. Then proceed in this order:
 
-## Consumer Neutrality
+1. **License compliance:** inspect used packages, copied or modified code,
+   generated material, assets, and distributed contents under
+   `OSS_LICENSE_POLICY.md`.
+2. **Security:** inspect vulnerabilities, credentials, secrets, personal data,
+   and dependency alerts under `SENSITIVE_DATA_STANDARD.md`.
+3. **Comins common rules:** confirm this Contract, scope, authority, repository
+   independence, and approval boundaries.
+4. **Module rules:** apply the target module's API, structure, test, browser,
+   performance, and command requirements.
+5. **Change and verification:** make the smallest authorized change and run only
+   checks required by the affected surface.
+6. **Git, pull request, and CI:** confirm diff hygiene, required checks, and
+   protected-branch requirements.
+   Name each new Codex development branch `codex-<short-feature-name>`. For
+   additional work under the same representative feature, append `-2`, `-3`,
+   and so on. Existing and provider-managed branches are exempt.
+7. **Release, when applicable:** for an actual public package publication only,
+   apply `RELEASE_POLICY.md` to the exact release artifact and closure.
 
-- Do not apply global CSS resets or modify document-level styles.
-- Namespace public CSS classes and custom properties by module.
-- Make visual tokens opt-in and avoid requiring a Comins design system.
+Only a triggered stage requires execution. A required failed, incomplete, or
+unavailable gate blocks that workflow. It must not expand the task into
+unrelated module, browser, performance, or release work.
+General-purpose skills and historical plans do not reclassify work, authorize
+new stages, or invalidate otherwise reusable evidence. Subagents are opt-in:
+use them only when the
+maintainer explicitly requests delegation or an approved plan identifies
+independent parallel work. Never pass full conversation history; use a bounded
+task brief and exact evidence paths.
+
+Run one final review or broad gate after the last meaningful change only when
+the selected work route requires it. On failure, preserve evidence for the
+verified commit and surface, classify the cause, and rerun only the failed or
+affected job or test. A same-commit retry does not restart research, planning,
+review, or already successful checks. Deterministic policy, type, and unit-test
+failures require correction rather than retry; a new commit reruns security and
+only the other gates affected by its diff.
+
+## Common Module Boundaries
+
+- Preserve documented public APIs and types and apply Semantic Versioning to
+  public releases.
+- Keep framework integrations such as React and React DOM as peer dependencies
+  and commit the package-manager lockfile when a package boundary exists.
+- Declare package exports, types, CSS entry points, and intentional CSS side
+  effects; namespace public CSS and avoid global resets.
+- Do not access the DOM at module evaluation time without a documented
+  client-only boundary. Network access, remote assets, telemetry, and error
+  reporting require consumer opt-in.
 - Keep third-party engines behind a module-owned adapter boundary.
 
-## Sensitive Data
+## Policy Ownership
 
-- Never track personal names, personal email addresses, local account paths, credentials, tokens, secrets, or value-derived fingerprints in source, fixtures, allowlists, reports, plans, or release artifacts.
-- Permit only an approved public handle, GitHub noreply identity, service identity, explicit placeholder, repository-relative path, or synthetic detector fixture value assembled at test runtime.
-- Require the local Gitleaks hook, required security CI, and exact packed-artifact inspection defined by `SENSITIVE_DATA_STANDARD.md`; fail closed when a required gate is unavailable.
-- Redact detector output, expose only constant failure messages, and handle legacy history or provider remediation as a separate audit.
-
-## Quality Gates
-
-- Define a local baseline verification command, run focused checks for changed behavior, and use browser verification for browser-visible interaction.
-- Accessibility, keyboard interaction, and error states are public behavior.
-- Record executed validation and residual risks for behavior, public API, configuration, security, release, or test-contract changes; do not require a worklog for inspection-only or editorial changes.
-- Before first public release, enable GitHub private vulnerability reporting, a repository-local `SECURITY.md`, and available dependency and secret-scanning alerts.
+- Governance defines common requirements; each module defines how its
+  repository implements and verifies them.
+- Record behavior-changing revisions in `CHANGELOG.md` and adopt them through
+  separate reviewed module changes.
+- Record executed checks and unresolved blockers for meaningful behavior, API,
+  configuration, security, release, or test-contract changes. Editorial and
+  inspection-only work does not require a worklog.
