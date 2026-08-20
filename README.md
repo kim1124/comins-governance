@@ -16,6 +16,10 @@ package.
 - `SECURITY.md`: security reporting.
 - `CHANGELOG.md`: Contract revision history.
 - `templates/module/AGENTS.template.md`: managed module guidance.
+- `templates/module/.github/ISSUE_TEMPLATE`: public bug and feature request forms.
+- `templates/module/.github/codex`: read-only issue-analysis prompt and output schema.
+- `templates/module/.github/workflows/codex-issue-analysis.yml`: maintainer-gated issue analysis.
+- `.agents/skills/comins-request`: maintainer work-request brief.
 - `.agents/skills/comins-reference`: module guidance adoption.
 - `.agents/skills/comins-updatemd`: common-guidance audit.
 
@@ -60,7 +64,27 @@ Shared behavior changes are reviewed in Governance first and adopted by each
 affected module through a separate reviewed change. Governance does not
 synchronize module source, tests, or releases.
 
+## Public Issue Intake
+
+Public reporters provide observable behavior, reproduction, environment, use
+case, and expected outcome through the concise module Issue Forms. They do not
+define implementation scope, completion gates, or work authority. Codex may
+analyze the untrusted report with the strict read-only schema under
+`templates/module/.github/codex`; a maintainer reviews that analysis before
+creating an internal `$comins-request` brief or authorizing implementation.
+
+Issues opened, edited, or reopened by an owner, organization member, or
+collaborator are analyzed automatically. An external reporter's issue requires a
+maintainer to apply the `codex:analyze` label. The workflow requires the
+repository Actions secret `OPENAI_API_KEY`, runs Codex with the `:read-only`
+permission profile, and creates or updates one structured analysis comment.
+The comment is advisory and never authorizes implementation, push, release, or
+deployment.
+
 ## Skills
+
+Use `$comins-request` to print the concise maintainer work-request form. Filling
+the form does not authorize implementation or an external operation.
 
 Use `$comins-reference` from an approved module root to initialize or refresh
 only the managed guidance and configuration blocks. Module-owned content outside

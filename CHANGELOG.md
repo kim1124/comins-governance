@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added concise public bug and feature Issue Form templates, a strict read-only Codex analysis schema, and a maintainer-gated GitHub comment workflow; kept the maintainer-only `comins-request` brief separate and Contract v1.2 unchanged.
+- Added the `comins-request` skill for a concise copyable work-request form; kept Contract v1.2 unchanged.
 - No shared-policy changes after Contract v1.6.
 
 ## v1.6 - 2026-08-14
