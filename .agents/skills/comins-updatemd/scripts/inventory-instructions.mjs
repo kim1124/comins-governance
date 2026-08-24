@@ -90,6 +90,14 @@ function classify(path) {
   ) {
     return "automatic-guidance";
   }
+  if (path === "COMINS_CONTRACT.md") return "common-policy";
+  if (
+    path === "OSS_LICENSE_POLICY.md" ||
+    path === "SENSITIVE_DATA_STANDARD.md" ||
+    path === "RELEASE_POLICY.md"
+  ) {
+    return "triggered-policy";
+  }
   if (path === ".codex/config.toml") return "configuration";
   if (/^(?:\.agents|\.codex)\/skills\/[^/]+\/SKILL\.md$/.test(path)) return "skill";
   if (/^(?:reports\/|docs\/superpowers\/(?:plans|specs)\/)/.test(path)) return "historical";
@@ -98,6 +106,8 @@ function classify(path) {
     path === "GUIDE.md" ||
     path === "SECURITY.md" ||
     path === "CONTRIBUTING.md" ||
+    path === "MODULE_CHECKLIST.md" ||
+    path === "templates/module/AGENTS.template.md" ||
     (/^docs\//.test(path) && path.endsWith(".md"))
   ) {
     return "conditional-reference";
@@ -171,7 +181,17 @@ function findingsForContents(path, contents) {
 function findingsFor(root, files) {
   const findings = [];
   for (const file of files) {
-    if (!["automatic-guidance", "skill", "conditional-reference"].includes(file.kind)) continue;
+    if (
+      ![
+        "automatic-guidance",
+        "common-policy",
+        "triggered-policy",
+        "skill",
+        "conditional-reference",
+      ].includes(file.kind)
+    ) {
+      continue;
+    }
     const absolutePath = resolve(root, file.path);
     if (lstatSync(absolutePath).isSymbolicLink()) continue;
     const contents = readFileSync(absolutePath, "utf8");
@@ -260,6 +280,8 @@ function humanOutput(repositories, activatedSkills) {
   const lines = [];
   const kinds = [
     "automatic-guidance",
+    "common-policy",
+    "triggered-policy",
     "configuration",
     "skill",
     "conditional-reference",
