@@ -2,17 +2,21 @@
 
 ## Authority and Scope
 
-- This file is the sole source for common Comins execution policy. Governance
-  defines common requirements; each module is an independent Git and CI
-  boundary that owns its implementation and checker commands.
+- This Contract solely owns common Comins execution policy. Governance defines
+  common requirements; each module owns its Git boundary, implementation, CI,
+  and checker commands.
+- Inspection, research, diagnosis, and planning are read-only unless the
+  request asks for changes. A change request authorizes in-scope local edits
+  and affected non-destructive checks.
 - Package and release rules apply only when a package boundary and matching
   workflow exist.
-- A rule is common only when it applies to at least two modules or establishes
-  a universal licensing, security, privacy, release, or approval boundary.
-- Keep module APIs, commands, tests, browser and performance requirements, and
-  enforcement details in the affected module.
+- A common rule covers at least two modules or a universal licensing, security,
+  privacy, release, or approval boundary.
+- Keep module APIs, commands, tests, browser/performance rules, and enforcement
+  in the affected module.
 - Maintainer approval is required for remote writes, publishing, public-policy
-  exceptions, destructive operations, cost, and material scope expansion.
+  changes or exceptions, destructive operations, cost, and material scope
+  expansion.
 
 ## Required Management Order
 
@@ -32,12 +36,13 @@ only the stages triggered by the requested change:
 7. **Release, when applicable:** apply `RELEASE_POLICY.md` only to an actual
    public publication.
 
-A failed or unavailable required stage blocks only the affected workflow. It
-does not trigger unrelated module, browser, performance, or release work.
+A failed, incomplete, or unavailable required stage blocks only the affected
+workflow. It does not trigger unrelated module, browser, performance, or
+release work.
 General-purpose skills and historical plans may refine mechanics but cannot add
 stages, authority, or verification. Use subagents only when the maintainer
-requests delegation or an approved route has independent parallel work; pass a
-bounded brief, never full conversation history.
+requests delegation or approved work is independently parallel; pass a bounded
+brief, never full conversation history.
 
 ## Change, Git, and Verification
 
@@ -49,16 +54,14 @@ bounded brief, never full conversation history.
 - On failure, preserve same-commit evidence and successful checks, classify the
   cause, and rerun only the failed or affected job or test. A retry does not
   restart research, planning, review, or unrelated successful checks.
-- Correct deterministic policy, type, and unit-test failures instead of
-  retrying them. A new commit reruns security and other gates affected by its
-  diff.
+- Correct deterministic policy, type, and unit-test failures rather than
+  retrying. A new commit reruns security and other diff-affected gates.
 
 ## Common Module Boundaries
 
-- Preserve documented public APIs and types and use Semantic Versioning for
-  public releases.
-- When a package boundary exists, keep framework integrations such as React and
-  React DOM as peer dependencies and commit the package-manager lockfile.
+- Preserve public APIs and types; use Semantic Versioning for releases.
+- At package boundaries, keep React and React DOM integrations as peer
+  dependencies and commit the lockfile.
 - Declare package exports, types, CSS entry points, and intentional CSS side
   effects. Namespace public CSS and avoid global resets.
 - Do not access the DOM at module evaluation time without a documented
@@ -68,8 +71,8 @@ bounded brief, never full conversation history.
 
 ## Adoption and Records
 
-- Record behavior-changing revisions in `CHANGELOG.md` and adopt them through
+- Record behavior-changing revisions in `CHANGELOG.md`; adopt them through
   separate reviewed module changes.
-- Record checks and unresolved blockers only for meaningful behavior, API,
-  configuration, security, release, or test-contract changes. Editorial and
-  inspection-only work does not require a worklog.
+- Only meaningful behavior, API, configuration, security, release, or
+  test-contract changes need a worklog; editorial and inspection-only work do
+  not.

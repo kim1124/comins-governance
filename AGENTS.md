@@ -4,8 +4,8 @@
 
 - Governance owns shared Comins policy and module-guidance distribution.
 - `COMINS_CONTRACT.md` is the only common execution-policy source. Read it
-  before changing shared policy; do not restate its rules in this file,
-  `README.md`, or the module template.
+  once per run before any Governance change; do not restate its rules in this
+  file, `README.md`, or the module template.
 - Keep product behavior, commands, tests, and enforcement implementations in
   each independent module.
 

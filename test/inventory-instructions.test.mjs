@@ -37,6 +37,10 @@ function repository() {
     join(path, ".agents", "skills", "sample", "SKILL.md"),
     "---\nname: sample\ndescription: Use when testing.\n---\n",
   );
+  writeFileSync(join(path, "COMINS_CONTRACT.md"), "# Contract\n");
+  writeFileSync(join(path, "OSS_LICENSE_POLICY.md"), "# License policy\n");
+  writeFileSync(join(path, "RELEASE_POLICY.md"), "# Release policy\n");
+  writeFileSync(join(path, "SENSITIVE_DATA_STANDARD.md"), "# Sensitive-data policy\n");
   writeFileSync(join(path, "docs", "superpowers", "plans", "done.md"), "# Historical plan\n");
   return path;
 }
@@ -64,8 +68,24 @@ test("emits stable JSON with logical names and repository-relative paths only", 
       [".agents/skills/sample/SKILL.md", "skill"],
       [".codex/config.toml", "configuration"],
       ["AGENTS.md", "automatic-guidance"],
+      ["COMINS_CONTRACT.md", "common-policy"],
       ["docs/superpowers/plans/done.md", "historical"],
+      ["OSS_LICENSE_POLICY.md", "triggered-policy"],
+      ["RELEASE_POLICY.md", "triggered-policy"],
+      ["SENSITIVE_DATA_STANDARD.md", "triggered-policy"],
     ],
+  );
+  assert.equal(
+    output.repositories[0].metrics.bytesByKind["common-policy"],
+    Buffer.byteLength(readFileSync(join(path, "COMINS_CONTRACT.md"), "utf8")),
+  );
+  assert.equal(
+    output.repositories[0].metrics.bytesByKind["triggered-policy"],
+    ["OSS_LICENSE_POLICY.md", "RELEASE_POLICY.md", "SENSITIVE_DATA_STANDARD.md"].reduce(
+      (bytes, relativePath) =>
+        bytes + Buffer.byteLength(readFileSync(join(path, relativePath), "utf8")),
+      0,
+    ),
   );
   assert.ok(output.repositories[0].findings.some(({ type }) => type === "broad-pre-read"));
   assert.ok(output.repositories[0].findings.some(({ type }) => type === "model-prose"));
@@ -78,6 +98,8 @@ test("supports concise human output without source content", () => {
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /^repository sample$/m);
   assert.match(result.stdout, /automatic-guidance: 1/);
+  assert.match(result.stdout, /common-policy: 1/);
+  assert.match(result.stdout, /triggered-policy: 3/);
   assert.match(result.stdout, /broad-pre-read AGENTS\.md:3/);
   assert.doesNotMatch(result.stdout, /gpt-5\.6-sol|Read README/);
 });

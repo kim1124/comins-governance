@@ -43,8 +43,13 @@ const readme = readPolicy("README.md");
 test("keeps one current Contract and managed module block", () => {
   const start = "<!-- comins-reference:managed-start contract=v1.7 -->";
   const end = "<!-- comins-reference:managed-end -->";
+  const contractVersion = contract.match(/^# Comins Contract (v\d+\.\d+)$/m)?.[1];
+  const markerVersion = moduleAgents.match(/managed-start contract=(v\d+\.\d+) -->/)?.[1];
+  const linkVersion = moduleAgents.match(/\[Comins Contract (v\d+\.\d+)\]/)?.[1];
 
   assert.match(contract, /^# Comins Contract v1\.7$/m);
+  assert.equal(markerVersion, contractVersion);
+  assert.equal(linkVersion, contractVersion);
   assert.match(changelog, /^## v1\.7 - 2026-08-24$/m);
   assert.equal(moduleAgents.split(start).length - 1, 1);
   assert.equal(moduleAgents.split(end).length - 1, 1);
@@ -54,6 +59,9 @@ test("keeps one current Contract and managed module block", () => {
   assert.ok(Buffer.byteLength(readme) <= 1_800);
   assert.ok(Buffer.byteLength(contract) <= 3_900);
   assert.match(moduleAgents, /https:\/\/github\.com\/kim1124\/comins-governance/);
+  assert.match(moduleAgents, /read the canonical[\s\S]+once per run/i);
+  assert.match(moduleAgents, /For inspection-only work[\s\S]+only when a Contract stage/i);
+  assert.match(moduleAgents, /Stop if it is unavailable[\s\S]+heading does not match/i);
 });
 
 test("keeps model settings in managed configuration instead of prose", () => {
@@ -75,6 +83,10 @@ test("keeps model settings in managed configuration instead of prose", () => {
 test("keeps the management order and execution rules in the Contract only", () => {
   const contractOrder = section(contract, "## Required Management Order");
 
+  assert.match(contract, /Inspection, research, diagnosis, and planning are read-only[\s\S]+request asks for changes/i);
+  assert.match(contract, /change request authorizes in-scope local edits[\s\S]+affected non-destructive checks/i);
+  assert.match(contract, /public-policy[\s\S]+changes or exceptions/i);
+  assert.match(contractOrder, /failed, incomplete, or unavailable required stage/i);
   assert.match(contractOrder, /resolve the target independent Git root/i);
   assertOrdered(contractOrder, [
     "**License compliance:**",
@@ -107,6 +119,7 @@ test("keeps the management order and execution rules in the Contract only", () =
   }
 
   assert.match(agents, /only common execution-policy source/i);
+  assert.match(agents, /once per run before any Governance change/i);
   assert.match(moduleAgents, /only\s+common-policy owner/i);
   assert.match(readme, /sole common execution-policy\s+source/i);
   assert.match(agents, /Do not run independent module product gates for a Governance-only change/i);
@@ -117,7 +130,7 @@ test("keeps the manager overview out of the active instruction surface", () => {
   assert.doesNotMatch(readme, /DEV_GUIDE\.md/);
   assert.match(readme, /including the required management order/i);
   assert.doesNotMatch(readme, /^## Management Order$/m);
-  assert.match(contract, /Governance\s+defines common requirements/i);
+  assert.match(contract, /Governance\s+defines\s+common requirements/i);
   assert.match(moduleAgents, /module owns their CI implementation/i);
 });
 
