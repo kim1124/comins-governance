@@ -41,15 +41,18 @@ const changelog = readPolicy("CHANGELOG.md");
 const readme = readPolicy("README.md");
 
 test("keeps one current Contract and managed module block", () => {
-  const start = "<!-- comins-reference:managed-start contract=v1.6 -->";
+  const start = "<!-- comins-reference:managed-start contract=v1.7 -->";
   const end = "<!-- comins-reference:managed-end -->";
 
-  assert.match(contract, /^# Comins Contract v1\.6$/m);
-  assert.match(changelog, /^## v1\.6 - 2026-08-14$/m);
+  assert.match(contract, /^# Comins Contract v1\.7$/m);
+  assert.match(changelog, /^## v1\.7 - 2026-08-24$/m);
   assert.equal(moduleAgents.split(start).length - 1, 1);
   assert.equal(moduleAgents.split(end).length - 1, 1);
   assert.ok(moduleAgents.indexOf(start) < moduleAgents.indexOf(end));
-  assert.ok(moduleAgents.trim().split(/\s+/).length <= 260);
+  assert.ok(Buffer.byteLength(agents) <= 1_400);
+  assert.ok(Buffer.byteLength(moduleAgents) <= 1_000);
+  assert.ok(Buffer.byteLength(readme) <= 1_800);
+  assert.ok(Buffer.byteLength(contract) <= 3_900);
   assert.match(moduleAgents, /https:\/\/github\.com\/kim1124\/comins-governance/);
 });
 
@@ -69,11 +72,8 @@ test("keeps model settings in managed configuration instead of prose", () => {
   assert.doesNotMatch(moduleAgents, /gpt-5\.6|`xhigh`|`max`|`ultra`|Plan mode/i);
 });
 
-test("defines the lean management order consistently", () => {
+test("keeps the management order and execution rules in the Contract only", () => {
   const contractOrder = section(contract, "## Required Management Order");
-  const moduleOrder = section(moduleAgents, "## Required Order");
-  const moduleRouting = section(moduleAgents, "## Work Routing");
-  const readmeOrder = section(readme, "## Management Order");
 
   assert.match(contractOrder, /resolve the target independent Git root/i);
   assertOrdered(contractOrder, [
@@ -85,64 +85,45 @@ test("defines the lean management order consistently", () => {
     "**Git, pull request, and CI:**",
     "**Release, when applicable:**",
   ]);
-  assertOrdered(moduleOrder, [
-    "license compliance",
-    "security and sensitive data",
-    "Comins common rules",
-    "module rules",
-    "smallest change and affected checks",
-    "Git, pull request, and CI",
-    "release checks only when publishing",
-  ]);
-  assertOrdered(readmeOrder, [
-    "Check license compliance.",
-    "Check security vulnerabilities and sensitive data.",
-    "Check Comins common scope, authority, and approval rules.",
-    "Apply the target module's own rules and commands.",
-    "Make the smallest change and run affected checks only.",
-    "Confirm Git, pull-request, and CI requirements.",
-    "Run release checks only for an actual publication.",
-  ]);
-  assert.match(contractOrder, /Only a triggered stage requires execution/i);
-  assert.match(contractOrder, /must not expand the task into\s+unrelated module/i);
-  assert.match(contractOrder, /General-purpose skills and historical plans do not reclassify work/i);
-  assert.match(contractOrder, /Subagents are opt-in/i);
-  assert.match(contractOrder, /Never pass full conversation history/i);
-  assert.match(contractOrder, /broad gate.+only when\s+the selected work route requires it/is);
-  assert.match(contractOrder, /same-commit retry does not restart research, planning,\s+review/i);
-  assert.match(contractOrder, /rerun only the failed or\s+affected job or test/i);
-  assert.match(contractOrder, /Deterministic policy, type, and unit-test\s+failures require correction rather than retry/i);
-  assert.match(contractOrder, /preserve evidence/i);
-  assert.match(moduleRouting, /must not expand the selected route/i);
-  assert.match(moduleRouting, /Subagents require explicit maintainer delegation/i);
-  assert.match(moduleRouting, /broad gate only when the selected route requires it/i);
-  assert.match(moduleRouting, /preserve same-commit evidence and successful checks/i);
-  assert.match(moduleRouting, /rerun only affected jobs or tests/i);
-  assert.match(moduleRouting, /retry does not restart prior work/i);
-  assert.match(contractOrder, /`codex-<short-feature-name>`/);
-  assert.match(contractOrder, /append `-2`, `-3`,\s+and so on/i);
-  assert.match(contractOrder, /Existing and provider-managed branches are exempt/i);
-  assert.match(moduleAgents, /`codex-<short-feature-name>`/);
-  assert.match(agents, /`codex-<short-feature-name>`/);
-  assert.match(
-    moduleRouting,
-    /General-purpose skills and historical plans must not expand the selected route/i,
-  );
+  assert.match(contractOrder, /run\s+only the stages triggered by the requested change/i);
+  assert.match(contractOrder, /does not trigger unrelated module/i);
+  assert.match(contractOrder, /General-purpose skills and historical plans.+cannot add\s+stages/is);
+  assert.match(contractOrder, /Use subagents only when the maintainer\s+requests delegation/i);
+  assert.match(contractOrder, /never full conversation history/i);
+  assert.match(contract, /broad gate.+only when\s+the selected route requires it/is);
+  assert.match(contract, /retry does not\s+restart research, planning, review/i);
+  assert.match(contract, /rerun only the failed or\s+affected job or test/i);
+  assert.match(contract, /Correct deterministic policy, type, and unit-test failures/i);
+  assert.match(contract, /preserve same-commit evidence/i);
+  assert.match(contract, /`codex-<short-feature-name>`/);
+  assert.match(contract, /append\s+`-2`, `-3`, and so on/i);
+  assert.match(contract, /Existing and provider-managed branches are exempt/i);
+
+  for (const wrapper of [agents, moduleAgents, readme]) {
+    assert.doesNotMatch(wrapper, /`codex-<short-feature-name>`/);
+    assert.doesNotMatch(wrapper, /same-commit evidence|retry does not restart/i);
+    assert.doesNotMatch(wrapper, /Subagents? (?:are|require|only)/i);
+    assert.doesNotMatch(wrapper, /General-purpose skills and historical plans/i);
+  }
+
+  assert.match(agents, /only common execution-policy source/i);
+  assert.match(moduleAgents, /only\s+common-policy owner/i);
+  assert.match(readme, /sole common execution-policy\s+source/i);
   assert.match(agents, /Do not run independent module product gates for a Governance-only change/i);
 });
 
 test("keeps the manager overview out of the active instruction surface", () => {
   assert.equal(existsSync(join(root, "DEV_GUIDE.md")), false);
   assert.doesNotMatch(readme, /DEV_GUIDE\.md/);
-  assert.match(readme, /Governance defines the order and common blocking conditions/i);
-  assert.match(readme, /affected module\s+defines and runs the actual checker/i);
-  assert.match(contract, /Governance defines common requirements/i);
-  assert.match(moduleAgents, /module owns its checker commands and CI implementation/i);
+  assert.match(readme, /including the required management order/i);
+  assert.doesNotMatch(readme, /^## Management Order$/m);
+  assert.match(contract, /Governance\s+defines common requirements/i);
+  assert.match(moduleAgents, /module owns their CI implementation/i);
 });
 
 test("limits routine license checks and scopes detailed evidence", () => {
   assert.ok(licensePolicy.split("\n").length <= 130);
-  assert.match(licensePolicy, /part of Comins Contract v1\.6/i);
+  assert.match(licensePolicy, /part of Comins Contract v1\.7/i);
   assert.match(
     licensePolicy,
     /applies to a module after that\s+repository separately adopts the Contract revision/i,
@@ -221,7 +202,6 @@ test("retains the canonical sensitive-data boundary without duplicating mechanic
     assert.match(sensitiveData, new RegExp(term, "i"));
   }
   assert.match(contract, /SENSITIVE_DATA_STANDARD\.md/);
-  assert.match(moduleAgents, /SENSITIVE_DATA_STANDARD\.md/);
   assert.doesNotMatch(moduleAgents, /npm pack|Gitleaks|package\.json#files/i);
 });
 
@@ -247,14 +227,14 @@ test("requires a delivery-capable npm service identity at release boundaries", (
   assert.match(beforeRelease, /delivery-capable[^.\n]*service identity/i);
   assert.match(afterRelease, /exact-version[^.\n]*identity/i);
 
-  assert.match(contract, /^# Comins Contract v1\.6$/m);
+  assert.match(contract, /^# Comins Contract v1\.7$/m);
   assert.doesNotMatch(moduleAgents, /COMINS_NPM_PUBLIC_(?:NAME|EMAIL)/);
 });
 
 test("conditions package and release gates on their actual lifecycle", () => {
   assert.match(
     contract,
-    /Package and\s+release rules apply only when a package boundary and matching workflow exist/i,
+    /Package and\s+release rules apply only when a package boundary and matching\s+workflow exist/i,
   );
   assert.match(
     release,

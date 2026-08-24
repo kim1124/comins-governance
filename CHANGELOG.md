@@ -2,7 +2,17 @@
 
 ## Unreleased
 
-- No shared-policy changes after Contract v1.6.
+- No shared-policy changes after Contract v1.7.
+
+## v1.7 - 2026-08-24
+
+- Made `COMINS_CONTRACT.md` the sole common execution-policy source.
+- Removed repeated order, approval, branch, retry, subagent, and verification
+  rules from Governance `AGENTS.md`, the module managed block, and `README.md`.
+- Kept license, sensitive-data, and release details as triggered policy
+  references so they do not enlarge the always-loaded guidance chain.
+- Kept module adoption separate and limited it to managed guidance and
+  configuration; no module product, CI, or test behavior changed.
 
 ## v1.6 - 2026-08-14
 
