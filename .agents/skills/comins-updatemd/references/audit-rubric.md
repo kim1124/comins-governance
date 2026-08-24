@@ -1,5 +1,19 @@
 # Comins Guidance Audit Rubric
 
+## External baseline
+
+As of 2026-08-24, OpenAI's
+[GPT-5.6 guidance](https://developers.openai.com/api/docs/guides/latest-model)
+recommends lean prompts, one statement per instruction, compact approval and
+tool text, and validation on representative tasks. Codex
+[discovers AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
+from the project root to the working directory and concatenates that chain.
+The 32 KiB discovery limit is a ceiling, not a quality target.
+
+Measure automatic guidance, the common Contract loaded for a change, and each
+triggered policy separately. Imports and links do not reduce cost when their
+full contents are loaded.
+
 ## Instruction layers
 
 Inspect each layer independently before attributing cost:

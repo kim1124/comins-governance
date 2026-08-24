@@ -4,7 +4,23 @@
 
 - Added concise public bug and feature Issue Form templates, a strict read-only Codex analysis schema, and a maintainer-gated GitHub comment workflow; kept the maintainer-only `comins-request` brief separate and Contract v1.2 unchanged.
 - Added the `comins-request` skill for a concise copyable work-request form; kept Contract v1.2 unchanged.
-- No shared-policy changes after Contract v1.6.
+- No shared-policy changes after Contract v1.7.
+
+## v1.7 - 2026-08-24
+
+- Made `COMINS_CONTRACT.md` the sole common execution-policy source.
+- Kept request authorization compact: inspection remains read-only, while an
+  explicit change request permits in-scope local edits and affected checks.
+- Removed repeated order, approval, branch, retry, subagent, and verification
+  rules from Governance `AGENTS.md`, the module managed block, and `README.md`.
+- Kept license, sensitive-data, and release details as triggered policy
+  references so they do not enlarge the always-loaded guidance chain.
+- Required one Contract read per change run and stopped adoption when the
+  managed version and canonical Contract heading differ.
+- Split inventory bytes into automatic guidance, common policy, and triggered
+  policy so the Contract and conditional stages cannot be undercounted.
+- Kept module adoption separate and limited it to managed guidance and
+  configuration; no module product, CI, or test behavior changed.
 
 ## v1.6 - 2026-08-14
 
