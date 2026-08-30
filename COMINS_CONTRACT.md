@@ -1,4 +1,4 @@
-# Comins Contract v1.7
+# Comins Contract v1.8
 
 ## Authority and Scope
 
@@ -54,6 +54,11 @@ brief, never full conversation history.
 - On failure, preserve same-commit evidence and successful checks, classify the
   cause, and rerun only the failed or affected job or test. A retry does not
   restart research, planning, review, or unrelated successful checks.
+- If the same defect remains after one fix attempt or recurs, perform one
+  systematic root-cause analysis for that task. Before the next implementation,
+  confirm a focused regression test fails for the defect and passes with the
+  fix. Do not restart either workflow after it passes unless the failure
+  signature changes or a later code change can affect the test.
 - Correct deterministic policy, type, and unit-test failures rather than
   retrying. A new commit reruns security and other diff-affected gates.
 

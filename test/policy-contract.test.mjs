@@ -41,23 +41,23 @@ const changelog = readPolicy("CHANGELOG.md");
 const readme = readPolicy("README.md");
 
 test("keeps one current Contract and managed module block", () => {
-  const start = "<!-- comins-reference:managed-start contract=v1.7 -->";
+  const start = "<!-- comins-reference:managed-start contract=v1.8 -->";
   const end = "<!-- comins-reference:managed-end -->";
   const contractVersion = contract.match(/^# Comins Contract (v\d+\.\d+)$/m)?.[1];
   const markerVersion = moduleAgents.match(/managed-start contract=(v\d+\.\d+) -->/)?.[1];
   const linkVersion = moduleAgents.match(/\[Comins Contract (v\d+\.\d+)\]/)?.[1];
 
-  assert.match(contract, /^# Comins Contract v1\.7$/m);
+  assert.match(contract, /^# Comins Contract v1\.8$/m);
   assert.equal(markerVersion, contractVersion);
   assert.equal(linkVersion, contractVersion);
-  assert.match(changelog, /^## v1\.7 - 2026-08-24$/m);
+  assert.match(changelog, /^## v1\.8 - 2026-08-31$/m);
   assert.equal(moduleAgents.split(start).length - 1, 1);
   assert.equal(moduleAgents.split(end).length - 1, 1);
   assert.ok(moduleAgents.indexOf(start) < moduleAgents.indexOf(end));
   assert.ok(Buffer.byteLength(agents) <= 1_400);
   assert.ok(Buffer.byteLength(moduleAgents) <= 1_000);
   assert.ok(Buffer.byteLength(readme) <= 1_800);
-  assert.ok(Buffer.byteLength(contract) <= 3_900);
+  assert.ok(Buffer.byteLength(contract) <= 4_300);
   assert.match(moduleAgents, /https:\/\/github\.com\/kim1124\/comins-governance/);
   assert.match(moduleAgents, /read the canonical[\s\S]+once per run/i);
   assert.match(moduleAgents, /For inspection-only work[\s\S]+only when a Contract stage/i);
@@ -107,6 +107,10 @@ test("keeps the management order and execution rules in the Contract only", () =
   assert.match(contract, /rerun only the failed or\s+affected job or test/i);
   assert.match(contract, /Correct deterministic policy, type, and unit-test failures/i);
   assert.match(contract, /preserve same-commit evidence/i);
+  assert.match(contract, /same defect remains after one fix attempt or recurs/i);
+  assert.match(contract, /one\s+systematic root-cause analysis for that task/i);
+  assert.match(contract, /regression test fails for the defect and passes with the\s+fix/i);
+  assert.match(contract, /Do not restart either workflow after it passes/i);
   assert.match(contract, /`codex-<short-feature-name>`/);
   assert.match(contract, /append\s+`-2`, `-3`, and so on/i);
   assert.match(contract, /Existing and provider-managed branches are exempt/i);
@@ -136,7 +140,7 @@ test("keeps the manager overview out of the active instruction surface", () => {
 
 test("limits routine license checks and scopes detailed evidence", () => {
   assert.ok(licensePolicy.split("\n").length <= 130);
-  assert.match(licensePolicy, /part of Comins Contract v1\.7/i);
+  assert.match(licensePolicy, /part of Comins Contract v1\.8/i);
   assert.match(
     licensePolicy,
     /applies to a module after that\s+repository separately adopts the Contract revision/i,
@@ -240,7 +244,7 @@ test("requires a delivery-capable npm service identity at release boundaries", (
   assert.match(beforeRelease, /delivery-capable[^.\n]*service identity/i);
   assert.match(afterRelease, /exact-version[^.\n]*identity/i);
 
-  assert.match(contract, /^# Comins Contract v1\.7$/m);
+  assert.match(contract, /^# Comins Contract v1\.8$/m);
   assert.doesNotMatch(moduleAgents, /COMINS_NPM_PUBLIC_(?:NAME|EMAIL)/);
 });
 
