@@ -2,7 +2,16 @@
 
 ## Unreleased
 
-- No shared-policy changes after Contract v1.7.
+- No shared-policy changes after Contract v1.8.
+
+## v1.8 - 2026-08-31
+
+- Required one systematic root-cause analysis per task when the same defect
+  survives one fix attempt or recurs.
+- Required a focused regression test to fail for the defect before the next
+  implementation and pass with the fix, without restarting the workflow after
+  success unless the failure signature or affected code changes.
+- Kept Superpowers Brainstorming and TDD out of the common execution chain.
 
 ## v1.7 - 2026-08-24
 
