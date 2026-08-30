@@ -27,6 +27,7 @@ function repository() {
   execFileSync("git", ["init", "--quiet"], { cwd: path });
   mkdirSync(join(path, ".codex"));
   mkdirSync(join(path, ".agents", "skills", "sample"), { recursive: true });
+  mkdirSync(join(path, "docs", "plans", "archive"), { recursive: true });
   mkdirSync(join(path, "docs", "superpowers", "plans"), { recursive: true });
   writeFileSync(
     join(path, "AGENTS.md"),
@@ -41,6 +42,7 @@ function repository() {
   writeFileSync(join(path, "OSS_LICENSE_POLICY.md"), "# License policy\n");
   writeFileSync(join(path, "RELEASE_POLICY.md"), "# Release policy\n");
   writeFileSync(join(path, "SENSITIVE_DATA_STANDARD.md"), "# Sensitive-data policy\n");
+  writeFileSync(join(path, "docs", "plans", "archive", "done.md"), "# Archived plan\n");
   writeFileSync(join(path, "docs", "superpowers", "plans", "done.md"), "# Historical plan\n");
   return path;
 }
@@ -69,6 +71,7 @@ test("emits stable JSON with logical names and repository-relative paths only", 
       [".codex/config.toml", "configuration"],
       ["AGENTS.md", "automatic-guidance"],
       ["COMINS_CONTRACT.md", "common-policy"],
+      ["docs/plans/archive/done.md", "historical"],
       ["docs/superpowers/plans/done.md", "historical"],
       ["OSS_LICENSE_POLICY.md", "triggered-policy"],
       ["RELEASE_POLICY.md", "triggered-policy"],
