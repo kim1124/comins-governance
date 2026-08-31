@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Added concise public bug and feature Issue Form templates, a strict read-only
+  Codex analysis schema, and a maintainer-gated GitHub comment workflow.
+- Added the `comins-request` skill for a concise copyable maintainer work brief.
 - No shared-policy changes after Contract v1.8.
 
 ## v1.8 - 2026-08-31

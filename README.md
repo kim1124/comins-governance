@@ -24,6 +24,14 @@ Use `$comins-reference` from an approved independent module root to refresh only
 the managed guidance and configuration blocks. Module-owned content remains
 unchanged, and product, CI, test, or release behavior is not synchronized.
 
+## Issue Intake
+
+Public forms and read-only analysis assets live under `templates/module/.github`.
+Trusted-reporter issues run automatically; external reports require
+`codex:analyze`. Maintainers review output before using
+`.agents/skills/comins-request` through `$comins-request`; neither step
+authorizes implementation or an external operation.
+
 Use `$comins-updatemd` to audit measured duplication, conflicts, stale routing,
 or instruction cost. Common-policy changes are made in Governance first and
 adopted separately by each affected module.
