@@ -100,7 +100,9 @@ function classify(path) {
   }
   if (path === ".codex/config.toml") return "configuration";
   if (/^(?:\.agents|\.codex)\/skills\/[^/]+\/SKILL\.md$/.test(path)) return "skill";
-  if (/^(?:reports\/|docs\/superpowers\/(?:plans|specs)\/)/.test(path)) return "historical";
+  if (/^(?:reports\/|docs\/plans\/archive\/|docs\/superpowers\/(?:plans|specs)\/)/.test(path)) {
+    return "historical";
+  }
   if (
     path === "README.md" ||
     path === "GUIDE.md" ||

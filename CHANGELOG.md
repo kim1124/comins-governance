@@ -2,9 +2,19 @@
 
 ## Unreleased
 
-- Added concise public bug and feature Issue Form templates, a strict read-only Codex analysis schema, and a maintainer-gated GitHub comment workflow; kept the maintainer-only `comins-request` brief separate and Contract v1.2 unchanged.
-- Added the `comins-request` skill for a concise copyable work-request form; kept Contract v1.2 unchanged.
-- No shared-policy changes after Contract v1.7.
+- Added concise public bug and feature Issue Form templates, a strict read-only
+  Codex analysis schema, and a maintainer-gated GitHub comment workflow.
+- Added the `comins-request` skill for a concise copyable maintainer work brief.
+- No shared-policy changes after Contract v1.8.
+
+## v1.8 - 2026-08-31
+
+- Required one systematic root-cause analysis per task when the same defect
+  survives one fix attempt or recurs.
+- Required a focused regression test to fail for the defect before the next
+  implementation and pass with the fix, without restarting the workflow after
+  success unless the failure signature or affected code changes.
+- Kept Superpowers Brainstorming and TDD out of the common execution chain.
 
 ## v1.7 - 2026-08-24
 

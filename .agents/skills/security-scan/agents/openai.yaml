@@ -1,0 +1,4 @@
+interface:
+  display_name: "Comins Security Scan"
+  short_description: "Route Comins security scans by change risk"
+  default_prompt: "Use $security-scan to review this Comins change with the smallest appropriate Codex Security scan."

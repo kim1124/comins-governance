@@ -10,6 +10,7 @@ const skill = readFileSync(join(skillRoot, "SKILL.md"), "utf8");
 const openaiYaml = readFileSync(join(skillRoot, "agents", "openai.yaml"), "utf8");
 const readme = readFileSync(join(root, "README.md"), "utf8");
 const changelog = readFileSync(join(root, "CHANGELOG.md"), "utf8");
+const contract = readFileSync(join(root, "COMINS_CONTRACT.md"), "utf8");
 
 test("defines the focused Comins request-template trigger", () => {
   assert.match(skill, /^name: comins-request$/m);
@@ -44,8 +45,14 @@ test("exposes concise user-facing metadata", () => {
 });
 
 test("documents discovery and installation without changing the Contract", () => {
+  const contractVersion = contract.match(/^# Comins Contract (v\d+\.\d+)$/m)?.[1];
+
+  assert.ok(contractVersion);
   assert.match(readme, /\.agents\/skills\/comins-request/);
   assert.match(readme, /\$comins-request/);
   assert.match(changelog, /comins-request/);
-  assert.match(changelog, /Contract v1\.2 unchanged/i);
+  assert.match(
+    changelog,
+    new RegExp(`No shared-policy changes after Contract ${contractVersion}\\.`, "i"),
+  );
 });
