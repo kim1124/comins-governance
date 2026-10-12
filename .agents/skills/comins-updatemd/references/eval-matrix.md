@@ -2,14 +2,22 @@
 
 ## Clean-context variants
 
-Run representative tasks from the same clean repository state and prompt.
+Run only with explicit evaluation authorization and approved cost. Prepare
+comparisons from the same clean source state, task prompt, tools, permissions,
+and completion gates. This document does not authorize a model run.
 
-| Variant | Guidance | Model and reasoning | Purpose |
+| Comparison | Variants | Fixed controls | Changed factor |
 |---|---|---|---|
-| A | Current, without skill | Current fixed baseline | Control |
-| B | Renewed, with skill | Same as A | Isolate guidance effect |
-| C | Current | Alternative reasoning effort | Isolate reasoning effect |
-| D | Renewed | Same alternative as C | Interaction check |
+| Guidance | G0 current / G1 renewed | Same model, effort, activated skills | Instruction group only |
+| Skill | S0 without skill / S1 with skill | Same guidance, model, effort | One explicitly selected skill |
+| Model | M0 Sol 6.1 / M1 Astra | Same guidance, effort, activated skills | Model only |
+| Effort | R0 medium / R1 high | Same guidance, model, activated skills | Effort only |
+
+Use supported effort at most high under the approved Comins policy. Separate
+trials if default effort differs across models; do not attribute a combined
+model-and-effort change to the model alone. Record actual loaded skills, not
+just installed skill names. Preserve order and repeat comparable task families
+when variance matters. Test interactions only after single-factor comparisons.
 
 Do not compare a multi-agent run with a single-agent run as though delegation
 were only another reasoning level. Use delegation only for independent work.
@@ -42,8 +50,8 @@ otherwise telemetry is unmeasured.
 
 ## Interpretation
 
-Compare with skill versus without skill using success first, then time and token
-cost. A faster run that misses a required safety or completion condition is not
+Compare each matched pair using success first, then time and token cost.
+A faster run that misses a required safety or completion condition is not
 an improvement. A small initial sample is a smoke test, not statistical proof;
 repeat stable task families before adopting numeric thresholds.
 

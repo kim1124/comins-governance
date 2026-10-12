@@ -16,5 +16,7 @@ Comins modules may be developed with Codex AI assistance under maintainer review
 ## Visual Identity
 
 - Module runtime UI must not inject a Comins logo, favicon, font, or marketing copy into consuming applications.
-- Shared icons and a public wordmark are deferred until at least three public modules and a shared documentation surface exist.
+- The maintainer-approved symbol is [`brand/comins-symbol.svg`](brand/comins-symbol.svg): mint `#10B981`, a white C and its upper dot. Preserve the exact geometry and colors when copying it to documentation, playground headers, repository READMEs and favicons.
+- The approval was finalized in the website design on 2026-09-15 and extended to all Comins projects on 2026-09-22. This asset was created for Comins; it is not a copied third-party logo.
+- Keep local copies in each independent repository so branding does not create a runtime or network dependency between modules. The website copy is `public/brand/comins-symbol.svg`; module playgrounds use `example/public/comins-symbol.svg` for both their header and SVG favicon.
 - Documentation and playground branding must describe the module being used, not require consumers to adopt a Comins visual system.

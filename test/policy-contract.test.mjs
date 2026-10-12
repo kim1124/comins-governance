@@ -41,23 +41,23 @@ const changelog = readPolicy("CHANGELOG.md");
 const readme = readPolicy("README.md");
 
 test("keeps one current Contract and managed module block", () => {
-  const start = "<!-- comins-reference:managed-start contract=v1.8 -->";
+  const start = "<!-- comins-reference:managed-start contract=v1.10 -->";
   const end = "<!-- comins-reference:managed-end -->";
   const contractVersion = contract.match(/^# Comins Contract (v\d+\.\d+)$/m)?.[1];
   const markerVersion = moduleAgents.match(/managed-start contract=(v\d+\.\d+) -->/)?.[1];
   const linkVersion = moduleAgents.match(/\[Comins Contract (v\d+\.\d+)\]/)?.[1];
 
-  assert.match(contract, /^# Comins Contract v1\.8$/m);
+  assert.match(contract, /^# Comins Contract v1\.10$/m);
   assert.equal(markerVersion, contractVersion);
   assert.equal(linkVersion, contractVersion);
-  assert.match(changelog, /^## v1\.8 - 2026-08-31$/m);
+  assert.match(changelog, /^## v1\.10 - 2026-10-12 \(local, unpublished\)$/m);
   assert.equal(moduleAgents.split(start).length - 1, 1);
   assert.equal(moduleAgents.split(end).length - 1, 1);
   assert.ok(moduleAgents.indexOf(start) < moduleAgents.indexOf(end));
   assert.ok(Buffer.byteLength(agents) <= 1_400);
   assert.ok(Buffer.byteLength(moduleAgents) <= 1_000);
   assert.ok(Buffer.byteLength(readme) <= 1_800);
-  assert.ok(Buffer.byteLength(contract) <= 4_300);
+  assert.ok(Buffer.byteLength(contract) <= 5_600);
   assert.match(moduleAgents, /https:\/\/github\.com\/kim1124\/comins-governance/);
   assert.match(moduleAgents, /read the canonical[\s\S]+once per run/i);
   assert.match(moduleAgents, /For inspection-only work[\s\S]+only when a Contract stage/i);
@@ -67,9 +67,9 @@ test("keeps one current Contract and managed module block", () => {
 test("keeps model settings in managed configuration instead of prose", () => {
   const expected = [
     "# comins-reference:managed-start",
-    'model = "gpt-5.6-sol"',
-    'model_reasoning_effort = "xhigh"',
-    'plan_mode_reasoning_effort = "xhigh"',
+    'model = "gpt-6.1-sol"',
+    'model_reasoning_effort = "medium"',
+    'plan_mode_reasoning_effort = "high"',
     "# comins-reference:managed-end",
     "",
   ].join("\n");
@@ -140,7 +140,7 @@ test("keeps the manager overview out of the active instruction surface", () => {
 
 test("limits routine license checks and scopes detailed evidence", () => {
   assert.ok(licensePolicy.split("\n").length <= 130);
-  assert.match(licensePolicy, /part of Comins Contract v1\.8/i);
+  assert.match(licensePolicy, /part of Comins Contract v1\.10/i);
   assert.match(
     licensePolicy,
     /applies to a module after that\s+repository separately adopts the Contract revision/i,
@@ -244,7 +244,7 @@ test("requires a delivery-capable npm service identity at release boundaries", (
   assert.match(beforeRelease, /delivery-capable[^.\n]*service identity/i);
   assert.match(afterRelease, /exact-version[^.\n]*identity/i);
 
-  assert.match(contract, /^# Comins Contract v1\.8$/m);
+  assert.match(contract, /^# Comins Contract v1\.10$/m);
   assert.doesNotMatch(moduleAgents, /COMINS_NPM_PUBLIC_(?:NAME|EMAIL)/);
 });
 

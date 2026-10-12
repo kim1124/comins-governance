@@ -1,5 +1,9 @@
 # Comins Governance
 
+<a href="https://comins-website.vercel.app/ko/"><img src="brand/comins-symbol.svg" width="64" height="64" alt="Comins brand website" /></a>
+
+[Comins Brand](https://comins-website.vercel.app/ko/)
+
 This repository owns shared Comins brand policy and managed module guidance.
 Each Comins product remains an independent Git repository and CI boundary.
 
@@ -20,9 +24,9 @@ only for the stage named below.
 
 ## Module Adoption
 
-Use `$comins-reference` from an approved independent module root to refresh only
-the managed guidance and configuration blocks. Module-owned content remains
-unchanged, and product, CI, test, or release behavior is not synchronized.
+From an approved independent module root, `$comins-reference` syncs managed
+guidance and config only; module-owned content and product, CI, test, and release
+behavior remain unchanged.
 
 ## Issue Intake
 
@@ -33,5 +37,4 @@ Trusted-reporter issues run automatically; external reports require
 authorizes implementation or an external operation.
 
 Use `$comins-updatemd` to audit measured duplication, conflicts, stale routing,
-or instruction cost. Common-policy changes are made in Governance first and
-adopted separately by each affected module.
+and instruction cost. Change common policy in Governance first; adopt per module.

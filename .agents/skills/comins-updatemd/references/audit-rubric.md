@@ -2,10 +2,20 @@
 
 ## External baseline
 
-As of 2026-08-24, OpenAI's
-[GPT-5.6 guidance](https://developers.openai.com/api/docs/guides/latest-model)
-recommends lean prompts, one statement per instruction, compact approval and
-tool text, and validation on representative tasks. Codex
+Checked 2026-10-12 against OpenAI's
+[GPT-6 Astra and GPT-6.1 Sol guidance](https://developers.openai.com/api/docs/guides/latest-model)
+and [skill/prompt audit guidance](https://learn.chatgpt.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra).
+Astra is sensitive to conflicting skills and approval boundaries and may
+over-test small changes. Use narrow skill triggers, conditional references,
+existing authorization, explicit completion criteria, and affected checks.
+
+[Sol 6.1](https://developers.openai.com/api/docs/models/gpt-6.1-sol) has an API
+default effort of medium; Codex client defaults can differ. Comins config uses
+medium execution and high planning, with a policy ceiling of high. Do not
+translate effort levels between generations or claim this ceiling is enforced
+by the client. Keep model values in configuration, not automatic-guidance prose.
+
+Codex
 [discovers AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
 from the project root to the working directory and concatenates that chain.
 The 32 KiB discovery limit is a ceiling, not a quality target.
@@ -13,6 +23,18 @@ The 32 KiB discovery limit is a ceiling, not a quality target.
 Measure automatic guidance, the common Contract loaded for a change, and each
 triggered policy separately. Imports and links do not reduce cost when their
 full contents are loaded.
+
+Inventory findings are line heuristics, not an optimization or compliance
+verdict. Review configuration, templates, conditional skill references, and
+GitHub prompts independently; stored references are not proof of activation.
+For disabled external skills, verify the current installed path and new-session
+discovery after plugin updates. Do not edit bundled or cached skill sources.
+
+Anthropic's [context guidance](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
+also favors high-signal context and just-in-time retrieval. The
+[AGENTS.md study](https://arxiv.org/html/2602.11988v3) motivates measured
+comparisons, but its Python/earlier-model results do not establish Comins,
+Astra, or Sol 6.1 gains. No time or token improvement is inferred from bytes.
 
 ## Instruction layers
 
