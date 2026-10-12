@@ -216,3 +216,48 @@ test("audits explicitly activated external skills without exposing their paths",
   );
   assert.doesNotMatch(result.stdout, new RegExp(externalSkillRoot));
 });
+
+test("finds legacy models and excessive effort in project and template configuration", () => {
+  const path = repository();
+  mkdirSync(join(path, "templates", "module", ".codex"), { recursive: true });
+  writeFileSync(join(path, ".codex", "config.toml"), 'model = "gpt-5.6-sol"\nmodel_reasoning_effort = "xhigh"\n');
+  writeFileSync(join(path, "templates", "module", ".codex", "config.toml"), 'model = "gpt-5.6-sol"\nplan_mode_reasoning_effort = "max"\n');
+
+  const result = run(path, "--json");
+  assert.equal(result.status, 0, result.stderr);
+  const output = JSON.parse(result.stdout);
+  const findings = output.repositories[0].findings.filter(({ path }) => path.endsWith("config.toml"));
+  assert.deepEqual(findings, [
+    { type: "legacy-model-setting", path: ".codex/config.toml", line: 1 },
+    { type: "excessive-reasoning-setting", path: ".codex/config.toml", line: 2 },
+    { type: "legacy-model-setting", path: "templates/module/.codex/config.toml", line: 1 },
+    { type: "excessive-reasoning-setting", path: "templates/module/.codex/config.toml", line: 2 },
+  ]);
+  assert.doesNotMatch(result.stdout, /gpt-5\.6-sol|xhigh/);
+});
+
+test("accepts Sol 6.1 with medium or high effort without a configuration finding", () => {
+  const path = repository();
+  writeFileSync(join(path, ".codex", "config.toml"), 'model = "gpt-6.1-sol"\nmodel_reasoning_effort = "medium"\nplan_mode_reasoning_effort = "high"\n');
+  const result = run(path, "--json");
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(JSON.parse(result.stdout).repositories[0].findings.some(({ path }) => path.endsWith("config.toml")), false);
+});
+
+test("audits conditional skill references and GitHub prompts separately from automatic guidance", () => {
+  const path = repository();
+  mkdirSync(join(path, ".agents", "skills", "sample", "references"));
+  mkdirSync(join(path, ".github", "codex"), { recursive: true });
+  writeFileSync(join(path, ".agents", "skills", "sample", "references", "workflow.md"), "If you have not run verification in this message, you cannot claim it passes.\n");
+  writeFileSync(join(path, ".github", "codex", "analysis.prompt.md"), "Use for every task.\n");
+  const result = run(path, "--json");
+  assert.equal(result.status, 0, result.stderr);
+  const output = JSON.parse(result.stdout);
+  const repo = output.repositories[0];
+  assert.equal(repo.files.find(({ path }) => path.endsWith("workflow.md"))?.kind, "skill-reference");
+  assert.equal(repo.files.find(({ path }) => path.endsWith("analysis.prompt.md"))?.kind, "prompt-reference");
+  assert.ok(repo.findings.some(({ type, path }) => type === "fresh-evidence-only" && path.endsWith("workflow.md")));
+  assert.ok(repo.findings.some(({ type, path }) => type === "broad-skill-trigger" && path.endsWith("analysis.prompt.md")));
+  assert.equal(repo.metrics.codexRootGuidanceBytes, repo.metrics.bytesByKind["automatic-guidance"]);
+  assert.equal(output.findingMethod, "line-heuristics-require-manual-review");
+});

@@ -44,7 +44,7 @@ test("exposes concise user-facing metadata", () => {
   assert.match(openaiYaml, /default_prompt: "Use \$comins-request /);
 });
 
-test("documents discovery and installation without changing the Contract", () => {
+test("documents discovery and installation alongside the current Contract revision", () => {
   const contractVersion = contract.match(/^# Comins Contract (v\d+\.\d+)$/m)?.[1];
 
   assert.ok(contractVersion);
@@ -53,6 +53,6 @@ test("documents discovery and installation without changing the Contract", () =>
   assert.match(changelog, /comins-request/);
   assert.match(
     changelog,
-    new RegExp(`No shared-policy changes after Contract ${contractVersion}\\.`, "i"),
+    new RegExp(`^## ${contractVersion.replace(".", "\\.")} - \\d{4}-\\d{2}-\\d{2}`, "m"),
   );
 });

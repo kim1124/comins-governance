@@ -5,7 +5,27 @@
 - Added concise public bug and feature Issue Form templates, a strict read-only
   Codex analysis schema, and a maintainer-gated GitHub comment workflow.
 - Added the `comins-request` skill for a concise copyable maintainer work brief.
-- No shared-policy changes after Contract v1.8.
+- Contract v1.10 and its module adoption are local and unpublished.
+
+## v1.10 - 2026-10-12 (local, unpublished)
+
+- Required Korean commit subjects and bodies, retaining code/API identifiers
+  and necessary metadata. Routed detailed message style to a conditional guide
+  based on the referenced article without adding commit or remote authority.
+- Retained all existing model, verification, security, release, and byte-budget
+  rules; module adoption updates only the managed Contract reference.
+
+## v1.9 - 2026-10-12 (local, unpublished)
+
+- Updated managed defaults to Sol 6.1 with medium execution and high planning;
+  capped instruction-selected reasoning at high without claiming client enforcement.
+- Clarified existing approval, maintainer instruction priority, applicable
+  nested-guidance discovery, and reuse of unchanged verification evidence.
+- Added an explicitly approved local-only Contract adoption route without
+  granting remote write or publication authority.
+- Refreshed the Astra/Sol audit baseline and separated instruction, skill,
+  model, and effort comparisons. Extended inventory to configuration,
+  skill references, and GitHub prompts with explicit heuristic limitations.
 
 ## v1.8 - 2026-08-31
 

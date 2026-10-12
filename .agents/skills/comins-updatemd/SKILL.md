@@ -32,7 +32,7 @@ Resolve `<skill-root>` from this `SKILL.md`.
    skills. Then read
    `<skill-root>/references/audit-rubric.md`. Audit the effective global,
    project, path-local, and activated skill chain plus relevant tools and gates.
-4. Apply the smallest correction. For an external skill, never edit its cache or
+4. Apply minimal corrections. For an external skill, never edit its cache or
    bundled source. Change supported skill or plugin enable/disable configuration
    only with explicit scope for personal config; otherwise report the owner,
    conflict, and residual activation.
@@ -49,8 +49,8 @@ With approved evaluation cost, read `<skill-root>/references/eval-matrix.md`.
 
 ## Boundaries
 
-- Stop for approval for model policy, public security/release behavior,
-  cross-repository scope, evaluation cost, or any external, destructive, costly,
-  or scope-expanding action.
+- Reuse explicit approval. Stop for unapproved model policy, public
+  security/release behavior, cross-repository scope, evaluation cost, or any
+  external, destructive, costly, or scope-expanding action.
 - Never guess paths, models, telemetry, or markers; expose raw sensitive values;
   or perform unauthorized external, provider, publication, or history changes.

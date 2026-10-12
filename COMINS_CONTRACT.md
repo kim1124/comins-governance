@@ -1,4 +1,4 @@
-# Comins Contract v1.8
+# Comins Contract v1.10
 
 ## Authority and Scope
 
@@ -17,11 +17,15 @@
 - Maintainer approval is required for remote writes, publishing, public-policy
   changes or exceptions, destructive operations, cost, and material scope
   expansion.
+- Apply approval already given for the current scope; do not ask again for
+  authorized local edits, affected checks, or routine implementation choices.
 
 ## Required Management Order
 
 Resolve the target independent Git root and applicable instructions, then run
 only the stages triggered by the requested change:
+Before editing a path, read its applicable nested `AGENTS.md` or
+`AGENTS.override.md`; do not pre-read unrelated directories.
 
 1. **License compliance:** inspect dependencies and distributed or reused
    material under `OSS_LICENSE_POLICY.md`.
@@ -43,17 +47,31 @@ General-purpose skills and historical plans may refine mechanics but cannot add
 stages, authority, or verification. Use subagents only when the maintainer
 requests delegation or approved work is independently parallel; pass a bounded
 brief, never full conversation history.
+Explicit maintainer instructions take precedence over skill guidelines. If a
+skill would stop authorized work or require unrelated checks, name the exact
+instruction and follow this Contract's applicable route.
+
+## Model Configuration
+
+- Managed configuration owns model and effort defaults. Use at most `high`
+  for execution, planning, review, and delegated work; lower effort is allowed.
+  This is an instruction policy, not an enforced client or API limit.
 
 ## Change, Git, and Verification
 
 - Name new Codex development branches `codex-<short-feature-name>`; append
   `-2`, `-3`, and so on for additional work under the same representative
   feature. Existing and provider-managed branches are exempt.
+- Write commit subjects and bodies in Korean; preserve code/API identifiers.
+  Follow [commit message guidance](docs/commit-messages.md) when preparing a commit.
 - Run one final review or broad gate after the last meaningful change only when
   the selected route requires it.
 - On failure, preserve same-commit evidence and successful checks, classify the
   cause, and rerun only the failed or affected job or test. A retry does not
   restart research, planning, review, or unrelated successful checks.
+- Reuse successful evidence while source, relevant configuration, dependencies,
+  and required workflow are unchanged; message or turn boundaries alone do not
+  invalidate it. Report the verified revision and any uncovered changes.
 - If the same defect remains after one fix attempt or recurs, perform one
   systematic root-cause analysis for that task. Before the next implementation,
   confirm a focused regression test fails for the defect and passes with the
@@ -78,6 +96,9 @@ brief, never full conversation history.
 
 - Record behavior-changing revisions in `CHANGELOG.md`; adopt them through
   separate reviewed module changes.
+- For explicitly approved local-only adoption, use the matching Contract in a
+  verified Governance checkout and report it as unpublished. Remote adoption
+  still requires a matching canonical version and separate write authority.
 - Only meaningful behavior, API, configuration, security, release, or
   test-contract changes need a worklog; editorial and inspection-only work do
   not.

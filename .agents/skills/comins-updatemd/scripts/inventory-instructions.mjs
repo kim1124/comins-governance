@@ -98,8 +98,12 @@ function classify(path) {
   ) {
     return "triggered-policy";
   }
-  if (path === ".codex/config.toml") return "configuration";
+  if (/(?:^|\/)\.codex\/config\.toml$/.test(path)) return "configuration";
   if (/^(?:\.agents|\.codex)\/skills\/[^/]+\/SKILL\.md$/.test(path)) return "skill";
+  if (/^(?:\.agents|\.codex)\/skills\/[^/]+\/references\/.+\.md$/.test(path)) {
+    return "skill-reference";
+  }
+  if (/(?:^|\/)\.github\/codex\/.+\.prompt\.md$/.test(path)) return "prompt-reference";
   if (/^(?:reports\/|docs\/plans\/archive\/|docs\/superpowers\/(?:plans|specs)\/)/.test(path)) {
     return "historical";
   }
@@ -189,6 +193,9 @@ function findingsFor(root, files) {
         "common-policy",
         "triggered-policy",
         "skill",
+        "skill-reference",
+        "prompt-reference",
+        "configuration",
         "conditional-reference",
       ].includes(file.kind)
     ) {
@@ -197,6 +204,17 @@ function findingsFor(root, files) {
     const absolutePath = resolve(root, file.path);
     if (lstatSync(absolutePath).isSymbolicLink()) continue;
     const contents = readFileSync(absolutePath, "utf8");
+    if (file.kind === "configuration") {
+      contents.split(/\r?\n/).forEach((line, index) => {
+        if (/^\s*model\s*=\s*["']gpt-5\./.test(line)) {
+          findings.push({ type: "legacy-model-setting", path: file.path, line: index + 1 });
+        }
+        if (/^\s*(?:model_reasoning_effort|plan_mode_reasoning_effort|default_subagent_reasoning_effort)\s*=\s*["'](?:xhigh|max|ultra)["']/.test(line)) {
+          findings.push({ type: "excessive-reasoning-setting", path: file.path, line: index + 1 });
+        }
+      });
+      continue;
+    }
     findings.push(...findingsForContents(file.path, contents));
   }
   return findings.sort(
@@ -286,6 +304,8 @@ function humanOutput(repositories, activatedSkills) {
     "triggered-policy",
     "configuration",
     "skill",
+    "skill-reference",
+    "prompt-reference",
     "conditional-reference",
     "historical",
   ];
@@ -307,6 +327,7 @@ function humanOutput(repositories, activatedSkills) {
   }
   if (lines.length > 0) lines.push("");
   lines.push(`activated-skills: ${activatedSkills.length}`);
+  lines.push("findings-method: line-heuristics-require-manual-review");
   for (const skill of activatedSkills) {
     lines.push(`activated-skill ${skill.name}`);
     lines.push(`activated-skill-bytes: ${skill.bytes}`);
@@ -324,7 +345,7 @@ try {
   const activatedSkills = options.externalSkills.map(inspectExternalSkill);
   if (options.json) {
     process.stdout.write(
-      `${JSON.stringify({ version: 1, repositories, activatedSkills }, null, 2)}\n`,
+      `${JSON.stringify({ version: 1, findingMethod: "line-heuristics-require-manual-review", repositories, activatedSkills }, null, 2)}\n`,
     );
   } else {
     process.stdout.write(humanOutput(repositories, activatedSkills));
