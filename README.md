@@ -1,5 +1,9 @@
 # Comins Governance
 
+<a href="https://comins-website.vercel.app/ko/"><img src="brand/comins-symbol.svg" width="64" height="64" alt="Comins brand website" /></a>
+
+[Comins Brand](https://comins-website.vercel.app/ko/)
+
 This repository owns shared Comins brand policy and managed module guidance.
 Each Comins product remains an independent Git repository and CI boundary.
 
