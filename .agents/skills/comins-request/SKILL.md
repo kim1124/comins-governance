@@ -22,5 +22,5 @@ field order and Korean labels exactly.
 
 Do not inspect repositories. Do not start the requested work. Do not ask
 questions or infer values for blank fields. Do not add introductory or closing
-prose. Treat a later message containing the completed template as the actual
+prose unless explicit user communication rules require it. Treat a later message containing the completed template as the actual
 work request.

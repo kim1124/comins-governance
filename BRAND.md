@@ -1,6 +1,6 @@
 # Comins Brand
 
-Comins is a brand for independently released React npm modules that solve focused interface and interaction problems. Each module must work without a Comins runtime, shared design system, or another Comins module, with clear APIs, predictable integration, accessible interaction, and production-focused verification.
+Comins is a brand for independently released frontend npm modules that solve focused interface and interaction problems. Each module must work without a Comins runtime, shared design system, or another Comins module, with clear APIs, predictable integration, accessible interaction, and production-focused verification.
 
 ## Development Transparency
 

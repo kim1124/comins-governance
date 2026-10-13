@@ -55,6 +55,24 @@ function run(path, ...extra) {
   );
 }
 
+test("inventories role definitions and instruction source bytes without claiming activation", () => {
+  const path = repository();
+  mkdirSync(join(path, ".codex", "agents"));
+  const body = "\nOwn only assigned paths.\n";
+  const content = 'name = "sample_worker"\nmodel = "gpt-6.1-sol"\nmodel_reasoning_effort = "high"\ndeveloper_instructions = """' + body + '"""\n';
+  writeFileSync(join(path, ".codex", "agents", "worker.toml"), content);
+  const result = run(path, "--json");
+  const output = JSON.parse(result.stdout).repositories[0];
+  const role = output.files.find((file) => file.path === ".codex/agents/worker.toml");
+  assert.ok(role);
+  assert.equal(role.kind, "agent-definition");
+  assert.equal(role.bytes, Buffer.byteLength(content));
+  assert.equal(role.instructionSourceBytes, Buffer.byteLength(body));
+  assert.equal(output.metrics.agentInstructionSourceBytes, Buffer.byteLength(body));
+  assert.equal(output.metrics.agentActivation, "unmeasured");
+  assert.doesNotMatch(result.stdout, /Own only assigned paths/);
+});
+
 test("emits stable JSON with logical names and repository-relative paths only", () => {
   const path = repository();
   const result = run(path, "--json");

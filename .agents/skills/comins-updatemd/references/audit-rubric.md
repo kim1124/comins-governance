@@ -4,7 +4,7 @@
 
 Checked 2026-10-12 against OpenAI's
 [GPT-6 Astra and GPT-6.1 Sol guidance](https://developers.openai.com/api/docs/guides/latest-model)
-and [skill/prompt audit guidance](https://learn.chatgpt.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra).
+and [skill/prompt audit guidance](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra).
 Astra is sensitive to conflicting skills and approval boundaries and may
 over-test small changes. Use narrow skill triggers, conditional references,
 existing authorization, explicit completion criteria, and affected checks.
@@ -27,6 +27,10 @@ full contents are loaded.
 Inventory findings are line heuristics, not an optimization or compliance
 verdict. Review configuration, templates, conditional skill references, and
 GitHub prompts independently; stored references are not proof of activation.
+Agent-definition and multiline instruction-source bytes describe installed
+files, not loaded context. Unsupported body syntax is unmeasured; inspect the
+activated role directly. Reuse inventory until the relevant sources or active
+chain change. Verify personal-copy parity at deployment/update or observed drift.
 For disabled external skills, verify the current installed path and new-session
 discovery after plugin updates. Do not edit bundled or cached skill sources.
 
@@ -79,6 +83,14 @@ routing. A shorter instruction set is not better if it removes a required safety
 or completion constraint.
 
 ## Development-flow decision
+
+Treat the routes below as risk criteria, not a mandatory sequence of skills.
+Retain project facts, completion criteria, and deterministic gates for both
+Astra and Sol. Add procedural guidance only for an observed gap or an explicitly
+requested workflow; popularity is not evidence of a model-specific benefit.
+Inspect historical plans for obsolete skill requirements before reusing them.
+Preserve their implementation evidence while removing superseded execution
+directives. A stored playbook is not active merely because it exists.
 
 | Risk | Default route |
 |---|---|

@@ -1,6 +1,6 @@
 # Comins Required Management Order Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> Historical plan: workflow requirements are superseded by the current Comins Contract.
 
 **Goal:** Fix one mandatory Comins management order in Governance and prepare its reviewed adoption by every independent module.
 

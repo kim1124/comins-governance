@@ -12,6 +12,15 @@ marker-delimited root guidance and project configuration only after both
 surfaces pass preflight. Keep repository-specific API, implementation,
 performance, and verification guidance outside the managed blocks.
 
+## Boundaries and preflight
+
+- Preserve all module-specific guidance and repository-owned config outside
+  managed blocks byte-for-byte.
+- For an unmarked or malformed surface, require a reviewed one-time migration.
+  Refuse symlinked managed surfaces. Never partially update the other surface.
+- Do not push, merge, publish, delete branches, or change provider settings
+  without an explicit maintainer request.
+
 ## Select the operation
 
 | Target state | Operation |
@@ -51,11 +60,7 @@ target is the independent module Git root. Read the live Governance
    node <skill-root>/scripts/sync-guidance.mjs update --target <repo-root>
    ```
 
-3. Review both diffs. Preserve all module-specific guidance and repository-owned
-   config outside the managed blocks byte-for-byte.
-4. For an unmarked or malformed surface, require a reviewed one-time migration.
-   Refuse symlinked managed surfaces. Never let the helper partially update the
-   other surface first.
+3. Review both diffs against the preflight boundaries.
 
 ## Verify and report
 
@@ -65,8 +70,6 @@ target is the independent module Git root. Read the live Governance
   runtime configuration, security, release, or a test contract. Guidance/model config alone uses instruction and config checks.
 - Report changed files, adopted Contract version, executed checks, and residual
   risks.
-- Do not push, merge, publish, delete branches, or change provider settings
-  without an explicit maintainer request.
 
 ## Common mistakes
 

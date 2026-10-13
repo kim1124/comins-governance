@@ -1,6 +1,6 @@
 # Comins Reference Skill Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> Historical plan: workflow requirements are superseded by the current Comins Contract.
 
 **Goal:** Build and locally expose the `comins-reference` skill for initializing and refreshing shared Comins module guidance.
 

@@ -2,6 +2,18 @@
 
 This repository does not publish npm packages. Each Comins module owns its CI. When a package boundary exists, the module owns its own version, changelog, package contents, and npm publication. The remaining states and gates apply only to modules with a package boundary and a public package release.
 
+## Publication Controls
+
+- A brand-new npm package cannot use staged publishing or register a trusted publisher before it exists on the registry. Bootstrap the first public version interactively with maintainer 2FA and no automation token.
+- Immediately after the bootstrap publication, register the exact GitHub repository, workflow filename, and `npm` environment as the package's trusted publisher.
+- Allow only `npm stage publish` for the trusted publisher, disallow token publishing, and require a maintainer to approve or reject each staged version with npm 2FA.
+- Use automatic provenance from GitHub Actions trusted publishing for eligible public packages.
+- Keep privacy-safe publisher metadata and use only an approved public handle, GitHub noreply identity, or service identity.
+- Run the module-owned current npm maintainer identity check immediately before `npm stage publish`; expose only a constant, value-free result and fail closed on unavailable or mismatched evidence.
+- Freeze npm account email, package ownership, and trusted-publisher configuration from the pre-stage identity check through maintainer approval and post-publication closure.
+- Keep package release credentials, workflow permissions, and release histories isolated per module.
+- Fail closed before staging or publication when the license gate, required evidence, or scoped approval is unavailable or incomplete.
+
 ## Release States
 
 - **Candidate:** the target version, notes, exact artifact, and pre-publication evidence are prepared but not staged.
@@ -24,18 +36,6 @@ This repository does not publish npm packages. Each Comins module owns its CI. W
 - Successful verification evidence may be reused only when the verified source tree and relevant workflow, configuration, and dependency state are unchanged.
 - A metadata-only change invalidates only the metadata and artifact evidence it can affect. Pull-request CI and publication workflows may intentionally rerun broader gates at distinct trust boundaries.
 - When a module publish workflow verifies, packages, and stages one artifact, the module release workflow is the canonical owner of the exact artifact. Do not create a separate local candidate artifact unless the workflow is absent, changed by the release, or the maintainer explicitly requests local diagnostic evidence; local diagnostics do not replace required workflow evidence.
-
-## Publication Controls
-
-- A brand-new npm package cannot use staged publishing or register a trusted publisher before it exists on the registry. Bootstrap the first public version interactively with maintainer 2FA and no automation token.
-- Immediately after the bootstrap publication, register the exact GitHub repository, workflow filename, and `npm` environment as the package's trusted publisher.
-- Allow only `npm stage publish` for the trusted publisher, disallow token publishing, and require a maintainer to approve or reject each staged version with npm 2FA.
-- Use automatic provenance from GitHub Actions trusted publishing for eligible public packages.
-- Keep privacy-safe publisher metadata and use only an approved public handle, GitHub noreply identity, or service identity.
-- Run the module-owned current npm maintainer identity check immediately before `npm stage publish`; expose only a constant, value-free result and fail closed on unavailable or mismatched evidence.
-- Freeze npm account email, package ownership, and trusted-publisher configuration from the pre-stage identity check through maintainer approval and post-publication closure.
-- Keep package release credentials, workflow permissions, and release histories isolated per module.
-- Fail closed before staging or publication when the license gate, required evidence, or scoped approval is unavailable or incomplete.
 
 ## Post-Publication Closure
 

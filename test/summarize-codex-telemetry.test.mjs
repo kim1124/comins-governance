@@ -36,6 +36,53 @@ function run(path, ...extra) {
   });
 }
 
+test("reads current effort and both recorded tool call formats without inspecting inputs", () => {
+  const path = fixture([
+    { type: "turn_context", payload: { model: "gpt-6.1-sol", effort: "high" } },
+    { type: "response_item", payload: { type: "custom_tool_call", name: "exec", input: "private-input" } },
+    { type: "response_item", payload: { type: "function_call", name: "wait" } },
+    { type: "response_item", payload: { type: "custom_tool_call_output" } },
+  ]);
+  const result = run(path, "--json");
+  const output = JSON.parse(result.stdout);
+  assert.deepEqual(output.reasoningEfforts, { high: 1 });
+  assert.equal(output.toolCalls, 2);
+  assert.equal(output.waits, 1);
+  assert.equal(output.toolCallScope, "recorded-invocations; nested-calls-unmeasured");
+  assert.doesNotMatch(result.stdout, /private-input/);
+});
+
+test("sums completed turn durations rather than using a maximum or unrelated duration", () => {
+  const path = fixture([
+    { type: "event_msg", payload: { type: "task_complete", duration_ms: 1200 } },
+    { type: "event_msg", payload: { type: "task_complete", duration_ms: 800 } },
+    { type: "event_msg", payload: { type: "token_count", duration_ms: 9000 } },
+  ]);
+  const output = JSON.parse(run(path, "--json").stdout);
+  assert.equal(output.durationMs, 2000);
+  assert.equal(output.durationBasis, "sum-completed-turns; not-wall-time");
+});
+
+test("does not silently report absent effort and unsupported duration as measured", () => {
+  const path = fixture([
+    { type: "turn_context", payload: { model: "gpt-6.1-sol" } },
+    { type: "event_msg", payload: { duration_ms: 500 } },
+  ]);
+  const output = JSON.parse(run(path, "--json").stdout);
+  assert.equal(output.durationMs, null);
+  assert.ok(output.diagnostics.includes("reasoning-effort-unavailable"));
+});
+
+test("marks duration partial when a completed turn omits its duration", () => {
+  const path = fixture([
+    { type: "event_msg", payload: { type: "task_complete", duration_ms: 1200 } },
+    { type: "event_msg", payload: { type: "task_complete" } },
+  ]);
+  const output = JSON.parse(run(path, "--json").stdout);
+  assert.equal(output.durationMs, null);
+  assert.ok(output.diagnostics.includes("duration-ms-unavailable"));
+});
+
 test("aggregates only approved telemetry counters", () => {
   const path = fixture([
     { type: "turn_context", payload: { model: "gpt-5.6-sol", reasoning_effort: "xhigh" } },
@@ -45,6 +92,7 @@ test("aggregates only approved telemetry counters", () => {
     {
       type: "event_msg",
       payload: {
+        type: "task_complete",
         duration_ms: 1200,
         info: {
           total_token_usage: {
@@ -63,7 +111,7 @@ test("aggregates only approved telemetry counters", () => {
 
   assert.equal(result.status, 0, result.stderr);
   const output = JSON.parse(result.stdout);
-  assert.equal(output.version, 1);
+  assert.equal(output.version, 2);
   assert.equal(output.status, "available");
   assert.deepEqual(output.models, { "gpt-5.6-sol": 1 });
   assert.deepEqual(output.reasoningEfforts, { xhigh: 1 });
@@ -127,6 +175,7 @@ test("preserves measured telemetry while marking missing usage fields partial", 
     {
       type: "event_msg",
       payload: {
+        type: "task_complete",
         duration_ms: 1200,
         info: {
           total_token_usage: {
@@ -162,6 +211,7 @@ test("marks an aggregate metric partial when any recognized input omits it", () 
     {
       type: "event_msg",
       payload: {
+        type: "task_complete",
         duration_ms: 1200,
         info: {
           total_token_usage: {
@@ -179,6 +229,7 @@ test("marks an aggregate metric partial when any recognized input omits it", () 
     {
       type: "event_msg",
       payload: {
+        type: "task_complete",
         duration_ms: 800,
         info: {
           total_token_usage: {
@@ -217,7 +268,7 @@ test("marks multiple inputs unavailable when any input schema is unrecognized", 
   assert.equal(result.status, 0, result.stderr);
   const output = JSON.parse(result.stdout);
   assert.deepEqual(output, {
-    version: 1,
+    version: 2,
     status: "unavailable",
     inputs: 2,
     diagnostics: ["telemetry-schema-unavailable"],
@@ -270,7 +321,7 @@ test("human output includes safe model, reasoning, and token totals only", () =>
 
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /^comins-updatemd telemetry: partial$/m);
-  assert.match(result.stdout, /^duration-ms: unmeasured$/m);
+  assert.match(result.stdout, /^completed-turn-duration-ms: unmeasured$/m);
   assert.match(result.stdout, /^models: gpt-5\.6-sol=1$/m);
   assert.match(result.stdout, /^reasoning-efforts: xhigh=1$/m);
   assert.match(result.stdout, /^tokens-input: 100$/m);

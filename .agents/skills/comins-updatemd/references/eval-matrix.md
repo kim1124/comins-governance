@@ -39,6 +39,12 @@ For selected rollout JSONL, run
 `node <skill-root>/scripts/summarize-codex-telemetry.mjs --input <jsonl>`;
 otherwise telemetry is unmeasured.
 
+Summary schema v2 counts recorded function/custom tool invocations only; nested
+Code Mode calls are unmeasured. `durationMs` sums `task_complete` durations,
+not wall time or time excluding tests. Tokens retain cumulative per-input
+maxima; overlapping logs are not independent samples. Unknown fields remain
+partial/unavailable. Do not infer elapsed time or cost savings from this summary.
+
 - Task success and required evidence.
 - Instruction and approval-boundary compliance.
 - Unintended or out-of-scope changes.
