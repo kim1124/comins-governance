@@ -99,6 +99,7 @@ function classify(path) {
     return "triggered-policy";
   }
   if (/(?:^|\/)\.codex\/config\.toml$/.test(path)) return "configuration";
+  if (/(?:^|\/)\.codex\/agents\/[^/]+\.toml$/.test(path)) return "agent-definition";
   if (/^(?:\.agents|\.codex)\/skills\/[^/]+\/SKILL\.md$/.test(path)) return "skill";
   if (/^(?:\.agents|\.codex)\/skills\/[^/]+\/references\/.+\.md$/.test(path)) {
     return "skill-reference";
@@ -196,6 +197,7 @@ function findingsFor(root, files) {
         "skill-reference",
         "prompt-reference",
         "configuration",
+        "agent-definition",
         "conditional-reference",
       ].includes(file.kind)
     ) {
@@ -204,7 +206,7 @@ function findingsFor(root, files) {
     const absolutePath = resolve(root, file.path);
     if (lstatSync(absolutePath).isSymbolicLink()) continue;
     const contents = readFileSync(absolutePath, "utf8");
-    if (file.kind === "configuration") {
+    if (["configuration", "agent-definition"].includes(file.kind)) {
       contents.split(/\r?\n/).forEach((line, index) => {
         if (/^\s*model\s*=\s*["']gpt-5\./.test(line)) {
           findings.push({ type: "legacy-model-setting", path: file.path, line: index + 1 });
@@ -213,6 +215,10 @@ function findingsFor(root, files) {
           findings.push({ type: "excessive-reasoning-setting", path: file.path, line: index + 1 });
         }
       });
+      if (file.kind === "agent-definition") {
+        findings.push(...findingsForContents(file.path, contents)
+          .filter(({ type }) => type !== "model-prose"));
+      }
       continue;
     }
     findings.push(...findingsForContents(file.path, contents));
@@ -265,6 +271,10 @@ function metricsFor(files) {
     bytesByKind,
     codexRootGuidanceBytes: rootGuidance?.bytes ?? 0,
     codexMaxDiscoveredChainBytes: maxChainBytes,
+    agentInstructionSourceBytes: files.some((file) =>
+      file.kind === "agent-definition" && file.instructionSourceBytes === null)
+      ? null : files.reduce((sum, file) => sum + (file.instructionSourceBytes ?? 0), 0),
+    agentActivation: "unmeasured",
   };
 }
 
@@ -279,6 +289,15 @@ function inspectRepository({ name, path }) {
       const bytes = lstatSync(absolutePath).isSymbolicLink()
         ? 0
         : readFileSync(absolutePath).byteLength;
+      if (file.kind === "agent-definition") {
+        // Source bytes for literal multiline bodies, not parsed TOML or loaded tokens.
+        const body = lstatSync(absolutePath).isSymbolicLink() ? null :
+          readFileSync(absolutePath, "utf8").match(
+            /^\s*developer_instructions\s*=\s*("""|''')([\s\S]*?)\1/m,
+          )?.[2];
+        return { ...file, bytes, instructionSourceBytes:
+          body == null ? null : Buffer.byteLength(body) };
+      }
       return { ...file, bytes };
     })
     .filter(({ kind }) => kind !== null);
@@ -303,6 +322,7 @@ function humanOutput(repositories, activatedSkills) {
     "common-policy",
     "triggered-policy",
     "configuration",
+    "agent-definition",
     "skill",
     "skill-reference",
     "prompt-reference",
@@ -317,6 +337,8 @@ function humanOutput(repositories, activatedSkills) {
       lines.push(`${kind}-bytes: ${repository.metrics.bytesByKind[kind] ?? 0}`);
     }
     lines.push(`codex-root-guidance-bytes: ${repository.metrics.codexRootGuidanceBytes}`);
+    lines.push(`agent-instruction-source-bytes: ${repository.metrics.agentInstructionSourceBytes ?? "unmeasured"}`);
+    lines.push(`agent-activation: ${repository.metrics.agentActivation}`);
     lines.push(
       `codex-max-discovered-chain-bytes: ${repository.metrics.codexMaxDiscoveredChainBytes}`,
     );

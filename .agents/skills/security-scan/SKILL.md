@@ -17,6 +17,9 @@ scanner implementation.
 - Keep scans read-only by default. A scan does not authorize code changes,
   dependency updates, issue or advisory creation, uploads, commits, pushes,
   releases, or configuration changes.
+- A scan alone does not authorize fixes or external tracking. Reuse explicit
+  approval already covering a fix; otherwise obtain it before writing.
+  GitHub, Linear, Jira, and advisory writes require their own applicable authority.
 - Use the installed Codex Security plugin for actual scans. If its required
   skill or tool is unavailable, report the blocker instead of simulating a
   scan or weakening the workflow.
@@ -80,6 +83,3 @@ scan and obtain the missing choice. Do not widen a scoped request.
   when available. Do not estimate unavailable usage.
 - Redact credentials, personal data, detector matches, fingerprints, and local
   account details from user-visible output.
-- Fixing a finding or tracking it in GitHub, Linear, Jira, or an advisory is a
-  separate workflow requiring a new explicit request and the applicable
-  approval immediately before any write.

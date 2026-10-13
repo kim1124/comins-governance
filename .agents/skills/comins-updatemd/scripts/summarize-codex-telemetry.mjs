@@ -63,16 +63,18 @@ const tokenMetrics = [
 
 function emptySummary(inputCount) {
   return {
-    version: 1,
+    version: 2,
     status: "available",
     models: {},
     reasoningEfforts: {},
     inputs: inputCount,
     turns: 0,
     toolCalls: 0,
+    toolCallScope: "recorded-invocations; nested-calls-unmeasured",
     waits: 0,
     delegations: 0,
     durationMs: 0,
+    durationBasis: "sum-completed-turns; not-wall-time",
     tokens: {
       input: 0,
       cachedInput: 0,
@@ -87,6 +89,7 @@ function aggregate(inputs) {
   const summary = emptySummary(inputs.length);
   let unavailable = false;
   let durationUnavailable = false;
+  let effortUnavailable = false;
   const unavailableTokenMetrics = new Set();
 
   for (const input of inputs) {
@@ -111,19 +114,18 @@ function aggregate(inputs) {
         inputRecognized = true;
         summary.turns += 1;
         increment(summary.models, record.payload?.model, safeModel);
-        increment(
-          summary.reasoningEfforts,
-          record.payload?.reasoning_effort,
-          safeReasoningEffort,
-        );
+        const effort = record.payload?.effort ?? record.payload?.reasoning_effort;
+        if (!safeReasoningEffort(effort)) effortUnavailable = true;
+        increment(summary.reasoningEfforts, effort, safeReasoningEffort);
         continue;
       }
 
-      if (record?.type === "response_item" && record.payload?.type === "function_call") {
+      if (record?.type === "response_item" &&
+          ["function_call", "custom_tool_call"].includes(record.payload?.type)) {
         inputRecognized = true;
         summary.toolCalls += 1;
-        if (/^(?:wait|wait_agent|.*_wait)$/.test(record.payload.name)) summary.waits += 1;
-        if (/^(?:spawn_agent|.*_spawn_agent)$/.test(record.payload.name)) {
+        if (/(?:^|[._])(?:wait|wait_agent)$/.test(record.payload.name)) summary.waits += 1;
+        if (/(?:^|[._])spawn_agent$/.test(record.payload.name)) {
           summary.delegations += 1;
         }
         continue;
@@ -132,10 +134,14 @@ function aggregate(inputs) {
       if (record?.type === "event_msg") {
         const duration = record.payload?.duration_ms;
         const usage = record.payload?.info?.total_token_usage;
-        if (typeof duration === "number" && Number.isFinite(duration)) {
+        if (record.payload?.type === "task_complete" &&
+            typeof duration === "number" && Number.isFinite(duration) && duration >= 0) {
           inputRecognized = true;
           inputDurationMeasured = true;
-          inputDuration = Math.max(inputDuration, duration);
+          inputDuration += duration;
+        } else if (record.payload?.type === "task_complete") {
+          durationUnavailable = true;
+          inputRecognized = true;
         }
         if (usage && typeof usage === "object") {
           for (const [key, source] of tokenMetrics) {
@@ -161,7 +167,7 @@ function aggregate(inputs) {
 
   if (unavailable) {
     return {
-      version: 1,
+      version: 2,
       status: "unavailable",
       inputs: inputs.length,
       diagnostics: ["telemetry-schema-unavailable"],
@@ -169,6 +175,7 @@ function aggregate(inputs) {
   }
 
   const diagnostics = [];
+  if (effortUnavailable) diagnostics.push("reasoning-effort-unavailable");
   if (durationUnavailable) {
     summary.durationMs = null;
     diagnostics.push("duration-ms-unavailable");
@@ -205,9 +212,11 @@ function formatHuman(summary) {
     `inputs: ${summary.inputs}`,
     `turns: ${summary.turns}`,
     `tool-calls: ${summary.toolCalls}`,
+    `tool-call-scope: ${summary.toolCallScope}`,
     `waits: ${summary.waits}`,
     `delegations: ${summary.delegations}`,
-    `duration-ms: ${formatMetric(summary.durationMs)}`,
+    `completed-turn-duration-ms: ${formatMetric(summary.durationMs)}`,
+    `duration-basis: ${summary.durationBasis}`,
     `models: ${formatCounts(summary.models)}`,
     `reasoning-efforts: ${formatCounts(summary.reasoningEfforts)}`,
     `tokens-input: ${formatMetric(summary.tokens.input)}`,

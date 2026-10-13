@@ -4,37 +4,35 @@
 
 [Comins Brand](https://comins-website.vercel.app/ko/)
 
-This repository owns shared Comins brand policy and managed module guidance.
-Each Comins product remains an independent Git repository and CI boundary.
-
+Shared brand policy and guidance for independent Comins repositories and CI.
 [`COMINS_CONTRACT.md`](COMINS_CONTRACT.md) is the sole common execution-policy
-source, including the required management order. Other documents add detail
-only for the stage named below.
+source, including the required management order.
 
 ## Policy Map
 
-- [`BRAND.md`](BRAND.md): product identity and naming.
-- [`OSS_LICENSE_POLICY.md`](OSS_LICENSE_POLICY.md): license-review triggers.
-- [`SENSITIVE_DATA_STANDARD.md`](SENSITIVE_DATA_STANDARD.md): security and
-  sensitive-data requirements.
-- [`RELEASE_POLICY.md`](RELEASE_POLICY.md): public-package release requirements.
-- [`MODULE_CHECKLIST.md`](MODULE_CHECKLIST.md): new-module readiness.
-- [`SECURITY.md`](SECURITY.md): security reporting.
-- [`CHANGELOG.md`](CHANGELOG.md): Contract revision history.
+Read only the reference matching the task:
+
+- License review: [license policy](OSS_LICENSE_POLICY.md).
+- Security/privacy: [sensitive data](SENSITIVE_DATA_STANDARD.md).
+- Public publication: [release policy](RELEASE_POLICY.md).
+- Role selection: [agent roles](docs/agent-roles.md).
+- Delegated work: [handoff](docs/agent-handoff.md).
+- Commit preparation: [commit messages](docs/commit-messages.md).
+- Brand/naming: [brand](BRAND.md).
+- New module: [checklist](MODULE_CHECKLIST.md).
+- Security reporting: [security](SECURITY.md).
+- Revision/adoption: [changelog](CHANGELOG.md).
 
 ## Module Adoption
 
-From an approved independent module root, `$comins-reference` syncs managed
-guidance and config only; module-owned content and product, CI, test, and release
-behavior remain unchanged.
+From an approved module root, `$comins-reference` syncs managed guidance and
+config; module-owned content, product, CI, tests, and releases stay independent.
+Change common policy here first; adopt per module. Use `$comins-updatemd` to
+audit duplication, conflicts, stale routing, and measured instruction cost.
 
 ## Issue Intake
 
-Public forms and read-only analysis assets live under `templates/module/.github`.
-Trusted-reporter issues run automatically; external reports require
-`codex:analyze`. Maintainers review output before using
-`.agents/skills/comins-request` through `$comins-request`; neither step
-authorizes implementation or an external operation.
-
-Use `$comins-updatemd` to audit measured duplication, conflicts, stale routing,
-and instruction cost. Change common policy in Governance first; adopt per module.
+Forms and read-only analysis: `templates/module/.github`. Trusted-reporter issues
+run automatically; external reports require `codex:analyze`. Maintainers review
+output before using `$comins-request` (`.agents/skills/comins-request`) for a work
+brief. Neither step authorizes implementation or external operations.

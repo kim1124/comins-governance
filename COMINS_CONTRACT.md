@@ -1,8 +1,8 @@
-# Comins Contract v1.10
+# Comins Contract v1.11
 
 ## Authority and Scope
 
-- This Contract solely owns common Comins execution policy. Governance defines
+- This Contract owns common Comins execution policy. Governance defines
   common requirements; each module owns its Git boundary, implementation, CI,
   and checker commands.
 - Inspection, research, diagnosis, and planning are read-only unless the
@@ -10,10 +10,10 @@
   and affected non-destructive checks.
 - Package and release rules apply only when a package boundary and matching
   workflow exist.
-- A common rule covers at least two modules or a universal licensing, security,
-  privacy, release, or approval boundary.
-- Keep module APIs, commands, tests, browser/performance rules, and enforcement
-  in the affected module.
+- Common rules cover two or more modules or universal licensing, security,
+  privacy, release, or approval boundaries.
+- Keep APIs, commands, tests, and browser/performance enforcement module-local.
+- Preserve unrelated pre-existing edits and untracked files.
 - Maintainer approval is required for remote writes, publishing, public-policy
   changes or exceptions, destructive operations, cost, and material scope
   expansion.
@@ -24,7 +24,7 @@
 
 Resolve the target independent Git root and applicable instructions, then run
 only the stages triggered by the requested change:
-Before editing a path, read its applicable nested `AGENTS.md` or
+Before editing, read applicable nested `AGENTS.md` or
 `AGENTS.override.md`; do not pre-read unrelated directories.
 
 1. **License compliance:** inspect dependencies and distributed or reused
@@ -53,9 +53,10 @@ instruction and follow this Contract's applicable route.
 
 ## Model Configuration
 
-- Managed configuration owns model and effort defaults. Use at most `high`
-  for execution, planning, review, and delegated work; lower effort is allowed.
-  This is an instruction policy, not an enforced client or API limit.
+Managed configuration owns base defaults. When selecting roles, follow
+[agent roles](docs/agent-roles.md) with explicit model and effort.
+Use at most `high` for all roles; this instruction policy is not an enforced
+client or API limit.
 
 ## Change, Git, and Verification
 

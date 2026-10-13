@@ -2,13 +2,31 @@
 
 ## Purpose And Scope
 
-This policy is part of Comins Contract v1.10. It applies to a module after that
+This policy is part of Comins Contract v1.11. It applies to a module after that
 repository separately adopts the Contract revision.
 
 The check covers third-party packages, copied or modified code, generated
 material, fonts, icons, images, data, WASM, and other assets used by a module.
 It determines whether required license review and evidence are complete. It
 does not declare legal compliance or replace legal review.
+
+## Manual Review Triggers
+
+Stop the affected pull request or release and obtain scoped maintainer review
+when any of these conditions exists:
+
+- missing, unknown, `NOASSERTION`, or `UNLICENSED` metadata;
+- custom, compound, copyleft, source-available, proprietary, noncommercial,
+  no-derivatives, field-of-use, or other restrictive terms;
+- a mismatch between package metadata, source, included license text, bundle,
+  or actual use;
+- copied, modified, generated, bundled, or distributed material whose source,
+  version or revision, license, modification state, or obligations are unclear.
+
+The approval record identifies the component, version or revision, use surface,
+conditions, rationale, approver role or approved public handle, review date, and
+the change that invalidates the approval. It must not include unnecessary
+personal contact information.
 
 ## Routine Dependency Check
 
@@ -32,24 +50,6 @@ distributed by Comins and no manual-review trigger applies.
 
 `OFL-1.1` may pass for an unmodified font only when its distribution conditions,
 full license text, and reserved-font-name requirements are preserved.
-
-## Manual Review Triggers
-
-Stop the affected pull request or release and obtain scoped maintainer review
-when any of these conditions exists:
-
-- missing, unknown, `NOASSERTION`, or `UNLICENSED` metadata;
-- custom, compound, copyleft, source-available, proprietary, noncommercial,
-  no-derivatives, field-of-use, or other restrictive terms;
-- a mismatch between package metadata, source, included license text, bundle,
-  or actual use;
-- copied, modified, generated, bundled, or distributed material whose source,
-  version or revision, license, modification state, or obligations are unclear.
-
-The approval record identifies the component, version or revision, use surface,
-conditions, rationale, approver role or approved public handle, review date, and
-the change that invalidates the approval. It must not include unnecessary
-personal contact information.
 
 ## Distributed And Copied Material
 

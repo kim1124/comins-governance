@@ -1,6 +1,6 @@
 # Comins Minimal Sensitive-Data Governance Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> Historical plan: workflow requirements are superseded by the current Comins Contract.
 
 **Goal:** Adopt Contract v1.2 with a short common policy and enforce new changes through Gitleaks plus one small public-Git-identity checker.
 

@@ -5,7 +5,24 @@
 - Added concise public bug and feature Issue Form templates, a strict read-only
   Codex analysis schema, and a maintainer-gated GitHub comment workflow.
 - Added the `comins-request` skill for a concise copyable maintainer work brief.
-- Contract v1.10 and its module adoption are local and unpublished.
+- Contract v1.11 and its role-selection policy are local and unpublished.
+
+## v1.11 - 2026-10-12 (local, unpublished)
+
+- Added conditional orchestration and delegation guidance with explicit model
+  and reasoning selection for eight Comins roles. Retained Sol 6.1 base defaults
+  and the existing high ceiling, approval, verification, and security boundaries.
+- Added named agent configurations and a CLI launcher for Astra/high orchestration
+  without changing the base model. Tests/builds retain the assigned agent.
+- Clarified bounded handoff, verification targets, cause-based recovery, review
+  fix ownership, and completion/stop reporting without adding workflow stages.
+- Corrected telemetry schema v2 for current effort/tool events and completed-turn
+  duration sums. Inventoried role definitions separately from activation; narrowed
+  role loading, reused unchanged audits, and reconciled request output rules.
+- Front-loaded skill authority and policy stop conditions, added task-based
+  reference routing and dirty-work preservation, and removed React-only branding.
+- Module adoption remains a separate reviewed change; personal role installation
+  does not update module Contract references or imply remote publication.
 
 ## v1.10 - 2026-10-12 (local, unpublished)
 
