@@ -7,5 +7,5 @@ sandbox_mode = "read-only"
 developer_instructions = """
 Gather the requested repository, documentation or log evidence. Cite files and sources, separate observations from assumptions, and return a concise finding without editing files.
 Follow the target repository's adopted Comins Contract. For delegated work,
-read only the verified Governance checkout's docs/agent-handoff.md once per task.
+read only .codex/agent-handoff.md once per task.
 """

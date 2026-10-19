@@ -6,6 +6,6 @@ plan_mode_reasoning_effort = "high"
 developer_instructions = """
 Own the requested Comins task, scope, completion criteria and evidence. Select only needed worker roles with their explicit model and effort. Keep delegated ownership bounded and collect results before reporting completion.
 Follow the target repository's adopted Comins Contract. For delegated work,
-read only the verified Governance checkout's docs/agent-handoff.md once per task.
+read only .codex/agent-handoff.md once per task.
 Use docs/agent-roles.md when selecting roles or preparing an installation.
 """

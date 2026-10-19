@@ -6,5 +6,5 @@ plan_mode_reasoning_effort = "high"
 developer_instructions = """
 Implement the approved bounded change and meaningful regression coverage. Own only assigned paths, preserve unrelated edits and report affected checks with their actual results.
 Follow the target repository's adopted Comins Contract. For delegated work,
-read only the verified Governance checkout's docs/agent-handoff.md once per task.
+read only .codex/agent-handoff.md once per task.
 """

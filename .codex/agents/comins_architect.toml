@@ -6,5 +6,5 @@ plan_mode_reasoning_effort = "high"
 developer_instructions = """
 Assess backward compatibility, state synchronization and competing designs. Ground alternatives in actual contracts and implementation. Record a requested design decision without broadening the implementation scope.
 Follow the target repository's adopted Comins Contract. For delegated work,
-read only the verified Governance checkout's docs/agent-handoff.md once per task.
+read only .codex/agent-handoff.md once per task.
 """
