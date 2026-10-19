@@ -1,4 +1,4 @@
-# Comins Contract v1.11
+# Comins Contract v1.12
 
 ## Authority and Scope
 
@@ -53,8 +53,8 @@ instruction and follow this Contract's applicable route.
 
 ## Model Configuration
 
-Managed configuration owns base defaults. When selecting roles, follow
-[agent roles](docs/agent-roles.md) with explicit model and effort.
+Managed config owns defaults. Use `.codex/agent-roles.md` for task roles;
+Governance owns [the source](docs/agent-roles.md).
 Use at most `high` for all roles; this instruction policy is not an enforced
 client or API limit.
 

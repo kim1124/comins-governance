@@ -61,6 +61,8 @@ target is the independent module Git root. Read the live Governance
    ```
 
 3. Review both diffs against the preflight boundaries.
+4. Install roles with `node <governance-root>/scripts/sync-agent-roles.mjs --target <repo-root>`;
+   use `--reviewed-migration` only after inspecting conflicting copies.
 
 ## Verify and report
 

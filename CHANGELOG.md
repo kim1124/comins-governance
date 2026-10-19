@@ -5,7 +5,20 @@
 - Added concise public bug and feature Issue Form templates, a strict read-only
   Codex analysis schema, and a maintainer-gated GitHub comment workflow.
 - Added the `comins-request` skill for a concise copyable maintainer work brief.
-- Contract v1.11 and its role-selection policy are local and unpublished.
+
+## v1.12 - 2026-10-19
+
+- Set proposal/planning, independent review and complex diagnosis to Astra/high;
+  retain implementation at Sol 6.1/high and exploration at Sol 6.1/medium.
+- Add Sol 6.1/medium verifier and operator roles for deterministic check execution
+  and already-authorized deployment, CI and branch procedures.
+- Pin default subagents to Sol 6.1/high and install explicit project role copies
+  with local role/handoff guidance and content receipts; preserve unrelated files.
+- Separate test execution from acceptance judgment, preserve successful evidence,
+  and clarify that stage changes do not automatically switch running models.
+- Publish the shared policy and role definitions; each module adopts this revision
+  separately. Local installations do not prove runtime model activation.
+- No product, permission, license or publication boundary changed.
 
 ## v1.11 - 2026-10-12 (local, unpublished)
 

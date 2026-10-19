@@ -41,16 +41,16 @@ const changelog = readPolicy("CHANGELOG.md");
 const readme = readPolicy("README.md");
 
 test("keeps one current Contract and managed module block", () => {
-  const start = "<!-- comins-reference:managed-start contract=v1.11 -->";
+  const start = "<!-- comins-reference:managed-start contract=v1.12 -->";
   const end = "<!-- comins-reference:managed-end -->";
   const contractVersion = contract.match(/^# Comins Contract (v\d+\.\d+)$/m)?.[1];
   const markerVersion = moduleAgents.match(/managed-start contract=(v\d+\.\d+) -->/)?.[1];
   const linkVersion = moduleAgents.match(/\[Comins Contract (v\d+\.\d+)\]/)?.[1];
 
-  assert.match(contract, /^# Comins Contract v1\.11$/m);
+  assert.match(contract, /^# Comins Contract v1\.12$/m);
   assert.equal(markerVersion, contractVersion);
   assert.equal(linkVersion, contractVersion);
-  assert.match(changelog, /^## v1\.11 - 2026-10-12 \(local, unpublished\)$/m);
+  assert.match(changelog, /^## v1\.12 - 2026-10-19$/m);
   assert.equal(moduleAgents.split(start).length - 1, 1);
   assert.equal(moduleAgents.split(end).length - 1, 1);
   assert.ok(moduleAgents.indexOf(start) < moduleAgents.indexOf(end));
@@ -70,6 +70,10 @@ test("keeps model settings in managed configuration instead of prose", () => {
     'model = "gpt-6.1-sol"',
     'model_reasoning_effort = "medium"',
     'plan_mode_reasoning_effort = "high"',
+    "",
+    "[agents]",
+    'default_subagent_model = "gpt-6.1-sol"',
+    'default_subagent_reasoning_effort = "high"',
     "# comins-reference:managed-end",
     "",
   ].join("\n");
@@ -140,7 +144,7 @@ test("keeps the manager overview out of the active instruction surface", () => {
 
 test("limits routine license checks and scopes detailed evidence", () => {
   assert.ok(licensePolicy.split("\n").length <= 130);
-  assert.match(licensePolicy, /part of Comins Contract v1\.11/i);
+  assert.match(licensePolicy, /part of Comins Contract v1\.12/i);
   assert.match(
     licensePolicy,
     /applies to a module after that\s+repository separately adopts the Contract revision/i,
@@ -244,7 +248,7 @@ test("requires a delivery-capable npm service identity at release boundaries", (
   assert.match(beforeRelease, /delivery-capable[^.\n]*service identity/i);
   assert.match(afterRelease, /exact-version[^.\n]*identity/i);
 
-  assert.match(contract, /^# Comins Contract v1\.11$/m);
+  assert.match(contract, /^# Comins Contract v1\.12$/m);
   assert.doesNotMatch(moduleAgents, /COMINS_NPM_PUBLIC_(?:NAME|EMAIL)/);
 });
 
