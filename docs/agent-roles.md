@@ -4,7 +4,7 @@ Use this guide only when selecting a task model or delegated role. Governance
 owns this source; adopted checkouts carry its identical `.codex/agent-roles.md`
 copy. Base execution remains Sol 6.1/medium with high planning. Unspecified
 subagents default to Sol 6.1/high; named role files explicitly override both
-model and effort. This role profile revision is local and unpublished (v1.12).
+model and effort. This role profile belongs to Contract v1.12; module adoption is separate.
 
 | Task | Agent name | Model | Reasoning | Scope |
 |---|---|---|---|---|
@@ -73,7 +73,7 @@ node scripts/sync-agent-roles.mjs --target <module-root>
 
 Existing conflicting role files require a reviewed migration rather than silent
 overwrite. Installation preserves unrelated agents and records source version,
-revision, local publication status and content digests. Project role copies
+revision, checkout source state and content digests. Project role copies
 allow each adopted Comins checkout to resolve this policy independently of
 personal defaults. Personal `comins_` copies can be synchronized separately;
 other personal agents and global base configuration remain outside this policy.
